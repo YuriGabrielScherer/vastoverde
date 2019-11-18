@@ -8,6 +8,8 @@ import { IndexComponent } from './shared/index/index.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 
+import { LoginModule } from './login/login.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +19,8 @@ import { FooterComponent } from './shared/footer/footer.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    LoginModule
   ],
   providers: [],
   bootstrap: [AppComponent]

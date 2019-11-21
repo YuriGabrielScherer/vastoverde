@@ -1,1 +1,7 @@
 npm install bootstrap@4.3.1 --save
+npm install ngx-bootstrap --save
+npm i ngx-toastr --save
+
+--------------------
+Juntos
+npm install bootstrap ngx-bootstrap --save

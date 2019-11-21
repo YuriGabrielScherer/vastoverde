@@ -20,22 +20,26 @@
     <div class="collapse navbar-collapse justify-content-end  " id="navbarNav">
       <ul class="navbar-nav ">
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/']" routerLinkActive="active"
-            >Home <span class="sr-only">(current)</span></a
-          >
+          <a class="nav-link" [routerLink]="['/index']" routerLinkActive="active">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/']" routerLinkActive="active">Campeonatos</a>
+          <a class="nav-link" [routerLink]="['/campeonatos']" routerLinkActive="active">Campeonatos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/']" routerLinkActive="active">Treinos</a>
+          <a class="nav-link" [routerLink]="['/treinamentos']" routerLinkActive="active">Treinos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/']" routerLinkActive="active">Sobre</a>
+          <a class="nav-link" [routerLink]="['/sobre']" routerLinkActive="active">Sobre</a>
         </li>
 
-        <li class="nav-item">
+        <!-- Logar -->
+        <li *ngIf="!usuario_logado()" class="nav-item">
           <a class="nav-link" [routerLink]="['/login']" routerLinkActive="active">Login</a>
+        </li>
+
+        <!-- Deslogar -->
+        <li *ngIf="usuario_logado()" class="nav-item deslogar">
+          <a class="nav-link" (click)="deslogar()">Deslogar</a>
         </li>
       </ul>
     </div>

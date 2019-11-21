@@ -1,3 +1,4 @@
+import { ToastService } from './../shared/toast/toast.service';
 import { Injectable, EventEmitter, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -6,38 +7,41 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
 
-  private loginValidado: boolean;
-
   constructor(
     // Router para trocar as rotas
     private router: Router
   ) { }
 
-
-
   // Metodo realizar Login
-  realizarLogin(email, senha) {
+  realizarLogin(email, senha): boolean {
 
+    // Validando Login
     if (email === 'yuri' && senha === '123') {
 
-
-      this.loginValidado = true;
-
-      // Redirecionando
-      setTimeout(alert => this.router.navigate(['/administrativo'])
-        , 3000);
-
-
-    } else {
-
-      this.loginValidado = false;
+      // Guardando no LocalStorage
+      localStorage.setItem('usuario_logado', 'yuri');
     }
 
+    return this.usuarioAutenticado();
   }
 
   // Retornar Usuario autenticado ou nao
   usuarioAutenticado(): boolean {
-    console.log('login ok ' + this.loginValidado);
-    return this.loginValidado;
+
+    // Verificando se existe no LocalStorage
+    if (localStorage.getItem('usuario_logado')) {
+      return true;
+    }
+
+    return false;
+  }
+
+  // Deslogar
+  deslogar() {
+    // Removendo do Session Storage
+    localStorage.removeItem('usuario_logado');
+
+    // Rotacionando
+    this.router.navigate(['/', 'login']);
   }
 }

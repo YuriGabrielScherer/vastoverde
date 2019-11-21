@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, CanActivate } from '@angular/router';
 
+// Componentes
 import { IndexComponent } from './shared/index/index.component';
+import { LoginComponent } from './login/login/login.component';
+
+// Guards
 import { AuthGuard } from './guards/auth-guard';
 
 const routes: Routes = [
@@ -12,8 +16,7 @@ const routes: Routes = [
     path: 'index', component: IndexComponent
   },
   {
-    path: 'login',
-    loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
+    path: 'login', component: LoginComponent
   },
   {
     path: 'administrativo',

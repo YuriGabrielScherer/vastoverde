@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './../auth.service';
 
-import { ToastrService } from 'ngx-toastr';
+// import { ToastrService } from 'ngx-toastr';
 
 import { ToastService } from './../../shared/toast/toast.service';
 
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
 
-    private toast: ToastrService,
+    // private toast: ToastrService,
     private toastService: ToastService
   ) { }
 

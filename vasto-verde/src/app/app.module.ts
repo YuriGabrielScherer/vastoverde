@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { HttpClientModule  } from '@angular/common/http';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -11,8 +13,9 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { LoginComponent } from './login/login/login.component';
 
 import { AdministrativoModule } from './administrativo/administrativo.module';
-import { AppBootstrapModule } from './shared/app-bootstrap/app-bootstrap/app-bootstrap.module';
+import { AppBootstrapModule } from './shared/app-bootstrap/app-bootstrap.module';
 import { AtletaModule } from './atleta/atleta.module';
+import { SharedModule } from './shared/shared.module';
 
 import { AuthGuard } from './guards/auth-guard';
 import { AuthService } from './login/auth.service';
@@ -23,6 +26,8 @@ import {
   ToastNoAnimation,
   ToastNoAnimationModule
 } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -36,6 +41,7 @@ import {
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    HttpClientModule,
     AdministrativoModule,
     AppBootstrapModule,
     ToastrModule.forRoot(
@@ -46,7 +52,9 @@ import {
         closeButton: true
       }
     ),
-    AtletaModule
+    BrowserAnimationsModule,
+    AtletaModule,
+    SharedModule
   ],
   providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]

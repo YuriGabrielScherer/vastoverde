@@ -9,8 +9,12 @@ import { ToastService } from './toast/toast.service';
   ],
   imports: [
     CommonModule,
-    ToastService
+    // ToastService
+
+
   ],
-  exports: [ToastService]
+  exports: [
+    // ToastService
+  ]
 })
 export class SharedModule { }

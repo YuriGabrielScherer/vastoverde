@@ -7,7 +7,6 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ToastService {
 
-
   constructor(
     private toast: ToastrService,
   ) { }

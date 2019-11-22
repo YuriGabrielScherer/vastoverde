@@ -4,7 +4,9 @@ import { CommonModule } from '@angular/common';
 import { ToastService } from './toast/toast.service';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+
+  ],
   imports: [
     CommonModule,
     ToastService

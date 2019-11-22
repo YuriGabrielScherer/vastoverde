@@ -12,6 +12,7 @@ import { LoginComponent } from './login/login/login.component';
 
 import { AdministrativoModule } from './administrativo/administrativo.module';
 import { AppBootstrapModule } from './shared/app-bootstrap/app-bootstrap/app-bootstrap.module';
+import { AtletaModule } from './atleta/atleta.module';
 
 import { AuthGuard } from './guards/auth-guard';
 import { AuthService } from './login/auth.service';
@@ -44,7 +45,8 @@ import {
         progressBar: true,
         closeButton: true
       }
-    )
+    ),
+    AtletaModule
   ],
   providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]

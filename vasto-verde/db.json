@@ -1,0 +1,7 @@
+{
+  "usuario": [
+    {"cpf":123, "nome": "Yuri Gabriel", "senha":"123", "email":"yuri","dataNasc":"05/09/2001"},
+    {"cpf":456, "nome": "Marco Antonio", "senha":"123", "email":"marco","dataNasc":"22/11/2001"},
+    {"cpf":789, "nome": "Adrian Moraes", "senha":"123", "email":"adrian","dataNasc":"15/05/2001"}
+  ]
+}

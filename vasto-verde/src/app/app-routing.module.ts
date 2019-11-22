@@ -22,6 +22,11 @@ const routes: Routes = [
     path: 'administrativo',
     loadChildren: () => import('./administrativo/administrativo.module').then(m => m.AdministrativoModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'atleta',
+    loadChildren: () => import('./atleta/atleta.module').then(m => m.AtletaModule),
+    canActivate: [AuthGuard]
   }
 
 ];

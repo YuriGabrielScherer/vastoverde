@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { ToastService } from './toast/toast.service';
 
-
 @NgModule({
   declarations: [],
   imports: [

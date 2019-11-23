@@ -2,7 +2,7 @@ import { Atleta } from './../../shared/model/atleta';
 import { AtletaService } from './../atleta.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ValidationErrors } from '@angular/forms';
 
 @Component({
   selector: 'app-cadastro',
@@ -21,6 +21,9 @@ export class CadastroComponent implements OnInit {
 
   // Variavel validar Tela Alteracao
   protected telaAlteracao = false;
+
+  // Atleta a ser cadastrado
+  objetoAtleta: Atleta = new Atleta();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,29 +47,82 @@ export class CadastroComponent implements OnInit {
   }
 
   // OnSubmit do Formulario
-  onSubmit() {
-    console.log(this.formulario);
+  private onSubmit() {
+    console.log(this.formulario.value);
 
+    // Verificando se o formulario é valido
+    if (this.formulario.valid) {
+      // Service de POST
+      this.atletaService.save(this.formulario.value)
+        .subscribe((retorno) => {
+          console.log(retorno);
+        },
+        (error) => {
+          console.log(error);
+        });
+    } else {
+      // Resgatando os Componentes do Formulario
+      this.validaFormulario(this.formulario);
+    }
 
   }
 
+  // Criando objeto Atleta
+  private criarObjetoAtleta(formGroup: FormGroup): Atleta {
+
+    // Atribuindo valores
+    this.objetoAtleta.nome = formGroup.get('nome').value;
+    this.objetoAtleta.cpf = formGroup.get('cpf').value;
+    this.objetoAtleta.dataNascimento = formGroup.get('dataNascimento').value;
+    this.objetoAtleta.email = formGroup.get('email').value;
+    this.objetoAtleta.senha = formGroup.get('senha').value;
+
+    // Retornando objeto para POST
+    return this.objetoAtleta;
+  }
+
+  // Realizando verificacao Campo por Campo
+  private validaFormulario(grupo: FormGroup) {
+    // This.Formulario.Controls retorna o objeto que nao pode ser lido aqui.
+    // Assim, atribui-se Chaves para o Objeto poder ser lido.
+
+    Object.keys(this.formulario.controls).forEach(controle => {
+      // Marcando como Touched para aplicar as validacoes
+      this.formulario.get(controle).markAsTouched();
+    });
+  }
+
   // Resetando o Formulario
-  resetarForm() {
+  private resetarForm() {
     this.formulario.reset();
   }
 
   // Validacoes de Erros
-  aplicaCssErro(campo) {
+  private aplicaCss(campo) {
     return {
-      // 'has-error': this.verificaValidTouched(campo),
-      'invalid-feedback': this.verificaValidTouched(campo),
+      'is-invalid': this.verificaValidTouched(campo),
+      'is-valid': !this.verificaValidTouched(campo) && (this.formulario.get(campo).touched),
     };
   }
 
-  verificaValidTouched(campo) {
-    // Verificando se o campo está invalido e se foi Focado
+  // Verificando se o campo está invalido e se foi Focado
+  private verificaValidTouched(campo) {
     return !this.formulario.get(campo).valid && this.formulario.get(campo).touched;
   }
+
+  // Verifica tamanho da senha.
+  // verificaTamanhoSenha() {
+
+  //   // Variavel para retornar o erro
+  //   const controlErrors: ValidationErrors = this.formulario.get('senha').errors;
+  //   if (controlErrors != null) {
+  //     Object.keys(controlErrors).forEach(keyError => {
+  //       console.log('Key control: senha, keyError: ' + keyError + ', err value: ', keyError);
+  //       let a = controlErrors[keyError];
+  //       return a['requiredLength'];
+  //     });
+  //   }
+  // }
 
 
 }

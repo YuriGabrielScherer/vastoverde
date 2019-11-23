@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 
-import { ToastService } from './../shared/toast/toast.service';
+import { ToastService } from '../shared/services/toast/toast.service';
 import { AuthService } from './../login/auth.service';
 
 @Injectable({

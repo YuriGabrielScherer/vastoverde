@@ -1,6 +1,6 @@
 import { Atleta } from './../shared/model/atleta';
 import { AtletaService } from './../atleta/atleta.service';
-import { ToastService } from './../shared/toast/toast.service';
+import { ToastService } from '../shared/services/toast/toast.service';
 import { Injectable, EventEmitter, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
@@ -12,7 +12,7 @@ import { EMPTY } from 'rxjs';
 export class AuthService {
 
   // Relação de Usuários
-  private atleta_logado: Atleta;
+  private atletaLogado: Atleta;
 
   constructor(
     // Router para trocar as rotas
@@ -35,12 +35,12 @@ export class AuthService {
       .subscribe((response: Atleta) => {
 
         // Puxando informacao
-        this.atleta_logado = response[0];
+        this.atletaLogado = response[0];
 
         // Verificando o login
-        if ((email === this.atleta_logado.email) && (senha === this.atleta_logado.senha)) {
+        if ((email === this.atletaLogado.email) && (senha === this.atletaLogado.senha)) {
           // Setando no LocalStorage para controle do Site
-          localStorage.setItem('usuario_logado', this.atleta_logado.id.toString());
+          localStorage.setItem('usuario_logado', this.atletaLogado.id.toString());
         }
       });
   }

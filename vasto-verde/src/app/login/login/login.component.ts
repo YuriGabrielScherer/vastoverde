@@ -5,7 +5,7 @@ import { AuthService } from './../auth.service';
 
 // import { ToastrService } from 'ngx-toastr';
 
-import { ToastService } from './../../shared/toast/toast.service';
+import { ToastService } from '../../shared/services/toast/toast.service';
 
 @Component({
   selector: 'app-login',

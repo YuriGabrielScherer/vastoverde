@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { delay, take } from 'rxjs/operators';
 
-import { CrudService } from '../shared/crud-service';
+import { CrudService } from '../shared/services/crud-service';
 import { Atleta } from './../shared/model/atleta';
 
 

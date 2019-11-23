@@ -1,4 +1,4 @@
-export interface Atleta {
+export class Atleta {
   id: number;
   nome: string;
   senha: string;

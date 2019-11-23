@@ -1,7 +1,53 @@
 {
   "atleta": [
-    {"id": 1,"cpf":123, "nome": "Yuri Gabriel", "senha":"123", "email":"yuri","dataNasc":"05/09/2001"},
-    {"id": 2,"cpf":456, "nome": "Marco Antonio", "senha":"123", "email":"marco","dataNasc":"22/11/2001"},
-    {"id": 3,"cpf":789, "nome": "Adrian Moraes", "senha":"123", "email":"adrian","dataNasc":"15/05/2001"}
+    {
+      "id": 1,
+      "cpf": 123,
+      "nome": "Yuri Gabriel",
+      "senha": "123",
+      "email": "yuri",
+      "dataNasc": "05/09/2001"
+    },
+    {
+      "id": 2,
+      "cpf": 456,
+      "nome": "Marco Antonio",
+      "senha": "123",
+      "email": "marco",
+      "dataNasc": "22/11/2001"
+    },
+    {
+      "id": 3,
+      "cpf": 789,
+      "nome": "Adrian Moraes",
+      "senha": "123",
+      "email": "adrian",
+      "dataNasc": "15/05/2001"
+    },
+    {
+      "nome": "yuri",
+      "cpf": "222.2__.___-__",
+      "dataNascimento": "1111-01-01",
+      "email": "t@a.com",
+      "senha": "123333",
+      "id": 4
+    },
+    {
+      "nome": "1",
+      "cpf": "11_.___.___-__",
+      "dataNascimento": "1111-11-11",
+      "email": "1@ac",
+      "senha": "11111111111",
+      "id": 5
+    },
+    {
+      "nome": "Testando",
+      "cpf": "098.765.443-22",
+      "email": "a@a.com",
+      "telefone": "(47) 8521_-____",
+      "dataNascimento": "2001-05-09",
+      "senha": "porjeto",
+      "id": 6
+    }
   ]
 }

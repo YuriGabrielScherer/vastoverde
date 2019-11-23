@@ -1,20 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ToastService } from './toast/toast.service';
+import { CampocontrolerroComponent } from './mensagens-formulario/campo-control-erro/campo-control-erro.component';
 
 @NgModule({
   declarations: [
-
+    CampocontrolerroComponent
   ],
   imports: [
-    CommonModule,
-    // ToastService
-
-
+    CommonModule
   ],
   exports: [
-    // ToastService
+    CampocontrolerroComponent
   ]
 })
 export class SharedModule { }

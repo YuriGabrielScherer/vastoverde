@@ -42,3 +42,12 @@ input:hover {
   border-color: rgba(30, 255, 0, 0.63) !important;
   box-shadow: 0 0 0 0.2rem rgba(51, 160, 37, 0.507) !important;
 }
+
+// Validacoes dos campos
+.ng-invalid.ng-touched:not(form){
+  border: 1px solid red;
+}
+
+.invalid-feedback{
+  display: inline!important;
+}

@@ -1,21 +1,163 @@
-<div class="login">
-  <div id="teste">
-   <div class="divTeste" id="imagem"></div>
+<!-- <div class="container telaCad">
+  <div class="divFormulario">
+    <div class="divTeste" id="imagem"></div>
 
-   <form class="formulario">
+    <form class="formulario" [formGroup]="formulario">
+      <h1 class="entrar">Efetuar Cadastro</h1>
+      <input
+        type="text"
+        class="form-control"
+        id="nome"
+        placeholder="Nome Completo"
+        formControlName="nome"
+      />
+      <input
+        type="password"
+        class="form-control"
+        id="senha"
+        placeholder="Senha"
+        formControlName="senha"
+      />
+      <input
+        type="text"
+        class="form-control"
+        id="cpf"
+        placeholder="CPF"
+        formControlName="cpf"
+      />
+      <input
+        type="text"
+        class="form-control"
+        id="telefone"
+        placeholder="Telefone"
+        formControlName="telefone"
+      />
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        placeholder="E-mail"
+        formControlName="email"
+      />
+      <input
+        type="date"
+        class="form-control"
+        id="data"
+        placeholder="Data de Nascimento"
+        formControlName="dataNascimento"
+      />
+      <button class="btn btn-outline-success" id="logar">
+        Cadastrar Atleta
+      </button> -->
 
-       <h1 class="entrar">Efetuar Cadastro</h1>
-       <input type="text"     class="form-control" id="nome" placeholder="Nome Completo">
-       <input type="password" class="form-control" id="senha" placeholder="Email">
-       <input type="password" class="form-control" id="cpf" placeholder="CPF">
-       <input type="password" class="form-control" id="telefone" placeholder="Telefone">
-       <input type="password" class="form-control" id="data" placeholder="Data de Nascimento">
-       <button  class="btn btn-outline-success" id="logar">Cadastrar Atleta</button>
-
-      <!--
+<!--
        <a href="#" id="esqueceu">Esqueceu seu Usuario/Senha ?</a>
        <a href="#" id="cadastro">Cadastre-se</a>
        -->
-   </form>
-   </div>
+<!-- </form>
+  </div>
+</div> -->
+
+<div class="container">
+  <div class="divCad row ">
+    <div class="divFormulario col-lg-6 col-md-6 col-sm-12 ">
+      <div class="divLogo ">
+        <img
+          src="../../../assets/Imagens/logos/logoKarate.jpg"
+          alt="Logo Karatê"
+        />
+      </div>
+      <form class="formulario" [formGroup]="formulario">
+        <h4 class="entrar">Cadastro de Atletas</h4>
+        <hr />
+
+        <div class="form-row">
+          <div class="form-group  col">
+            <input
+              type="text"
+              class="form-control"
+              id="nome"
+              placeholder="Nome Completo"
+              formControlName="nome"
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <input
+              type="password"
+              class="form-control"
+              id="senha"
+              placeholder="Senha"
+              formControlName="senha"
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6 col-sm-12">
+            <input
+              type="text"
+              class="form-control"
+              id="cpf"
+              placeholder="CPF"
+              formControlName="cpf"
+              [textMask]="{ mask: maskCpf }"
+            />
+          </div>
+          <div class="form-group col">
+            <input
+              type="text"
+              class="form-control"
+              id="telefone"
+              placeholder="Celular"
+              formControlName="telefone"
+              [textMask]="{ mask: maskTelefone }"
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6 col-sm-12">
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              placeholder="E-mail"
+              formControlName="email"
+            />
+          </div>
+          <div class="form-group col">
+            <input
+              type="date"
+              class="form-control"
+              id="data"
+              placeholder="Data de Nascimento"
+              formControlName="dataNascimento"
+            />
+          </div>
+        </div>
+
+        <button class="btn btn-outline-success" id="btnCadastro">
+          Cadastrar
+        </button>
+
+        <button class="btn btn-outline-warning" id="btnAlterar" *ngIf="telaAlteracao">
+          Cadastrar
+        </button>
+
+        <button class="btn btn-outline-danger" id="btnCancelar">
+          Cancelar
+        </button>
+      </form>
+    </div>
+    <div class="divImagem col-lg-6 col-md-6 col-sm-12 ">
+      <!-- <img
+        class="img-fluid a"
+        src="../../../assets/Imagens/karate01.jpg"
+        alt="Imagem Karatê"
+      /> -->
+    </div>
+  </div>
 </div>

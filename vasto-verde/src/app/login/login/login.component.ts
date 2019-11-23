@@ -39,12 +39,12 @@ export class LoginComponent implements OnInit {
     this.spinnerCarregar = true;
 
     // Realizando o login
-    const loginRealizado = this.authService.realizarLogin(this.email, this.senha);
+    this.authService.realizarLogin(this.email, this.senha);
 
     setTimeout(() => {
 
       // Verificando
-      if (loginRealizado) {
+      if (this.authService.usuarioAutenticado()) {
         // Toast
         this.toastService.toastSuccess('Usuário - Yuri Gabriel!', 'Bem-vindo ao Sistema Vasto Verde!');
 
@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit {
         // Rotacionando
         this.router.navigate(['/administrativo']);
       } else {
+
         // Toast
         this.toastService.toastWarning('Erro ao realizar o login.',
           'Por favor, confira se o usuário e senha estão corretos e tente novamente.');
@@ -66,7 +67,7 @@ export class LoginComponent implements OnInit {
         campoNome.focus();
       }
     },
-      1500);
+      2500);
   }
 
 }

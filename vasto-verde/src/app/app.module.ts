@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { HttpClientModule  } from '@angular/common/http';
 
@@ -28,6 +28,7 @@ import {
 } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { TextMaskModule } from 'angular2-text-mask';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ),
     BrowserAnimationsModule,
     AtletaModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule,
+    TextMaskModule
   ],
   providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]

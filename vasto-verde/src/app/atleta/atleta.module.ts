@@ -1,3 +1,4 @@
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -6,6 +7,7 @@ import { CadastroComponent } from './cadastro/cadastro.component';
 import { ListarAtletasComponent } from './listar-atletas/listar-atletas.component';
 
 import { SharedModule } from './../shared/shared.module';
+import { TextMaskModule } from 'angular2-text-mask';
 
 
 @NgModule({
@@ -15,7 +17,10 @@ import { SharedModule } from './../shared/shared.module';
   imports: [
     CommonModule,
     AtletaRoutingModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule,
+    FormsModule,
+    TextMaskModule
   ]
 })
 export class AtletaModule { }

@@ -11,8 +11,8 @@ import { EMPTY } from 'rxjs';
 })
 export class AuthService {
 
-  // Usuario que fez o login
-  private atleta: Atleta;
+  // Relação de Usuários
+  private atleta_logado: Atleta;
 
   constructor(
     // Router para trocar as rotas
@@ -22,29 +22,27 @@ export class AuthService {
   ) { }
 
   // Metodo realizar Login
-  realizarLogin(email, senha): boolean {
+  realizarLogin(email, senha) {
 
     this.atletaService.loadByEmail(email)
       .pipe(
+        // Tratamento de erros
         catchError((error) => {
-          this.toast.toastError('Erro ao realizar o login.', 'Erro ao realizar o login. Tente novamente mais tarde.');
+          this.toast.toastError('Erro na conexão com o servidor.', 'Entre em contato com o administrador do sistema.');
           return EMPTY;
         })
       )
       .subscribe((response: Atleta) => {
 
-        console.log('Resposta : ' + response.nome);
+        // Puxando informacao
+        this.atleta_logado = response[0];
 
-        // Passando as informacoes
-        this.atleta = response;
-
-        console.log('Dentro ' + this.atleta.email + this.atleta.senha);
-
+        // Verificando o login
+        if ((email === this.atleta_logado.email) && (senha === this.atleta_logado.senha)) {
+          // Setando no LocalStorage para controle do Site
+          localStorage.setItem('usuario_logado', this.atleta_logado.id.toString());
+        }
       });
-
-    console.log('Fora ' + this.atleta);
-
-    return this.usuarioAutenticado();
   }
 
   // Retornar Usuario autenticado ou nao

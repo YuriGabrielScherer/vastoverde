@@ -48,6 +48,46 @@
       "dataNascimento": "2001-05-09",
       "senha": "porjeto",
       "id": 6
+    },
+    {
+      "nome": "Veroni Pereira",
+      "cpf": "083.500.759-61",
+      "email": "yuri@vaz.com",
+      "senha": "12345",
+      "dataNascimento": "9/5/2001",
+      "id": 7
+    },
+    {
+      "nome": "Veroni Pereira",
+      "cpf": "083.500.759-61",
+      "email": "yuri@vaz.com",
+      "senha": "12345",
+      "dataNascimento": "9/5/2001",
+      "id": 8
+    },
+    {
+      "nome": "Yuri",
+      "cpf": "083.500.759-61",
+      "email": "yuri@qa",
+      "senha": "12345",
+      "dataNascimento": "9/5/2001",
+      "id": 9
+    },
+    {
+      "nome": "Yuri ",
+      "cpf": "788.288.569-04",
+      "email": "yuri@a.com",
+      "senha": "123456",
+      "dataNascimento": "9/5/2001",
+      "id": 10
+    },
+    {
+      "nome": "teste de login",
+      "cpf": "788.288.569-04",
+      "email": "yuri@a",
+      "senha": "12345",
+      "dataNascimento": "9/5/2001",
+      "id": 11
     }
   ]
 }

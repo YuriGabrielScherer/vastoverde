@@ -2,7 +2,7 @@ export class Atleta {
   id: number;
   nome: string;
   senha: string;
-  dataNascimento: Date;
+  dataNascimento: string;
   cpf: number;
   email: string;
 }

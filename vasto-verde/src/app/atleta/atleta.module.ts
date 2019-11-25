@@ -8,6 +8,7 @@ import { ListarAtletasComponent } from './listar-atletas/listar-atletas.componen
 
 import { SharedModule } from './../shared/shared.module';
 import { TextMaskModule } from 'angular2-text-mask';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { TextMaskModule } from 'angular2-text-mask';
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
-    TextMaskModule
+    TextMaskModule,
+    BsDatepickerModule.forRoot()
   ]
 })
 export class AtletaModule { }

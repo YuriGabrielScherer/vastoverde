@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { CampocontrolerroComponent } from './mensagens-formulario/campo-control-erro/campo-control-erro.component';
 
 import { ToastService } from './services/toast/toast.service';
+import { ValidacoesFormService } from './services/validacoes-form.service';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { ToastService } from './services/toast/toast.service';
     CampocontrolerroComponent
   ],
   providers: [
-    ToastService
+    ToastService,
+    ValidacoesFormService
   ]
 })
 export class SharedModule { }

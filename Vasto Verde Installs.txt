@@ -4,6 +4,8 @@ npm i ngx-toastr --save
 npm i -g json-server
 npm i angular2-text-mask --save
 
+npm i ngx-bootstrap ngx-toastr angular2-text-mask --save
+
 --------------------
 Juntos
 npm install bootstrap ngx-bootstrap --save

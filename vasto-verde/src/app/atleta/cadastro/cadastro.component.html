@@ -1,4 +1,3 @@
-
 <div class="container">
   <div class="divCad row ">
     <div class="divFormulario col-lg-6 col-md-6 col-sm-12 ">
@@ -9,7 +8,7 @@
         />
       </div>
       <form class="formulario" [formGroup]="formulario" (ngSubmit)="onSubmit()">
-        <h4 class="entrar">Cadastro de Atletas</h4>
+        <h4 class="entrar">Cadastro de Usuários</h4>
         <hr />
 
         <div class="form-row">
@@ -33,7 +32,7 @@
         </div>
 
         <div class="form-row">
-          <div class="form-group col" >
+          <div class="form-group col">
             <input
               type="password"
               class="form-control"
@@ -49,7 +48,6 @@
               msgErro="Senha é obrigatória. Mínimo 5 caracteres."
             >
             </app-campo-control-erro>
-
           </div>
         </div>
 
@@ -115,9 +113,11 @@
               placeholder="Data de Nascimento"
               formControlName="dataNascimento"
               [ngClass]="aplicaCss('dataNascimento')"
-
               bsDatepicker
-              [bsConfig]="{dateInputFormat: 'DD-MM-YYYY', adaptivePosition: true}"
+              [bsConfig]="{
+                dateInputFormat: 'DD-MM-YYYY',
+                adaptivePosition: true
+              }"
               [maxDate]="maxDate"
               placement="top"
             />

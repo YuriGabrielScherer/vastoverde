@@ -4,8 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { ValidacoesFormService } from './../../shared/services/validacoes-form.service';
-import { Atleta } from './../../shared/model/atleta';
-import { AtletaService } from './../atleta.service';
+import { Pessoa } from '../../shared/model/pessoa';
+import { PessoaService } from '../pessoa.service';
 import { ToastService } from './../../shared/services/toast/toast.service';
 
 @Component({
@@ -19,7 +19,7 @@ export class CadastroComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private atletaService: AtletaService,
+    private pessoaService: PessoaService,
     private validacaoForm: ValidacoesFormService,
     private toastService: ToastService,
     private router: Router
@@ -43,8 +43,8 @@ export class CadastroComponent implements OnInit {
   // Variavel validar Tela Alteracao
   telaAlteracao = false;
 
-  // Atleta a ser cadastrado
-  objetoAtleta: Atleta = new Atleta();
+  // Pessoa a ser cadastrada
+  objetoPessoa: Pessoa = new Pessoa();
 
   ngOnInit() {
 
@@ -68,14 +68,14 @@ export class CadastroComponent implements OnInit {
     // Verificando se o formulario é valido
     if (this.formulario.valid) {
       // Service de POST
-      this.atletaService.save(this.criarObjetoAtleta(this.formulario))
+      this.pessoaService.save(this.criarObjetoPessoa(this.formulario))
         .subscribe((retorno) => {
           // Mensagem Sucesso
           this.toastService.toastSuccess(this.formulario.get('nome').value + ', cadastrado com sucesso!', 'Cadastro Realizado!');
           // Resetando o Form
           this.formulario.reset();
           // Navegando para a tela de Login
-          if (localStorage.getItem('usuario_logado') === null) {
+          if (sessionStorage.getItem('usuario_logado') === null) {
             this.router.navigate(['/login']);
           } else {
             this.router.navigate(['/administrativo']);
@@ -91,21 +91,21 @@ export class CadastroComponent implements OnInit {
 
   }
 
-  // Criando objeto Atleta
-  private criarObjetoAtleta(formGroup: FormGroup): Atleta {
+  // Criando objeto Pessoa
+  private criarObjetoPessoa(formGroup: FormGroup): Pessoa {
 
     // Atribuindo valores
-    this.objetoAtleta.nome = formGroup.get('nome').value;
-    this.objetoAtleta.cpf = formGroup.get('cpf').value;
-    this.objetoAtleta.email = formGroup.get('email').value;
-    this.objetoAtleta.senha = formGroup.get('senha').value;
+    this.objetoPessoa.nome = formGroup.get('nome').value;
+    this.objetoPessoa.cpf = formGroup.get('cpf').value;
+    this.objetoPessoa.email = formGroup.get('email').value;
+    this.objetoPessoa.senha = formGroup.get('senha').value;
 
     // Tratando Data de Nascimento
-    let data: Date = formGroup.get('dataNascimento').value;
-    this.objetoAtleta.dataNascimento = data.toLocaleDateString();
+    const data: Date = formGroup.get('dataNascimento').value;
+    this.objetoPessoa.dataNascimento = data.toLocaleDateString();
 
     // Retornando objeto para POST
-    return this.objetoAtleta;
+    return this.objetoPessoa;
   }
 
   // Realizando verificacao Campo por Campo

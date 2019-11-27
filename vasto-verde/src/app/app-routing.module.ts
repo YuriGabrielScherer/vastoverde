@@ -24,8 +24,8 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'atleta',
-    loadChildren: () => import('./atleta/atleta.module').then(m => m.AtletaModule)
+    path: 'pessoa',
+    loadChildren: () => import('./atleta/pessoa.module').then(m => m.PessoaModule)
   }
 
 ];

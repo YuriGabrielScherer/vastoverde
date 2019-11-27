@@ -2,27 +2,32 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AtletaRoutingModule } from './atleta-routing.module';
+import { PessoaRoutingModule } from './pessoa-routing.module';
 import { CadastroComponent } from './cadastro/cadastro.component';
-import { ListarAtletasComponent } from './listar-atletas/listar-atletas.component';
+import { ListarPessoasComponent } from './listar-pessoas/listar-pessoas.component';
 
-import { SharedModule } from './../shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 import { TextMaskModule } from 'angular2-text-mask';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
+import { ListarPessoaResolver } from './guards/listar-pessoa.resolver';
 
 @NgModule({
   declarations: [
     CadastroComponent,
-    ListarAtletasComponent],
+    ListarPessoasComponent
+  ],
   imports: [
     CommonModule,
-    AtletaRoutingModule,
+    PessoaRoutingModule,
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
     TextMaskModule,
     BsDatepickerModule.forRoot()
+  ],
+  providers: [
+    ListarPessoaResolver
   ]
 })
-export class AtletaModule { }
+export class PessoaModule { }

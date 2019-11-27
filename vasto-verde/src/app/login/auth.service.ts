@@ -1,5 +1,5 @@
-import { Atleta } from './../shared/model/atleta';
-import { AtletaService } from './../atleta/atleta.service';
+import { Pessoa } from '../shared/model/pessoa';
+import { PessoaService } from '../atleta/pessoa.service';
 import { ToastService } from '../shared/services/toast/toast.service';
 import { Injectable, EventEmitter, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -12,19 +12,21 @@ import { EMPTY } from 'rxjs';
 export class AuthService {
 
   // Relação de Usuários
-  private atletaLogado: Atleta;
+  private pessoaLogada: Pessoa;
 
   constructor(
     // Router para trocar as rotas
     private router: Router,
-    private atletaService: AtletaService,
+    private pessoaService: PessoaService,
     private toast: ToastService
   ) { }
 
   // Metodo realizar Login
-  realizarLogin(email, senha) {
+  realizarLogin(login) {
 
-    this.atletaService.loadByEmail(email)
+    console.log(login);
+
+    this.pessoaService.loadByEmail(login['email'])
       .pipe(
         // Tratamento de erros
         catchError((error) => {
@@ -32,24 +34,30 @@ export class AuthService {
           return EMPTY;
         })
       )
-      .subscribe((response: Atleta) => {
+      .subscribe((response: Pessoa) => {
 
-        // Puxando informacao
-        this.atletaLogado = response[0];
+        // Puxando informacao do Servidor
+        this.pessoaLogada = response[0];
 
         // Verificando o login
-        if ((email === this.atletaLogado.email) && (senha === this.atletaLogado.senha)) {
-          // Setando no LocalStorage para controle do Site
-          localStorage.setItem('usuario_logado', this.atletaLogado.id.toString());
+        if ((login['email'] === this.pessoaLogada.email) && (login['senha'] === this.pessoaLogada.senha)) {
+
+          // Verificando lembrar de mim
+          if (login['lembrar']) {
+            // Setando no localStorage para controle do Site
+            localStorage.setItem('usuario_logado', this.pessoaLogada.id.toString());
+          } else {
+            // Setando no sessionStorage para controle do Site
+            sessionStorage.setItem('usuario_logado', this.pessoaLogada.id.toString());
+          }
         }
       });
   }
 
   // Retornar Usuario autenticado ou nao
   usuarioAutenticado(): boolean {
-
-    // Verificando se existe no LocalStorage
-    if (localStorage.getItem('usuario_logado')) {
+    // Verificando se existe no sessionStorage
+    if ((sessionStorage.getItem('usuario_logado')) || (localStorage.getItem('usuario_logado'))) {
       return true;
     }
 
@@ -59,7 +67,7 @@ export class AuthService {
   // Deslogar
   deslogar() {
     // Removendo do Session Storage
-    localStorage.removeItem('usuario_logado');
+    sessionStorage.removeItem('usuario_logado');
 
     // Rotacionando
     this.router.navigate(['/', 'login']);

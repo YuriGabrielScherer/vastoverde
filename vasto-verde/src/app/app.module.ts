@@ -14,7 +14,7 @@ import { LoginComponent } from './login/login/login.component';
 
 import { AdministrativoModule } from './administrativo/administrativo.module';
 import { AppBootstrapModule } from './shared/app-bootstrap/app-bootstrap.module';
-import { AtletaModule } from './atleta/atleta.module';
+import { PessoaModule } from './atleta/pessoa.module';
 import { SharedModule } from './shared/shared.module';
 
 import { AuthGuard } from './guards/auth-guard';
@@ -54,7 +54,7 @@ import { TextMaskModule } from 'angular2-text-mask';
       }
     ),
     BrowserAnimationsModule,
-    AtletaModule,
+    PessoaModule,
     SharedModule,
     ReactiveFormsModule,
     TextMaskModule

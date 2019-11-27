@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ListarAtletasComponent } from './listar-atletas/listar-atletas.component';
+import { ListarPessoasComponent } from './listar-pessoas/listar-pessoas.component';
 import { CadastroComponent } from './cadastro/cadastro.component';
-import { AuthGuard } from './../guards/auth-guard';
+
+import { AuthGuard } from '../guards/auth-guard';
+import { ListarPessoaResolver } from './guards/listar-pessoa.resolver';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'cadastro' },
@@ -12,7 +14,10 @@ const routes: Routes = [
 
   },
   {
-    path: 'listar', component: ListarAtletasComponent, canActivate: [AuthGuard]
+    path: 'listar',
+    component: ListarPessoasComponent,
+    canActivate: [AuthGuard],
+    resolve: { pessoa: ListarPessoaResolver }
   }
 ];
 
@@ -20,4 +25,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AtletaRoutingModule { }
+export class PessoaRoutingModule { }

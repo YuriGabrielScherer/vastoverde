@@ -8,7 +8,7 @@
     />
   </div>
 
-  <form class="formulario">
+  <form class="formulario" [formGroup]="formulario">
     <div class="form-group">
       <label for="campoEmail">Usuário</label>
       <input
@@ -16,8 +16,7 @@
         class="form-control"
         id="campoEmail"
         aria-describedby="emailHelp"
-        [(ngModel)]="email"
-        name="email"
+        formControlName="email"
       />
     </div>
     <div class="form-group">
@@ -27,13 +26,12 @@
         type="password"
         class="form-control"
         id="campoSenha"
-        [(ngModel)]="senha"
-        name="senha"
+        formControlName="senha"
       />
     </div>
 
     <div class="form-group form-check">
-      <input type="checkbox" class="form-check-input" id="lembrarMim" />
+      <input type="checkbox" class="form-check-input" id="lembrarMim" formControlName="lembrar" />
       <label class="form-check-label" for="lembrarMim">Lembrar de mim</label>
     </div>
 

@@ -1,5 +1,5 @@
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { Router, Route } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -22,7 +22,8 @@ export class CadastroComponent implements OnInit {
     private pessoaService: PessoaService,
     private validacaoForm: ValidacoesFormService,
     private toastService: ToastService,
-    private router: Router
+    private router: Router,
+    private route: Route
   ) {
 
     // Propriedades do Input de Data de Nascimento
@@ -47,6 +48,9 @@ export class CadastroComponent implements OnInit {
   objetoPessoa: Pessoa = new Pessoa();
 
   ngOnInit() {
+
+    // Tentando pegar atributos do Roteamento
+    console.log(this.route);
 
     // Atribuindo o formulario para a variavel
     this.formulario = this.formBuilder.group({
@@ -99,10 +103,11 @@ export class CadastroComponent implements OnInit {
     this.objetoPessoa.cpf = formGroup.get('cpf').value;
     this.objetoPessoa.email = formGroup.get('email').value;
     this.objetoPessoa.senha = formGroup.get('senha').value;
+    this.objetoPessoa.telefone = formGroup.get('telefone').value;
 
     // Tratando Data de Nascimento
     const data: Date = formGroup.get('dataNascimento').value;
-    this.objetoPessoa.dataNascimento = data.toLocaleDateString();
+    this.objetoPessoa.dataNascimento = data.getDate() + '/' + data.getMonth() + '/' + data.getFullYear();
 
     // Retornando objeto para POST
     return this.objetoPessoa;

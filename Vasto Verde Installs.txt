@@ -9,3 +9,12 @@ npm i ngx-bootstrap ngx-toastr angular2-text-mask --save
 --------------------
 Juntos
 npm install bootstrap ngx-bootstrap --save
+
+
+
+
+----------------------------------------------------------
+Implementação Futura:
+
+* Tela de Listagem de Usuários.
+	-> Terminar os Filtros: Por Campeonatos e Adultos.

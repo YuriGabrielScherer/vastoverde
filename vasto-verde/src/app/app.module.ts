@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { HttpClientModule  } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,11 +21,7 @@ import { AuthGuard } from './guards/auth-guard';
 import { AuthService } from './login/auth.service';
 
 // Toast
-import {
-  ToastrModule,
-  ToastNoAnimation,
-  ToastNoAnimationModule
-} from 'ngx-toastr';
+import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TextMaskModule } from 'angular2-text-mask';
@@ -45,6 +41,11 @@ import { TextMaskModule } from 'angular2-text-mask';
     HttpClientModule,
     AdministrativoModule,
     AppBootstrapModule,
+    BrowserAnimationsModule,
+    PessoaModule,
+    SharedModule,
+    ReactiveFormsModule,
+    TextMaskModule,
     ToastrModule.forRoot(
       // Configuracoes globais do Toast
       {
@@ -52,14 +53,12 @@ import { TextMaskModule } from 'angular2-text-mask';
         progressBar: true,
         closeButton: true
       }
-    ),
-    BrowserAnimationsModule,
-    PessoaModule,
-    SharedModule,
-    ReactiveFormsModule,
-    TextMaskModule
+    )
   ],
-  providers: [AuthService, AuthGuard],
+  providers: [
+    AuthService,
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

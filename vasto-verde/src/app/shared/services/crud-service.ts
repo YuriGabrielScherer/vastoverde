@@ -13,7 +13,7 @@ export class CrudService<Type> {
   list() {
     return this.http.get<Type[]>(this.API_URL)
       .pipe(
-        delay(2000),
+        // delay(2000),
         take(1)
       );
   }

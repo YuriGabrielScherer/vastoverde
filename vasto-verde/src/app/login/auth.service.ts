@@ -69,6 +69,9 @@ export class AuthService {
     // Removendo do Session Storage
     sessionStorage.removeItem('usuario_logado');
 
+    // Removendo do Local Storage
+    localStorage.removeItem('usuario_logado');
+
     // Rotacionando
     this.router.navigate(['/', 'login']);
   }

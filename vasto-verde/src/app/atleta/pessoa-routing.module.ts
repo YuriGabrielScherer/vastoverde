@@ -5,13 +5,19 @@ import { ListarPessoasComponent } from './listar-pessoas/listar-pessoas.componen
 import { CadastroComponent } from './cadastro/cadastro.component';
 
 import { AuthGuard } from '../guards/auth-guard';
-import { ListarPessoaResolver } from './guards/listar-pessoa.resolver';
+import { ListarPessoaResolver } from './guards/listar-pessoas.resolver';
+import { PessoaAlteracaoResolver } from './guards/alterar-pessoa.resolver';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'cadastro' },
   {
-    path: 'cadastro', component: CadastroComponent,
-
+    path: 'cadastro', component: CadastroComponent
+  },
+  {
+    path: 'cadastro/:id',
+    component: CadastroComponent,
+    canActivate: [AuthGuard],
+    resolve: { alteracao: PessoaAlteracaoResolver }
   },
   {
     path: 'listar',

@@ -1,23 +1,120 @@
-import { Route } from '@angular/compiler/src/core';
-import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
+import { Pessoa } from './../../shared/model/pessoa';
 
 @Component({
   selector: 'app-listar-pessoas',
   templateUrl: './listar-pessoas.component.html',
-  styleUrls: ['./listar-pessoas.component.scss']
+  styleUrls: ['./listar-pessoas.component.scss'],
+  preserveWhitespaces: true
 })
 export class ListarPessoasComponent implements OnInit {
 
+  // Lista de Informacoes do Banco
+  listaPessoa: Pessoa[] = null;
+
+  // Inscricao nos dados vindos do Resolver
+  private inscricao: Subscription;
+
+  // Formulario de Filtragem
+  formularioFiltro: FormGroup;
+
+  // Objeto Campeonato
+  // campeonatos = [
+  //   'Olesc',
+  //   'Joguinhos',
+  //   'Jasc',
+  //   'Brasileiro'
+  // ];
+
+  // Objeto tipo usuario
+  tipoUsuario = [
+    { id: 0, tipo: 'Todos' },
+    { id: 1, tipo: 'Atleta' },
+    { id: 2, tipo: 'Usuário' },
+    { id: 3, tipo: 'Responsável' }
+  ];
+
+
   constructor(
-    private route: Route
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
 
-    console.log('NgOnInit');
-    console.log(this.route);
+    // Pegando valores do Banco de dados
+    this.inscricao = this.route.data.subscribe(
+      (dados) => {
+        this.listaPessoa = dados.pessoa;
+      });
+
+    // Iniciando o Formulario
+    this.formularioFiltro = this.formBuilder.group({
+      nome: [null],
+      tipoUsuario: [0],
+      // adulto: [false],
+      // campeonatos: this.buildCampeonatos()
+    });
+  }
+
+  ngOnDestroy() {
+    this.inscricao.unsubscribe();
+  }
+
+  obterUsuarios() {
+
+    // Filtragem por nome
+    if (
+      (this.formularioFiltro.get('nome').value != null)
+      && (this.formularioFiltro.get('nome').value.trim() !== '')) {
+
+      // Nome para Filtrar
+      const nome = this.formularioFiltro.get('nome').value.toLocaleLowerCase();
+
+      // Retornando Lista filtrada
+      return this.listaPessoa.filter(
+        (pessoa) =>
+          pessoa.nome.toLocaleLowerCase().includes(nome)
+      );
+
+    } else if (this.formularioFiltro.get('tipoUsuario').value != 0) {
+
+      const tipo = this.formularioFiltro.get('tipoUsuario').value;
+
+      // Retornando Lista filtrada
+      return this.listaPessoa.filter(
+        (pessoa) =>
+          pessoa.tipoUsuario == tipo
+      );
+    } else {
+      return this.listaPessoa;
+    }
+  }
+
+  // Metodo para atualizar a lista de Pessoas atualizada.
+  atualizarLista() {
 
   }
+
+  imprimeFormulario() {
+    console.log('Formulario: ', this.formularioFiltro.value);
+    console.log('Pessoa: ', this.listaPessoa);
+  }
+
+  // // Metodo para formar os CheckBoxes de Filtros de Camp.
+  // private buildCampeonatos() {
+
+  //   // Pegando os valores dos Campeonatos
+  //   const values = this.campeonatos.map(v => new FormControl(false));
+  //   // O Map pega um valor e imprime outro
+  //   // Nesse caso, pega a quantidade de valores do Campeonato e vai imprimir no formato FormControl(false)
+
+  //   // Criando um array de FormControl(false)
+  //   return this.formBuilder.array(values);
+  // }
 
 }

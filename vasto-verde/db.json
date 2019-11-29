@@ -1,93 +1,44 @@
 {
   "pessoa": [
     {
+      "nome": "Yuri Gabriel Scherer da Silva Vaz",
+      "cpf": "083.500.759-61",
+      "email": "yurisvaz@hotmail.com",
+      "senha": "12345",
+      "telefone": "(47)99253-4256",
+      "dataNascimento": "5/8/2001",
       "id": 1,
-      "cpf": 123,
-      "nome": "Yuri Gabriel",
-      "senha": "123",
-      "email": "yuri",
-      "dataNasc": "05/09/2001"
+      "tipoUsuario": 1
     },
     {
+      "nome": "Jair da Silva Vaz",
+      "cpf": "788.288.569-04",
+      "email": "jair@ociani.com",
+      "senha": "98765",
+      "telefone": "(47)99117-1515",
+      "dataNascimento": "4/1/1988",
       "id": 2,
-      "cpf": 456,
-      "nome": "Marco Antonio",
-      "senha": "123",
-      "email": "marco",
-      "dataNasc": "22/11/2001"
+      "tipoUsuario": 2
     },
     {
+      "nome": "Caroline Scherer da Silva Vaz",
+      "cpf": "083.500.759-61",
+      "email": "caroline@hotmail.com",
+      "senha": "96587",
+      "telefone": "(47)99285-5684",
+      "dataNascimento": "25/4/1999",
       "id": 3,
-      "cpf": 789,
-      "nome": "Adrian Moraes",
-      "senha": "123",
-      "email": "adrian",
-      "dataNasc": "15/05/2001"
+      "tipoUsuario": 3
     },
     {
-      "nome": "yuri",
-      "cpf": "222.2__.___-__",
-      "dataNascimento": "1111-01-01",
-      "email": "t@a.com",
-      "senha": "123333",
-      "id": 4
-    },
-    {
-      "nome": "1",
-      "cpf": "11_.___.___-__",
-      "dataNascimento": "1111-11-11",
-      "email": "1@ac",
-      "senha": "11111111111",
-      "id": 5
-    },
-    {
-      "nome": "Testando",
-      "cpf": "098.765.443-22",
-      "email": "a@a.com",
-      "telefone": "(47) 8521_-____",
-      "dataNascimento": "2001-05-09",
-      "senha": "porjeto",
-      "id": 6
-    },
-    {
-      "nome": "Veroni Pereira",
-      "cpf": "083.500.759-61",
-      "email": "yuri@vaz.com",
-      "senha": "12345",
-      "dataNascimento": "9/5/2001",
-      "id": 7
-    },
-    {
-      "nome": "Veroni Pereira",
-      "cpf": "083.500.759-61",
-      "email": "yuri@vaz.com",
-      "senha": "12345",
-      "dataNascimento": "9/5/2001",
-      "id": 8
-    },
-    {
-      "nome": "Yuri",
-      "cpf": "083.500.759-61",
-      "email": "yuri@qa",
-      "senha": "12345",
-      "dataNascimento": "9/5/2001",
-      "id": 9
-    },
-    {
-      "nome": "Yuri ",
-      "cpf": "788.288.569-04",
-      "email": "yuri@a.com",
-      "senha": "123456",
-      "dataNascimento": "9/5/2001",
-      "id": 10
-    },
-    {
-      "nome": "teste de login",
-      "cpf": "788.288.569-04",
-      "email": "yuri@a",
-      "senha": "12345",
-      "dataNascimento": "9/5/2001",
-      "id": 11
+      "nome": "Ivone Schlindwein Scherer",
+      "cpf": "788.635.119-34",
+      "email": "ivone@gmail.com",
+      "senha": "74589",
+      "telefone": "(47)99117-1515",
+      "dataNascimento": "11/11/1975",
+      "id": 4,
+      "tipoUsuario": 3
     }
   ]
 }

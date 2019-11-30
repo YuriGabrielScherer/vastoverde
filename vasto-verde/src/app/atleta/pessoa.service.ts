@@ -24,7 +24,7 @@ export class PessoaService extends CrudService<Pessoa> {
 //  Retornar o Pessoa usando o e-mail
 loadByEmail(email: string) {
 
-  return this.http.get<Pessoa>(`${environment.API}pessoa?email=${email}`)
+  return this.http.get<Pessoa>(`${environment.API}pessoa/email/${email}`)
     .pipe(
       delay(1300),
       take(1)

@@ -24,7 +24,7 @@ export class AuthService {
   // Metodo realizar Login
   realizarLogin(login) {
 
-    console.log(login);
+    // console.log(login);
 
     this.pessoaService.loadByEmail(login['email'])
       .pipe(
@@ -36,19 +36,16 @@ export class AuthService {
       )
       .subscribe((response: Pessoa) => {
 
-        // Puxando informacao do Servidor
-        this.pessoaLogada = response[0];
-
         // Verificando o login
-        if ((login['email'] === this.pessoaLogada.email) && (login['senha'] === this.pessoaLogada.senha)) {
+        if ((login['email'] === response.emailPessoa) && (login['senha'] === response.senhaPessoa)) {
 
           // Verificando lembrar de mim
           if (login['lembrar']) {
             // Setando no localStorage para controle do Site
-            localStorage.setItem('usuario_logado', this.pessoaLogada.id.toString());
+            localStorage.setItem('usuario_logado', response.idPessoa.toString());
           } else {
             // Setando no sessionStorage para controle do Site
-            sessionStorage.setItem('usuario_logado', this.pessoaLogada.id.toString());
+            sessionStorage.setItem('usuario_logado', response.idPessoa.toString());
           }
         }
       });

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Router, Route } from '@angular/router';
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -23,7 +23,7 @@ export class CadastroComponent implements OnInit {
     private validacaoForm: ValidacoesFormService,
     private toastService: ToastService,
     private router: Router,
-    private route: Route
+    // private route: Route
   ) {
 
     // Propriedades do Input de Data de Nascimento
@@ -50,7 +50,7 @@ export class CadastroComponent implements OnInit {
   ngOnInit() {
 
     // Tentando pegar atributos do Roteamento
-    console.log(this.route);
+    // console.log(this.route);
 
     // Atribuindo o formulario para a variavel
     this.formulario = this.formBuilder.group({
@@ -69,13 +69,15 @@ export class CadastroComponent implements OnInit {
   // OnSubmit do Formulario
   private onSubmit() {
 
+
     // Verificando se o formulario é valido
     if (this.formulario.valid) {
       // Service de POST
       this.pessoaService.save(this.criarObjetoPessoa(this.formulario))
         .subscribe((retorno) => {
+
           // Mensagem Sucesso
-          this.toastService.toastSuccess(this.formulario.get('nome').value + ', cadastrado com sucesso!', 'Cadastro Realizado!');
+          this.toastService.toastSuccess( retorno['mensagem'], retorno['titulo']);
           // Resetando o Form
           this.formulario.reset();
           // Navegando para a tela de Login
@@ -86,6 +88,8 @@ export class CadastroComponent implements OnInit {
           }
         },
           (error) => {
+            this.toastService.toastError('Erro ao se conectar com o banco de dados.',
+              'Se o problema persistir, contate o administrador do sistema.');
             console.log(error);
           });
     } else {
@@ -99,15 +103,18 @@ export class CadastroComponent implements OnInit {
   private criarObjetoPessoa(formGroup: FormGroup): Pessoa {
 
     // Atribuindo valores
-    this.objetoPessoa.nome = formGroup.get('nome').value;
-    this.objetoPessoa.cpf = formGroup.get('cpf').value;
-    this.objetoPessoa.email = formGroup.get('email').value;
-    this.objetoPessoa.senha = formGroup.get('senha').value;
-    this.objetoPessoa.telefone = formGroup.get('telefone').value;
+    this.objetoPessoa.nomePessoa = formGroup.get('nome').value;
+    this.objetoPessoa.emailPessoa = formGroup.get('email').value;
+    this.objetoPessoa.senhaPessoa = formGroup.get('senha').value;
+    this.objetoPessoa.telefonePessoa = formGroup.get('telefone').value;
+
+    // Tratando o CPF
+    const cpf: number = formGroup.get('cpf').value.replace(/[^0-9]+/g, '');
+    this.objetoPessoa.cpfPessoa = cpf;
 
     // Tratando Data de Nascimento
     const data: Date = formGroup.get('dataNascimento').value;
-    this.objetoPessoa.dataNascimento = data.getDate() + '/' + data.getMonth() + '/' + data.getFullYear();
+    this.objetoPessoa.dataNascimentoPessoa = data.getDate() + '/' + data.getMonth() + '/' + data.getFullYear();
 
     // Retornando objeto para POST
     return this.objetoPessoa;

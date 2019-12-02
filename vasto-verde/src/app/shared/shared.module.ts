@@ -5,16 +5,22 @@ import { CampocontrolerroComponent } from './mensagens-formulario/campo-control-
 
 import { ToastService } from './services/toast/toast.service';
 import { ValidacoesFormService } from './services/validacoes-form.service';
+import { MascaraCpfPipe } from './services/mascara-cpf.pipe';
+import { PrimeiroNomePipe } from './services/primeiro-nome.pipe';
 
 @NgModule({
   declarations: [
-    CampocontrolerroComponent
+    CampocontrolerroComponent,
+    MascaraCpfPipe,
+    PrimeiroNomePipe
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    CampocontrolerroComponent
+    CampocontrolerroComponent,
+    MascaraCpfPipe,
+    PrimeiroNomePipe
   ],
   providers: [
     ToastService,

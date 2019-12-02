@@ -74,7 +74,7 @@ export class ValidacoesFormService {
 
     // Retornando o Telefone
     return (control: AbstractControl): Validators => {
-      const telefone = control.value;
+      const telefone: string = control.value;
 
       // Validando
       var regex = new RegExp('^\\([0-9]{2}\\)(9[0-9]{4}-[0-9]{4})$');

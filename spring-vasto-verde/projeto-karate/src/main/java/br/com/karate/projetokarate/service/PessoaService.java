@@ -29,7 +29,7 @@ public class PessoaService {
     public @ResponseBody RespostaModelo salvar(@RequestBody PessoaModelo pessoa) {
         try {
             this.pessoaRepository.save(pessoa);
-            return new RespostaModelo(pessoa.getNomePessoa() + "foi registrado (a) com sucesso!", "Sucesso!");
+            return new RespostaModelo(pessoa.getNomePessoa() + " foi salvo (a) com sucesso!", "Sucesso!");
         } catch (Exception erro) {
             return new RespostaModelo(erro.getMessage());
         }

@@ -51,19 +51,17 @@ export class LoginComponent implements OnInit {
   // Metodo que realiza o Login
   realizarLogin() {
 
+    console.log(this.authService.usuarioAutenticado());
+
+
     // Colocando o spinner
     this.spinnerCarregar = true;
 
     // Validando formulário
     if (this.formulario.valid) {
 
-      // Atribuindo valores
-      this.login.email = this.formulario.get('email').value;
-      this.login.senha = this.formulario.get('senha').value;
-      this.login.lembrar = this.formulario.get('lembrar').value;
-
       // Realizando o login
-      this.authService.realizarLogin(this.login);
+      this.authService.realizarLogin(this.criarObjeto());
 
       setTimeout(() => {
 
@@ -94,9 +92,19 @@ export class LoginComponent implements OnInit {
           campoNome.focus();
         }
       },
-        2000);
+        2500);
     }
 
+  }
+
+  // Metodo para popular o Objeto de login
+  criarObjeto() {
+    // Atribuindo valores
+    this.login.email = this.formulario.get('email').value;
+    this.login.senha = this.formulario.get('senha').value;
+    this.login.lembrar = this.formulario.get('lembrar').value;
+
+    return this.login;
   }
 
 }

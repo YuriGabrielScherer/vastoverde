@@ -1,5 +1,6 @@
+import { Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -16,20 +17,6 @@ import { ToastService } from './../../shared/services/toast/toast.service';
 })
 export class CadastroComponent implements OnInit {
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private http: HttpClient,
-    private pessoaService: PessoaService,
-    private validacaoForm: ValidacoesFormService,
-    private toastService: ToastService,
-    private router: Router,
-    // private route: Route
-  ) {
-
-    // Propriedades do Input de Data de Nascimento
-    this.maxDate = new Date();
-    this.maxDate.setDate(this.maxDate.getDate());
-  }
 
   // Variavel do Formulario para controle
   formulario: FormGroup;
@@ -43,14 +30,30 @@ export class CadastroComponent implements OnInit {
 
   // Variavel validar Tela Alteracao
   telaAlteracao = false;
+  // Variavel inscricao para tela de Alteracao
+  private inscricao: Subscription;
 
   // Pessoa a ser cadastrada
   objetoPessoa: Pessoa = new Pessoa();
 
-  ngOnInit() {
 
-    // Tentando pegar atributos do Roteamento
-    // console.log(this.route);
+  constructor(
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private pessoaService: PessoaService,
+    private validacaoForm: ValidacoesFormService,
+    private toastService: ToastService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+
+    // Propriedades do Input de Data de Nascimento
+    this.maxDate = new Date();
+    this.maxDate.setDate(this.maxDate.getDate());
+  }
+
+
+  ngOnInit() {
 
     // Atribuindo o formulario para a variavel
     this.formulario = this.formBuilder.group({
@@ -64,24 +67,58 @@ export class CadastroComponent implements OnInit {
       senha: [null, [Validators.required, Validators.minLength(5)]]
     });
 
+    // Tentando pegar atributos do Roteamento
+    this.inscricao = this.route.data.subscribe((dados: Pessoa) => {
+
+      // Verificando se tem Pessoa para alterar
+      if (dados['alteracao']) {
+
+        // Validando toda a tela de Alteracao
+        this.telaAlteracao = true;
+
+        // Pegando os dados
+        this.objetoPessoa = dados['alteracao'];
+
+        // Atribuindo valores para o formulario
+        this.formulario.patchValue({
+          nome: this.objetoPessoa.nomePessoa,
+          cpf: this.objetoPessoa.cpfPessoa,
+          email: this.objetoPessoa.emailPessoa,
+          telefone: this.objetoPessoa.telefonePessoa,
+          dataNascimento: this.objetoPessoa.dataNascimentoPessoa,
+          senha: this.objetoPessoa.senhaPessoa
+        });
+
+        // Setando Formulario como valido - Aplicar CSS Valido
+        this.formulario.markAllAsTouched();
+      }
+    });
+
+  }
+
+  ngOnDestroy() {
+    this.inscricao.unsubscribe();
   }
 
   // OnSubmit do Formulario
   private onSubmit() {
 
-
     // Verificando se o formulario é valido
-    if (this.formulario.valid) {
+    if (this.formulario.valid && this.formulario.dirty) {
+
       // Service de POST
       this.pessoaService.save(this.criarObjetoPessoa(this.formulario))
         .subscribe((retorno) => {
 
           // Mensagem Sucesso
-          this.toastService.toastSuccess( retorno['mensagem'], retorno['titulo']);
+          this.toastService.toastSuccess(retorno['mensagem'], retorno['titulo']);
+
           // Resetando o Form
           this.formulario.reset();
+
           // Navegando para a tela de Login
-          if (sessionStorage.getItem('usuario_logado') === null) {
+          if ((sessionStorage.getItem('usuario_logado') === null) &&
+            (localStorage.getItem('usuario_logado') === null)) {
             this.router.navigate(['/login']);
           } else {
             this.router.navigate(['/administrativo']);
@@ -96,7 +133,6 @@ export class CadastroComponent implements OnInit {
       // Resgatando os Componentes do Formulario
       this.validaFormulario(this.formulario);
     }
-
   }
 
   // Criando objeto Pessoa
@@ -108,8 +144,8 @@ export class CadastroComponent implements OnInit {
     this.objetoPessoa.senhaPessoa = formGroup.get('senha').value;
     this.objetoPessoa.telefonePessoa = formGroup.get('telefone').value;
 
-    // Tratando o CPF
-    const cpf: number = formGroup.get('cpf').value.replace(/[^0-9]+/g, '');
+    // Tratando o CPF - Retirando a mascara
+    const cpf: string = formGroup.get('cpf').value.replace(/[^0-9]+/g, '');
     this.objetoPessoa.cpfPessoa = cpf;
 
     // Tratando Data de Nascimento
@@ -129,11 +165,6 @@ export class CadastroComponent implements OnInit {
       // Marcando como Touched para aplicar as validacoes
       this.formulario.get(controle).markAsTouched();
     });
-  }
-
-  // Resetando o Formulario
-  private resetarForm() {
-    this.formulario.reset();
   }
 
   // Validacoes de Erros
@@ -173,5 +204,21 @@ export class CadastroComponent implements OnInit {
   // Verificando se o campo está invalido e se foi Focado
   private verificaValidTouched(campo) {
     return !this.formulario.get(campo).valid && this.formulario.get(campo).touched;
+  }
+
+  resetForm() {
+
+    // Validando Modo Alteracao
+    if (this.telaAlteracao) {
+      this.router.navigate(['/administrativo']);
+    } else {
+
+      this.formulario.reset();
+
+      Object.keys(this.formulario.controls).forEach(controle => {
+        // Marcando como Touched para aplicar as validacoes
+        this.formulario.get(controle).markAsUntouched();
+      });
+    }
   }
 }

@@ -32,14 +32,13 @@ public class PessoaModelo {
     private String dataNascimentoPessoa;
 
     @Column(nullable = false, name = "cpf")
-    private long cpfPessoa;
+    private String cpfPessoa;
 
     @Column(nullable = false, name = "tipoUsuario")
     private int tipoUsuarioPessoa;
 
     @Column(nullable = false, name = "sexo")
     private char sexoPessoa;
-
 
     // Getters and Setters
 
@@ -91,11 +90,11 @@ public class PessoaModelo {
         this.dataNascimentoPessoa = dataNascimentoPessoa;
     }
 
-    public long getCpfPessoa() {
+    public String getCpfPessoa() {
         return cpfPessoa;
     }
 
-    public void setCpfPessoa(long cpfPessoa) {
+    public void setCpfPessoa(String cpfPessoa) {
         this.cpfPessoa = cpfPessoa;
     }
 

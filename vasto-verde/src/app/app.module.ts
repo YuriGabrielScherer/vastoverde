@@ -20,11 +20,11 @@ import { SharedModule } from './shared/shared.module';
 import { AuthGuard } from './guards/auth-guard';
 import { AuthService } from './login/auth.service';
 
-// Toast
+import { TextMaskModule } from 'angular2-text-mask';
+// NGX Bootrstrap
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { TextMaskModule } from 'angular2-text-mask';
 
 @NgModule({
   declarations: [
@@ -49,7 +49,7 @@ import { TextMaskModule } from 'angular2-text-mask';
     ToastrModule.forRoot(
       // Configuracoes globais do Toast
       {
-        timeOut: 3500,
+        timeOut: 5000,
         progressBar: true,
         closeButton: true
       }

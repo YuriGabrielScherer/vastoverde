@@ -11,9 +11,6 @@ import { EMPTY } from 'rxjs';
 })
 export class AuthService {
 
-  // Relação de Usuários
-  private pessoaLogada: Pessoa;
-
   constructor(
     // Router para trocar as rotas
     private router: Router,
@@ -24,7 +21,6 @@ export class AuthService {
   // Metodo realizar Login
   realizarLogin(login) {
 
-    // console.log(login);
 
     this.pessoaService.loadByEmail(login['email'])
       .pipe(
@@ -36,18 +32,21 @@ export class AuthService {
       )
       .subscribe((response: Pessoa) => {
 
-        // Verificando o login
-        if ((login['email'] === response.emailPessoa) && (login['senha'] === response.senhaPessoa)) {
+        setTimeout((dados) => {
+          // Verificando o login
+          if ((login['email'] === response.emailPessoa) && (login['senha'] === response.senhaPessoa)) {
 
-          // Verificando lembrar de mim
-          if (login['lembrar']) {
-            // Setando no localStorage para controle do Site
-            localStorage.setItem('usuario_logado', response.idPessoa.toString());
-          } else {
-            // Setando no sessionStorage para controle do Site
-            sessionStorage.setItem('usuario_logado', response.idPessoa.toString());
+            // Verificando lembrar de mim
+            if (login['lembrar']) {
+              // Setando no localStorage para controle do Site
+              localStorage.setItem('usuario_logado', response.idPessoa.toString());
+            } else {
+              // Setando no sessionStorage para controle do Site
+              sessionStorage.setItem('usuario_logado', response.idPessoa.toString());
+            }
           }
-        }
+        }, 2000);
+
       });
   }
 
@@ -59,6 +58,14 @@ export class AuthService {
     }
 
     return false;
+  }
+
+  getIdAutenticado(): number {
+    if (sessionStorage.getItem('usuario_logado')) {
+      return sessionStorage.getItem('usuario_logado') as unknown as number;
+    } else {
+      return localStorage.getItem('usuario_logado') as unknown as number;
+    }
   }
 
   // Deslogar

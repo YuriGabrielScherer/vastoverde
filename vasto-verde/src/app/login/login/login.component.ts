@@ -16,9 +16,8 @@ import { ToastService } from '../../shared/services/toast/toast.service';
 export class LoginComponent implements OnInit {
 
   private login = {
-    email: null,
-    senha: null,
-    lembrar: false
+    login: null,
+    senha: null
   };
 
   //  Variavel de controle
@@ -50,9 +49,6 @@ export class LoginComponent implements OnInit {
 
   // Metodo que realiza o Login
   realizarLogin() {
-
-    console.log(this.authService.usuarioAutenticado());
-
 
     // Colocando o spinner
     this.spinnerCarregar = true;
@@ -100,9 +96,9 @@ export class LoginComponent implements OnInit {
   // Metodo para popular o Objeto de login
   criarObjeto() {
     // Atribuindo valores
-    this.login.email = this.formulario.get('email').value;
-    this.login.senha = this.formulario.get('senha').value;
-    this.login.lembrar = this.formulario.get('lembrar').value;
+    this.login.login = this.formulario.get('email').value.toString();
+    this.login.senha = this.formulario.get('senha').value.toString();
+    // this.login.lembrar = this.formulario.get('lembrar').value;
 
     return this.login;
   }

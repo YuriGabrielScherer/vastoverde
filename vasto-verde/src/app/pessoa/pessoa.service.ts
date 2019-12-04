@@ -17,18 +17,25 @@ export class PessoaService extends CrudService<Pessoa> {
     protected http: HttpClient
   ) {
 
-  // Construtor do CrudService
-  super(http, `${environment.API}pessoa`);
-}
+    // Construtor do CrudService
+    super(http, `${environment.API}pessoa`);
+  }
 
-//  Retornar o Pessoa usando o e-mail
-loadByEmail(email: string) {
+  //  Retornar o Pessoa usando o e-mail
+  loadByEmail(email: string) {
 
-  return this.http.get<Pessoa>(`${environment.API}pessoa/email/${email}`)
-    .pipe(
-      delay(1500),
-      take(1)
-    );
-}
+    return this.http.get<Pessoa>(`${environment.API}pessoa/email/${email}`)
+      .pipe(
+        delay(1500),
+        take(1)
+      );
+  }
+
+  login(login) {
+    return this.http.post(`${environment.API}pessoa/login`, login)
+      .pipe(
+        take(1)
+      );
+  }
 
 }

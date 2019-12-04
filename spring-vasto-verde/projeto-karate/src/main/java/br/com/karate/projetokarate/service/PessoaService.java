@@ -3,7 +3,9 @@ package br.com.karate.projetokarate.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.karate.projetokarate.model.PessoaLogin;
 import br.com.karate.projetokarate.model.PessoaModelo;
 import br.com.karate.projetokarate.model.RespostaModelo;
 import br.com.karate.projetokarate.repository.PessoaRepository;
@@ -82,6 +85,34 @@ public class PessoaService {
             return new RespostaModelo("Registro excluído com sucesso!", "Sucesso!");
         } catch (Exception erro) {
             return new RespostaModelo(erro.getMessage());
+        }
+    }
+
+    // Metodo Realizar login
+    @RequestMapping(value = "/pessoa/login", method = RequestMethod.POST)
+    public ResponseEntity realizarLogin(@RequestBody PessoaLogin pessoaLogin) {
+
+        System.out.println("Entrou no Service de Login");
+
+        // Retornando as pessoas
+        try {
+            System.out.println("Try Catch");
+            PessoaModelo pessoa = this.buscarPorEmail(pessoaLogin.getLogin());
+
+            if (pessoa.getEmailPessoa().equals(pessoaLogin.getLogin())
+                    && (pessoa.getSenhaPessoa().equals(pessoaLogin.getSenha()))) {
+
+                System.out.println("IF ELSE");
+                // return true;
+                return ResponseEntity.ok(true);
+            }
+            
+            System.out.println("Saiu do IF");
+            // return false;
+
+        } catch (Exception erro) {
+            System.out.println("Entrou no Catch");
+            return ResponseEntity.ok(false);
         }
     }
 }

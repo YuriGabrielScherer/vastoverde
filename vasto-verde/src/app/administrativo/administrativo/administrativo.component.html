@@ -7,7 +7,7 @@
 
       <div class="list-group">
         <!-- Link Inicio -->
-        <div class="list-group-item linkInicio">Início</div>
+        <div class="list-group-item linkInicio" [routerLink]="['/administrativo']">Início</div>
 
         <!-- Sub Menu Usuario -->
         <div
@@ -50,10 +50,16 @@
           [collapse]="!isCollapsedAtletas"
           [isAnimated]="true"
         >
-          <a class="list-group-item list-group-item-action">
+          <a
+            class="list-group-item list-group-item-action"
+            [routerLink]="['/administrativo/atleta']"
+          >
             Cadastrar
           </a>
-          <a class="list-group-item list-group-item-action">
+          <a
+            class="list-group-item list-group-item-action"
+            [routerLink]="['/administrativo/atleta/listar']"
+          >
             Listar
           </a>
           <a class="list-group-item list-group-item-action">
@@ -112,9 +118,11 @@
         </div>
 
         <!-- Sub Menu Placar-->
-        <a class="list-group-item subMenu">Placar Eletrônico</a>
+        <a class="list-group-item subMenu">Placar eletrônico </a>
       </div>
     </div>
-    <div class="col-md-9 col-sm-12 a">Resto</div>
+    <div class="col-md-9 col-sm-12">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>

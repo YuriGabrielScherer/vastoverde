@@ -14,7 +14,7 @@ import { LoginComponent } from './login/login/login.component';
 
 import { AdministrativoModule } from './administrativo/administrativo.module';
 import { AppBootstrapModule } from './shared/app-bootstrap/app-bootstrap.module';
-import { PessoaModule } from './atleta/pessoa.module';
+import { PessoaModule } from './pessoa/pessoa.module';
 import { SharedModule } from './shared/shared.module';
 
 import { AuthGuard } from './guards/auth-guard';

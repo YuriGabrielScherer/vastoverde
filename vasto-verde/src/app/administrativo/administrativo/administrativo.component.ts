@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { AuthService } from './../../login/auth.service';
-import { PessoaService } from './../../atleta/pessoa.service';
+import { PessoaService } from './../../pessoa/pessoa.service';
 import { Pessoa } from './../../shared/model/pessoa';
 
 
@@ -11,7 +11,7 @@ import { Pessoa } from './../../shared/model/pessoa';
   templateUrl: './administrativo.component.html',
   styleUrls: ['./administrativo.component.scss']
 })
-export class AdministrativoComponent implements OnInit {
+export class AdministrativoComponent implements OnInit, OnDestroy {
 
   // Var Inscricao
   private inscricao: Subscription;
@@ -36,4 +36,5 @@ export class AdministrativoComponent implements OnInit {
   ngOnDestroy() {
     this.inscricao.unsubscribe();
   }
+
 }

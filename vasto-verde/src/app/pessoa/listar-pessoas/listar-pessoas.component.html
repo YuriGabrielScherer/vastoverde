@@ -99,7 +99,8 @@
       </button>
     </div>
     <div class="divTabela table-responsive ">
-      <table class="table table-striped ">
+      <!-- Tabela com os dados -->
+      <table class="table table-striped">
         <thead>
           <tr>
             <th scope="col">Nome</th>
@@ -112,7 +113,7 @@
         <tbody>
           <tr *ngFor="let pessoa of obterUsuarios()">
             <td scope="row">{{ pessoa.nomePessoa }}</td>
-            <td scope="row">{{ pessoa.cpfPessoa | mascaraCpf }} </td>
+            <td scope="row">{{ pessoa.cpfPessoa | mascaraCpf }}</td>
             <td>{{ pessoa.emailPessoa }}</td>
             <td>{{ pessoa.dataNascimentoPessoa }}</td>
             <td>

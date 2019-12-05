@@ -1,10 +1,11 @@
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-
 import { Router } from '@angular/router';
+
 import { AuthService } from './../auth.service';
 
-// import { ToastrService } from 'ngx-toastr';
+import { Pessoa } from './../../shared/model/pessoa';
+import { PessoaService } from './../../pessoa/pessoa.service';
 
 import { ToastService } from '../../shared/services/toast/toast.service';
 
@@ -20,6 +21,8 @@ export class LoginComponent implements OnInit {
     senha: null
   };
 
+  private lembrarDeMim = false;
+
   //  Variavel de controle
   spinnerCarregar = false;
 
@@ -29,6 +32,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private pessoaService: PessoaService,
 
     // private toast: ToastrService,
     private toastService: ToastService,
@@ -50,57 +54,53 @@ export class LoginComponent implements OnInit {
   // Metodo que realiza o Login
   realizarLogin() {
 
-    // Colocando o spinner
-    this.spinnerCarregar = true;
-
-    // Validando formulário
     if (this.formulario.valid) {
 
-      // Realizando o login
-      this.authService.realizarLogin(this.criarObjeto());
+      this.spinnerCarregar = true;
 
-      setTimeout(() => {
+      // Criando objeto
+      this.criarObjeto();
 
-        // Verificando
-        if (this.authService.usuarioAutenticado()) {
-          // Toast
-          this.toastService.toastSuccess('Usuário - Yuri Gabriel!', 'Bem-vindo ao Sistema Vasto Verde!');
+      // Realizando login
+      this.pessoaService.login(this.login).subscribe((pessoaLogada: Pessoa) => {
 
-          // Escondendo Spinner
-          this.spinnerCarregar = false;
+        if (pessoaLogada) {
 
           // Resetando o formulario
           this.formulario.reset();
 
+          // Mensagem
+          this.toastService.toastSuccess('Login realizado com sucesso.', 'Bem-vindo ao sistema!');
+
+          // Salvando login na memoria
+          this.lembrarDeMim ?
+            localStorage.setItem('usuario_logado', pessoaLogada.idPessoa.toString())
+            : sessionStorage.setItem('usuario_logado', pessoaLogada.idPessoa.toString());
+
           // Rotacionando
           this.router.navigate(['/administrativo']);
         } else {
-
           // Toast
           this.toastService.toastWarning('Erro ao realizar o login.',
             'Por favor, confira se o usuário e senha estão corretos e tente novamente.');
-
-          // Escondendo Spinner
-          this.spinnerCarregar = false;
 
           // Selecionando o Campo de nome.
           const campoNome = document.getElementById('campoEmail') as HTMLInputElement;
           campoNome.focus();
         }
-      },
-        2500);
+
+        this.spinnerCarregar = !this.spinnerCarregar;
+      });
     }
 
   }
-
   // Metodo para popular o Objeto de login
   criarObjeto() {
-    // Atribuindo valores
+    // Atribuindo valores ao objeto logins
     this.login.login = this.formulario.get('email').value.toString();
     this.login.senha = this.formulario.get('senha').value.toString();
-    // this.login.lembrar = this.formulario.get('lembrar').value;
 
-    return this.login;
+    this.lembrarDeMim = this.formulario.get('lembrar').value;
   }
 
 }

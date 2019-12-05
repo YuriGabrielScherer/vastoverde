@@ -7,6 +7,7 @@ import { ToastService } from './services/toast/toast.service';
 import { ValidacoesFormService } from './services/validacoes-form.service';
 import { MascaraCpfPipe } from './services/mascara-cpf.pipe';
 import { PrimeiroNomePipe } from './services/primeiro-nome.pipe';
+import { TextMaskModule } from 'angular2-text-mask';
 
 @NgModule({
   declarations: [
@@ -15,12 +16,14 @@ import { PrimeiroNomePipe } from './services/primeiro-nome.pipe';
     PrimeiroNomePipe
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    TextMaskModule
   ],
   exports: [
     CampocontrolerroComponent,
     MascaraCpfPipe,
-    PrimeiroNomePipe
+    PrimeiroNomePipe,
+    TextMaskModule
   ],
   providers: [
     ToastService,

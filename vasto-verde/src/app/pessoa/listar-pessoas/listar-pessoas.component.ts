@@ -1,7 +1,7 @@
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { ActivatedRoute, Data } from '@angular/router';
+import { Subscription, Observable } from 'rxjs';
 
 import { Pessoa } from './../../shared/model/pessoa';
 
@@ -18,6 +18,9 @@ export class ListarPessoasComponent implements OnInit {
 
   // Inscricao nos dados vindos do Resolver
   private inscricao: Subscription;
+
+  // Inscricao pessoa
+  pessoas$: Observable<Data>;
 
   // Formulario de Filtragem
   formularioFiltro: FormGroup;
@@ -47,10 +50,11 @@ export class ListarPessoasComponent implements OnInit {
   ngOnInit() {
 
     // Pegando valores do Banco de dados
-    this.inscricao = this.route.data.subscribe(
+    this.route.data.subscribe(
       (dados) => {
         this.listaPessoa = dados.pessoa;
       });
+
 
     // Iniciando o Formulario
     this.formularioFiltro = this.formBuilder.group({
@@ -61,9 +65,6 @@ export class ListarPessoasComponent implements OnInit {
     });
   }
 
-  ngOnDestroy() {
-    this.inscricao.unsubscribe();
-  }
 
   obterUsuarios() {
 

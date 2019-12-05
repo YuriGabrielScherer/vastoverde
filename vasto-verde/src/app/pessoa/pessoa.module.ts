@@ -8,7 +8,6 @@ import { ListarPessoasComponent } from './listar-pessoas/listar-pessoas.componen
 
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { SharedModule } from '../shared/shared.module';
-import { TextMaskModule } from 'angular2-text-mask';
 import { PessoaService } from './pessoa.service';
 
 import { ListarPessoaResolver } from './guards/listar-pessoas.resolver';
@@ -25,7 +24,6 @@ import { PessoaAlteracaoResolver } from './guards/alterar-pessoa.resolver';
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
-    TextMaskModule,
     BsDatepickerModule.forRoot()
   ],
   providers: [

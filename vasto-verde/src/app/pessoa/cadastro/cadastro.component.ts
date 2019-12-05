@@ -27,6 +27,7 @@ export class CadastroComponent implements OnInit {
   // Mascaras para os campos Input
   public maskTelefone = ['(', /[1-9]/, /\d/, ')', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   public maskCpf = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+  public maskTel = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/,  /\d/];
 
   // Variavel validar Tela Alteracao
   telaAlteracao = false;

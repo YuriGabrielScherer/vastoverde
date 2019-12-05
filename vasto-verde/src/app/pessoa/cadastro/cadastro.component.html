@@ -7,7 +7,7 @@
           alt="Logo Karatê"
         />
       </div>
-      <form class="formulario" [formGroup]="formulario" >
+      <form class="formulario" [formGroup]="formulario">
         <h4 class="entrar">Cadastro de Usuários</h4>
         <hr />
 
@@ -112,6 +112,7 @@
               id="data"
               placeholder="Data de Nascimento"
               formControlName="dataNascimento"
+
               [ngClass]="aplicaCss('dataNascimento')"
               bsDatepicker
               [bsConfig]="{

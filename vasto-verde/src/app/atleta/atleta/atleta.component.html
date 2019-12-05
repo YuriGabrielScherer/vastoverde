@@ -1,13 +1,112 @@
 <div class="divAtleta">
-  <!-- <div class="row divTopo"> -->
-    <h5>a</h5>
-    <h4>Cadastro de Atletas</h4>
-  <!-- </div> -->
-  <hr>
-  <div class="row divCentral">
-    <button (click)="funcao()">Teste</button>
-    <br>
+  <h5 class="gambiarra">a</h5>
+  <h4>Cadastro de Atletas</h4>
+  <hr />
 
-    {{ teste }}
+  <div class="divFormulario">
+    <form>
+      <div class="form-row  ">
+        <!-- Parte Formulario -->
+        <div class="form-group col-md-6 col-sm-12 ">
+          <div class="form-group col-md-12 col-sm-12">
+            <label for="cpfAtleta">Digite o CPF do novo atleta</label>
+            <input
+              type="text"
+              [textMask]="{ mask: maskCpf }"
+              class="form-control"
+              id="cpfAtleta"
+            />
+          </div>
+
+          <div class="form-group col-md-12 col-sm-12">
+            <label for="nomeResponsavel">Nome do responsável:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nomeResponsavel"
+            />
+          </div>
+
+          <div class="form-group col-md-12 col-sm-12 grupoForm">
+            <div class="col-md-6 divData ">
+              <label for="dataInicio">Data de início da prática</label>
+              <input
+                type="text"
+                class="form-control"
+                id="dataInicio"
+                [textMask]="{ mask: maskData }"
+              />
+            </div>
+
+            <div class="col-md-6 divGrau ">
+              <label for="grauAtleta">Grau do atleta</label>
+              <select class="custom-select" id="grauAtleta">
+                <option disabled selected>Cor da Faixa</option>
+                <option>Branca</option>
+                <option>Amarela</option>
+                <option>Vermelha</option>
+                <option>Laranja</option>
+                <option>Verde</option>
+                <option>Roxa</option>
+                <option>Marrom</option>
+                <option>Preta</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group col-md-12 col-sm-12 grupoForm">
+            <div class="col-md-6 divData ">
+              <label for="cadFck">Federação Catarinense</label>
+              <input type="text" class="form-control" id="cadFck" />
+            </div>
+
+            <div class="col-md-6 divGrau ">
+              <label for="cadCbk">Confederação Brasileira</label>
+              <input type="text" class="form-control" id="cadCbk" />
+            </div>
+          </div>
+
+          <div class="form-group col-md-12 col-sm-12">
+            <button type="submit" class="btn btn-outline-success">
+              Cadastrar
+            </button>
+
+            <button type="button" class="btn btn-outline-danger">
+              Cancelar
+            </button>
+          </div>
+        </div>
+
+        <!-- Parte dados do Atleta -->
+        <div class="form-group col-md-6 col-sm-12 divLateralDireita">
+          <div class="media">
+            <div class="media-body divDadosPessoais ">
+              <h5 class="mt-0 ">NOME DA PESSOA</h5>
+              <p class="font-weight-bold">Dados pessoais</p>
+
+              <hr />
+
+              <p><span class="font-weight-bold">CPF:</span> 083.500.759-61</p>
+              <p>
+                <span class="font-weight-bold">E-mail:</span>
+                yurisvaz@hotmail.com
+              </p>
+              <p>
+                <span class="font-weight-bold">Telefone:</span> (47) 99243-4256
+              </p>
+              <p>
+                <span class="font-weight-bold">Data Nasc.:</span> 05/09/2001
+              </p>
+              <p><span class="font-weight-bold">Situação:</span> Adimplente</p>
+            </div>
+            <img
+              src="../../../assets/Imagens/user.png"
+              class="imagem align-self-center mr-3 "
+              alt="Imagem Atleta"
+            />
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
 </div>

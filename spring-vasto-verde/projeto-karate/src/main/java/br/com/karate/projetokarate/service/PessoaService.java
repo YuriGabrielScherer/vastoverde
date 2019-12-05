@@ -29,7 +29,7 @@ public class PessoaService {
 
     // Metodo Cadastrar
     @RequestMapping(value = "/pessoa", method = RequestMethod.POST)
-    public @ResponseBody RespostaModelo salvar(@RequestBody PessoaModelo pessoa) {
+    public @ResponseBody RespostaModelo save(@RequestBody PessoaModelo pessoa) {
         try {
             this.pessoaRepository.save(pessoa);
             return new RespostaModelo(pessoa.getNomePessoa() + " foi salvo (a) com sucesso!", "Sucesso!");
@@ -40,13 +40,14 @@ public class PessoaService {
 
     // Metodo Listar Todos
     @RequestMapping(value = "/pessoa", method = RequestMethod.GET)
-    public @ResponseBody List<PessoaModelo> consultar() {
+    public @ResponseBody List<PessoaModelo> getAll() {
+        // Retornando Lista
         return this.pessoaRepository.findAll();
     }
 
     // Metodo Listar por Codigo
     @RequestMapping(value = "/pessoa/{idPessoa}", method = RequestMethod.GET)
-    public @ResponseBody PessoaModelo buscar(@PathVariable("idPessoa") int idPessoa) {
+    public @ResponseBody PessoaModelo getById(@PathVariable("idPessoa") int idPessoa) {
         return this.pessoaRepository.findById(idPessoa);
     }
 
@@ -74,7 +75,7 @@ public class PessoaService {
 
     // Metodo Excluir
     @RequestMapping(value = "/pessoa/{idPessoa}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public @ResponseBody RespostaModelo excluir(@PathVariable("idPessoa") int idPessoa) {
+    public @ResponseBody RespostaModelo delete(@PathVariable("idPessoa") int idPessoa) {
 
         // Buscando a pessoa no Banco com o codigo
         PessoaModelo pessoa = this.pessoaRepository.findById(idPessoa);
@@ -90,29 +91,23 @@ public class PessoaService {
 
     // Metodo Realizar login
     @RequestMapping(value = "/pessoa/login", method = RequestMethod.POST)
-    public ResponseEntity realizarLogin(@RequestBody PessoaLogin pessoaLogin) {
+    public ResponseEntity<PessoaModelo> auth(@RequestBody PessoaLogin pessoaLogin) {
 
-        System.out.println("Entrou no Service de Login");
-
-        // Retornando as pessoas
         try {
-            System.out.println("Try Catch");
+            // Retornando as pessoas
             PessoaModelo pessoa = this.buscarPorEmail(pessoaLogin.getLogin());
 
-            if (pessoa.getEmailPessoa().equals(pessoaLogin.getLogin())
-                    && (pessoa.getSenhaPessoa().equals(pessoaLogin.getSenha()))) {
+            // Verificando a senha
+            if (pessoa.getSenhaPessoa().equals(pessoaLogin.getSenha())) {
 
-                System.out.println("IF ELSE");
-                // return true;
-                return ResponseEntity.ok(true);
+                return new ResponseEntity<PessoaModelo>(pessoa, HttpStatus.OK);
             }
-            
-            System.out.println("Saiu do IF");
-            // return false;
 
+            // Caso Senha errada.
+            return null;
         } catch (Exception erro) {
-            System.out.println("Entrou no Catch");
-            return ResponseEntity.ok(false);
+            System.out.println(erro.getStackTrace());
         }
+        return null;
     }
 }

@@ -49,21 +49,24 @@ input:hover {
   padding-bottom: 0.3em;
   overflow: hidden;
 }
-.divData {
+.divEsquerda {
   float: left;
 }
-.divGrau {
+.divDireita {
   float: right;
 }
 
-// Parte dados do Atleta
+// Parte dados do Atleta.
+.divNome {
+  text-align: center;
+}
+
 .divLateralDireita {
   border-left: 1px solid rgba(75, 75, 75, 0.445);
   padding-left: 1em;
 }
 .imagem {
   max-width: 150px;
-  // max-height: 120px;
 }
 
 .divDadosPessoais h5 {

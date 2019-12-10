@@ -1,3 +1,8 @@
 export class Atleta {
-  graduacao: string
+  idPessoa: number;
+  nomeResponsavel: string;
+  dataInicio: string;
+  grau: number;
+  fedaracao: number;
+  confederacao: number;
 }

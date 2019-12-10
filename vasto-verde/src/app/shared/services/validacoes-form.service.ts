@@ -1,4 +1,4 @@
-import { AbstractControl, Validators } from '@angular/forms';
+import { AbstractControl, Validators, FormControl } from '@angular/forms';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -84,5 +84,44 @@ export class ValidacoesFormService {
       }
       return null;
     };
+  }
+
+  // Validacao de Erro do Campo CPF
+  aplicaCssCpf(campoCpf: AbstractControl) {
+
+    // Var Auxiliar
+    let digitos = '';
+
+    // Retirando mascara
+    if (campoCpf.value) {
+      digitos = (campoCpf.value).replace(/[^0-9]+/g, '');
+    }
+
+    // Verificando tamanho do CPF
+    if (digitos.length === 11) {
+
+      // Verificando Valido
+      return {
+        'is-valid': campoCpf.errors == null,
+        'is-invalid': campoCpf.errors
+      };
+    } else {
+      return {
+        'is-invalid': campoCpf.touched
+      };
+    }
+  }
+
+  // Retorna valor para aplicar na Class do Input
+  private aplicaCss(campo: AbstractControl) {
+    return {
+      'is-invalid': this.verificaValidTouched(campo),
+      'is-valid': !this.verificaValidTouched(campo) && (campo.touched),
+    };
+  }
+
+  // Verificando se o campo está invalido e se foi Focado
+  private verificaValidTouched(campo: AbstractControl) {
+    return !campo.valid && campo.touched;
   }
 }

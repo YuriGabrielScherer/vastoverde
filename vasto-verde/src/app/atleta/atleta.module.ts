@@ -1,3 +1,4 @@
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AtletaService } from './atleta.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -20,7 +21,9 @@ import { AtletaFckComponent } from './atleta-fck/atleta-fck.component';
   imports: [
     CommonModule,
     AtletaRoutingModule,
-    SharedModule
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     AtletaComponent

@@ -4,7 +4,7 @@
   <hr />
 
   <div class="divFormulario">
-    <form>
+    <form [formGroup]="formulario">
       <div class="form-row  ">
         <!-- Parte Formulario -->
         <div class="form-group col-md-6 col-sm-12 ">
@@ -14,55 +14,167 @@
               type="text"
               [textMask]="{ mask: maskCpf }"
               class="form-control"
+              formControlName="cpfAtleta"
               id="cpfAtleta"
+              (blur)="buscarDadosAtleta()"
+              [ngClass]="validacoesForm.aplicaCssCpf(formulario.get('cpfAtleta'))"
             />
+            <!-- Div Mensagem de Erro -->
+            <app-campo-control-erro
+              [mostraErro]="
+                validacoesForm.verificaValidTouched(formulario.get('cpfAtleta'))
+              "
+              msgErro="CPF do Atleta é obrigatório."
+            >
+            </app-campo-control-erro>
           </div>
 
           <div class="form-group col-md-12 col-sm-12">
-            <label for="nomeResponsavel">Nome do responsável:</label>
+            <label for="nomeResp">Nome da Mãe</label>
             <input
               type="text"
               class="form-control"
-              id="nomeResponsavel"
+              id="nomeResp"
+              formControlName="nomeResp"
+              [ngClass]="validacoesForm.aplicaCss(formulario.get('nomeResp'))"
             />
+
+            <!-- Div Mensagem de Erro -->
+            <app-campo-control-erro
+              [mostraErro]="
+                validacoesForm.verificaValidTouched(formulario.get('nomeResp'))
+              "
+              msgErro="Nome do responsável é obrigatório!"
+            >
+            </app-campo-control-erro>
           </div>
 
           <div class="form-group col-md-12 col-sm-12 grupoForm">
-            <div class="col-md-6 divData ">
+            <div class="col-md-6 divEsquerda ">
+              <label for="cpfResp">CPF da Mãe</label>
+              <input
+                type="text"
+                class="form-control"
+                id="cpfResp"
+                [textMask]="{ mask: maskCpf }"
+                formControlName="cpfResp"
+                [ngClass]="
+                  validacoesForm.aplicaCssCpf(formulario.get('cpfResp'))
+                "
+              />
+
+              <!-- Div Mensagem de Erro -->
+              <app-campo-control-erro
+                [mostraErro]="
+                  validacoesForm.verificaValidTouched(formulario.get('cpfResp'))
+                "
+                msgErro="CPF do responsável é obrigatório!"
+              >
+              </app-campo-control-erro>
+            </div>
+
+            <div class="col-md-6 divDireita ">
+              <label for="telefone">Celular do Responsável</label>
+              <input
+                type="text"
+                class="form-control"
+                id="telefone"
+                formControlName="telResp"
+                [textMask]="{ mask: maskTel }"
+                [ngClass]="validacoesForm.aplicaCss(formulario.get('telResp'))"
+              />
+              <!-- Div com mensagem de erro para o usuário -->
+              <app-campo-control-erro
+                [mostraErro]="
+                  validacoesForm.verificaValidTouched(formulario.get('telResp'))
+                "
+                msgErro="Número de celular é obrigatório."
+              >
+              </app-campo-control-erro>
+            </div>
+          </div>
+
+          <div class="form-group col-md-12 col-sm-12 grupoForm">
+            <div class="col-md-6 divEsquerda ">
               <label for="dataInicio">Data de início da prática</label>
               <input
                 type="text"
                 class="form-control"
                 id="dataInicio"
                 [textMask]="{ mask: maskData }"
+                formControlName="dataInicio"
+                [ngClass]="
+                  validacoesForm.aplicaCss(formulario.get('dataInicio'))
+                "
               />
+              <!-- Div Mensagem de Erro -->
+              <app-campo-control-erro
+                [mostraErro]="
+                  validacoesForm.verificaValidTouched(
+                    formulario.get('dataInicio')
+                  )
+                "
+                msgErro="Data de início da prática inválida."
+              >
+              </app-campo-control-erro>
             </div>
 
-            <div class="col-md-6 divGrau ">
+            <div class="col-md-6 divDireita ">
               <label for="grauAtleta">Grau do atleta</label>
-              <select class="custom-select" id="grauAtleta">
+              <select
+                class="custom-select"
+                id="grauAtleta"
+                formControlName="grau"
+                [ngClass]="validacoesForm.aplicaCss(formulario.get('grau'))"
+              >
                 <option disabled selected>Cor da Faixa</option>
-                <option>Branca</option>
-                <option>Amarela</option>
-                <option>Vermelha</option>
-                <option>Laranja</option>
-                <option>Verde</option>
-                <option>Roxa</option>
-                <option>Marrom</option>
-                <option>Preta</option>
+
+                <option value="1">Branca</option>
+                <option value="2">Amarela</option>
+                <option value="3">Vermelha</option>
+                <option value="4">Laranja</option>
+                <option value="5">Verde</option>
+                <option value="6">Roxa</option>
+                <option value="7">Marrom</option>
+                <option value="8">Preta</option>
               </select>
+
+              <!-- Div Mensagem de Erro -->
+              <app-campo-control-erro
+                [mostraErro]="
+                  validacoesForm.verificaValidTouched(formulario.get('grau'))
+                "
+                msgErro="Selecione o grau do Atleta."
+              >
+              </app-campo-control-erro>
             </div>
           </div>
 
           <div class="form-group col-md-12 col-sm-12 grupoForm">
-            <div class="col-md-6 divData ">
+            <div class="col-md-6 divEsquerda ">
               <label for="cadFck">Federação Catarinense</label>
-              <input type="text" class="form-control" id="cadFck" />
+              <input
+                type="text"
+                class="form-control"
+                id="cadFck"
+                formControlName="federacao"
+                [ngClass]="
+                  validacoesForm.aplicaCss(formulario.get('federacao'))
+                "
+              />
             </div>
 
-            <div class="col-md-6 divGrau ">
+            <div class="col-md-6 divDireita ">
               <label for="cadCbk">Confederação Brasileira</label>
-              <input type="text" class="form-control" id="cadCbk" />
+              <input
+                type="text"
+                class="form-control"
+                id="cadCbk"
+                formControlName="confederacao"
+                [ngClass]="
+                  validacoesForm.aplicaCss(formulario.get('confederacao'))
+                "
+              />
             </div>
           </div>
 
@@ -77,11 +189,11 @@
           </div>
         </div>
 
-        <!-- Parte dados do Atleta -->
+        <!-- Parte de dados do Atleta -->
         <div class="form-group col-md-6 col-sm-12 divLateralDireita">
+          <h5 class="divNome">YURI GABRIEL SCHERER DA SILVA VAZ</h5>
           <div class="media">
             <div class="media-body divDadosPessoais ">
-              <h5 class="mt-0 ">NOME DA PESSOA</h5>
               <p class="font-weight-bold">Dados pessoais</p>
 
               <hr />
@@ -92,7 +204,7 @@
                 yurisvaz@hotmail.com
               </p>
               <p>
-                <span class="font-weight-bold">Telefone:</span> (47) 99243-4256
+                <span class="font-weight-bold">Celular:</span> (47) 99243-4256
               </p>
               <p>
                 <span class="font-weight-bold">Data Nasc.:</span> 05/09/2001

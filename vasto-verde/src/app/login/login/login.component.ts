@@ -62,9 +62,10 @@ export class LoginComponent implements OnInit {
       this.criarObjeto();
 
       // Realizando login
-      this.pessoaService.login(this.login).subscribe((pessoaLogada: Pessoa) => {
+      this.pessoaService.login(this.login).subscribe(
 
-        if (pessoaLogada) {
+        // Request Success
+        (pessoaLogada: Pessoa) => {
 
           // Resetando o formulario
           this.formulario.reset();
@@ -77,20 +78,30 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('usuario_logado', pessoaLogada.idPessoa.toString())
             : sessionStorage.setItem('usuario_logado', pessoaLogada.idPessoa.toString());
 
+          // Setando a pessoa logada.
+          this.authService.setUsuarioLogado(pessoaLogada);
+
           // Rotacionando
           this.router.navigate(['/administrativo']);
-        } else {
-          // Toast
-          this.toastService.toastWarning('Erro ao realizar o login.',
-            'Por favor, confira se o usuário e senha estão corretos e tente novamente.');
+        },
+        // Tratativa de Erros
+        (error) => {
 
-          // Selecionando o Campo de nome.
-          const campoNome = document.getElementById('campoEmail') as HTMLInputElement;
-          campoNome.focus();
-        }
+          // Verificando falha com o banco ou Login
+          if (error['status'] === 404) {
+            // Toast
+            this.toastService.toastWarning('Erro ao realizar o login.',
+              'Por favor, confira se o usuário e senha estão corretos e tente novamente.');
 
-        this.spinnerCarregar = !this.spinnerCarregar;
-      });
+            // Selecionando o Campo de nome.
+            const campoNome = document.getElementById('campoEmail') as HTMLInputElement;
+            campoNome.focus();
+          } else {
+            // Toast
+            this.toastService.toastErroBanco();
+          }
+        });
+      this.spinnerCarregar = !this.spinnerCarregar;
     }
 
   }

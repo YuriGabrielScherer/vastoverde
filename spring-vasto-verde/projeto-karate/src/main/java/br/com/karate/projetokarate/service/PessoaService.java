@@ -51,7 +51,7 @@ public class PessoaService {
         return this.pessoaRepository.findById(idPessoa);
     }
 
-    // Metoto Listar por Email
+    // Metodo Get por Email
     @RequestMapping(value = "/pessoa/email/{emailPessoa}", method = RequestMethod.GET)
     public @ResponseBody PessoaModelo buscarPorEmail(@PathVariable("emailPessoa") String emailPessoa) {
 
@@ -71,6 +71,35 @@ public class PessoaService {
 
         // Retornando
         return pessoa;
+    }
+
+    // Metodo Get por CPF
+    @RequestMapping(value = "/pessoa/cpf/{cpfPessoa}", method = RequestMethod.GET)
+    public ResponseEntity<PessoaModelo> buscarPorCpf(@PathVariable("cpfPessoa") String cpfPessoa) {
+
+        try {
+            // Criando Objeto Pessoa
+            PessoaModelo pessoa = new PessoaModelo();
+
+            // Retornando todas as pessoas
+            List<PessoaModelo> pessoas = this.pessoaRepository.findAll();
+
+            for (int i = 0; i < pessoas.size(); i++) {
+                if (pessoas.get(i).getCpfPessoa().equals(cpfPessoa)) {
+                    // Atribuindo valor e retornando
+                    pessoa = pessoas.get(i);
+                    return new ResponseEntity<PessoaModelo>(pessoa, HttpStatus.OK);
+                }
+            }
+
+            // Caso nao encontrado.
+            return new ResponseEntity<PessoaModelo>(new PessoaModelo(), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            // Retorno de erro.
+            System.out.println(e.getStackTrace());
+            return new ResponseEntity<PessoaModelo>(new PessoaModelo(), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     // Metodo Excluir
@@ -104,10 +133,11 @@ public class PessoaService {
             }
 
             // Caso Senha errada.
-            return null;
+            return new ResponseEntity<PessoaModelo>(new PessoaModelo(), HttpStatus.NOT_FOUND);
         } catch (Exception erro) {
             System.out.println(erro.getStackTrace());
+            return new ResponseEntity<PessoaModelo>(new PessoaModelo(), HttpStatus.BAD_REQUEST);
         }
-        return null;
     }
+
 }

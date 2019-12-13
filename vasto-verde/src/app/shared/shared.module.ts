@@ -5,8 +5,8 @@ import { CampocontrolerroComponent } from './mensagens-formulario/campo-control-
 
 import { ToastService } from './services/toast/toast.service';
 import { ValidacoesFormService } from './services/validacoes-form.service';
-import { MascaraCpfPipe } from './services/mascara-cpf.pipe';
-import { PrimeiroNomePipe } from './services/primeiro-nome.pipe';
+import { MascaraCpfPipe } from './services/pipes/mascara-cpf.pipe';
+import { PrimeiroNomePipe } from './services/pipes/primeiro-nome.pipe';
 import { TextMaskModule } from 'angular2-text-mask';
 
 @NgModule({

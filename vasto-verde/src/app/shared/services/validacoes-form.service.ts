@@ -122,6 +122,10 @@ export class ValidacoesFormService {
 
   // Verificando se o campo está invalido e se foi Focado
   private verificaValidTouched(campo: AbstractControl) {
+    if (!campo.enabled) {
+      // console.log('if enabled');
+      return false;
+    }
     return !campo.valid && campo.touched;
   }
 }

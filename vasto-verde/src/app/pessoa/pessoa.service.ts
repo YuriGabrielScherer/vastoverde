@@ -26,13 +26,19 @@ export class PessoaService extends CrudService<Pessoa> {
 
     return this.http.get<Pessoa>(`${environment.API}pessoa/email/${email}`)
       .pipe(
-        delay(1500),
         take(1)
       );
   }
 
   login(login) {
     return this.http.post(`${environment.API}pessoa/login`, login)
+      .pipe(
+        take(1)
+      );
+  }
+
+  loadbyCpf(cpf) {
+    return this.http.get<Pessoa>(`${environment.API}pessoa/cpf/${cpf}`)
       .pipe(
         take(1)
       );

@@ -12,6 +12,8 @@ import { ToastService } from '../shared/services/toast/toast.service';
 })
 export class AuthService {
 
+  private usuarioLogado: Pessoa = null;
+
   constructor(
     private router: Router,
   ) { }
@@ -25,6 +27,8 @@ export class AuthService {
 
     return false;
   }
+
+
 
   getIdAutenticado(): number {
     if (sessionStorage.getItem('usuario_logado')) {
@@ -44,5 +48,13 @@ export class AuthService {
 
     // Rotacionando
     this.router.navigate(['/', 'login']);
+  }
+
+  setUsuarioLogado(pessoa: Pessoa) {
+    this.usuarioLogado = pessoa;
+  }
+
+  getUsuarioAutenticado(): Pessoa {
+    return this.usuarioLogado;
   }
 }

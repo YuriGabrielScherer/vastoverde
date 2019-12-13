@@ -18,4 +18,6 @@ export class AtletaService extends CrudService<Atleta> {
     super(http, `${environment.API}atleta`);
   }
 
+
+
 }

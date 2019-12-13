@@ -27,6 +27,11 @@ export class ToastService {
     this.toast.warning(texto, titulo);
   }
 
+  public toastErroBanco() {
+    this.toast.error('Tente novamente mais tarde e entre em contato com o administrador do sistema.',
+      'Erro ao se conectar com o banco de dados.');
+  }
+
 
 
 }

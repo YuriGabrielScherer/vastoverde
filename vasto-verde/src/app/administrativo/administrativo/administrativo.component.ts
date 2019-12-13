@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
 
 import { AuthService } from './../../login/auth.service';
 import { PessoaService } from './../../pessoa/pessoa.service';
 import { Pessoa } from './../../shared/model/pessoa';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -11,10 +11,7 @@ import { Pessoa } from './../../shared/model/pessoa';
   templateUrl: './administrativo.component.html',
   styleUrls: ['./administrativo.component.scss']
 })
-export class AdministrativoComponent implements OnInit, OnDestroy {
-
-  // Var Inscricao
-  private inscricao: Subscription;
+export class AdministrativoComponent implements OnInit {
 
   // Usuario autenticado
   usuarioAutenticado: Pessoa = new Pessoa();
@@ -22,19 +19,15 @@ export class AdministrativoComponent implements OnInit, OnDestroy {
 
   constructor(
     private pessoaService: PessoaService,
-    private authService: AuthService
+    private authService: AuthService,
+    private title: Title
   ) { }
 
   ngOnInit() {
-    // Pegando usuario logado
-    this.inscricao = this.pessoaService.loadById(this.authService.getIdAutenticado()).subscribe((usuario) => {
-      this.usuarioAutenticado = usuario;
-    });
-
+    this.title.setTitle('Administrativo Karatê');
+    // this.usuarioAutenticado = this.authService.getUsuarioAutenticado();
   }
 
-  ngOnDestroy() {
-    this.inscricao.unsubscribe();
-  }
+
 
 }

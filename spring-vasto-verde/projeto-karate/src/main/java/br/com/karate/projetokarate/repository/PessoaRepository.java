@@ -15,7 +15,9 @@ public interface PessoaRepository extends Repository<PessoaModelo, Integer> {
 
     PessoaModelo findById(int idPessoa);
 
-    PessoaModelo findByEmail(String email);
+    // PessoaModelo findByEmail(String email);
+
+    // PessoaModelo findByCpf(String cpf);
 
     void delete(PessoaModelo pessoa);
 

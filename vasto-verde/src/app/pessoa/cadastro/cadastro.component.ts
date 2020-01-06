@@ -1,35 +1,36 @@
-import { Subscription } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { Subscription, EMPTY } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { ValidacoesFormService } from './../../shared/services/validacoes-form.service';
 import { Pessoa } from '../../shared/model/pessoa';
 import { PessoaService } from '../pessoa.service';
 import { ToastService } from './../../shared/services/toast/toast.service';
+import { ConfirmModalService } from './../../shared/mensagens-formulario/confirm-modal/confirm-modal.service';
+import { switchMap, take, subscribeOn } from 'rxjs/operators';
 
 @Component({
   selector: 'app-cadastro',
   templateUrl: './cadastro.component.html',
-  styleUrls: ['./cadastro.component.scss'],
-  preserveWhitespaces: true
+  styleUrls: ['./cadastro.component.scss']
 })
-export class CadastroComponent implements OnInit {
+export class CadastroComponent implements OnInit, OnDestroy {
 
+  // Variavel controle Spinner
+  spinner = false;
 
   // Variavel do Formulario para controle
   formulario: FormGroup;
 
-  // Setando variavel de Data Maxima
-  maxDate: Date;
-
   // Mascaras para os campos Input
   public maskTelefone = ['(', /[1-9]/, /\d/, ')', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   public maskCpf = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+  public maskData = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/];
 
   // Variavel validar Tela Alteracao
   telaAlteracao = false;
+
   // Variavel inscricao para tela de Alteracao
   private inscricao: Subscription;
 
@@ -39,18 +40,13 @@ export class CadastroComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private http: HttpClient,
     private pessoaService: PessoaService,
-    private validacaoForm: ValidacoesFormService,
+    public validacaoForm: ValidacoesFormService,
     private toastService: ToastService,
+    private modalService: ConfirmModalService,
     private router: Router,
     private route: ActivatedRoute
-  ) {
-
-    // Propriedades do Input de Data de Nascimento
-    this.maxDate = new Date();
-    this.maxDate.setDate(this.maxDate.getDate());
-  }
+  ) { }
 
 
   ngOnInit() {
@@ -68,7 +64,7 @@ export class CadastroComponent implements OnInit {
       sexo: ['m', Validators.required]
     });
 
-    // Tentando pegar atributos do Roteamento
+    // Tentando pegar atributos do Roteamento - Tela Alteracao
     this.inscricao = this.route.data.subscribe((dados: Pessoa) => {
 
       // Verificando se tem Pessoa para alterar
@@ -79,6 +75,16 @@ export class CadastroComponent implements OnInit {
 
         // Pegando os dados
         this.objetoPessoa = dados['alteracao'];
+
+        // Tratando o telefone
+        let telefone = this.objetoPessoa.telefonePessoa;
+
+        // Colocando mascara para passar na validacao
+        telefone = telefone.replace(/^(\d{2})(\d)/g, "($1)$2"); // Colocando parenteses
+        telefone = telefone.replace(/(\d)(\d{4})$/, "$1-$2");  // Colocando hifen
+
+        // Retornando dados alterados
+        this.objetoPessoa.telefonePessoa = telefone;
 
         // Atribuindo valores para o formulario
         this.formulario.patchValue({
@@ -108,6 +114,9 @@ export class CadastroComponent implements OnInit {
     // Verificando se o formulario é valido
     if (this.formulario.valid && this.formulario.dirty) {
 
+      // Spinner
+      this.spinner = true;
+
       // Service de POST
       this.pessoaService.save(this.criarObjetoPessoa(this.formulario))
         .subscribe((retorno) => {
@@ -123,21 +132,62 @@ export class CadastroComponent implements OnInit {
             (localStorage.getItem('usuario_logado') === null)) {
             this.router.navigate(['/login']);
           } else {
-            this.router.navigate(['/administrativo']);
+            this.router.navigate(['/pessoa/listar']);
           }
         },
           (error) => {
 
+            // Mensagens de Erro
             if (error['status'] === 400) {
               this.toastService.toastWarning('Erro ao registrar.', 'Erro ao cadastrar o usuário. Verifique os dados e tente novamente.');
             } else {
               this.toastService.toastErroBanco();
             }
+          }, () => { // Quando a requisicao acabar
+            this.spinner = false;
           });
     } else {
       // Resgatando os Componentes do Formulario
       this.validaFormulario(this.formulario);
     }
+  }
+
+  // Excluindo Pessoa
+  onDelete() {
+    // Confirmando exclusao com o usuario
+    const resposta$ = this.modalService.showConfirm('Confirmar exclusão', 'Deseja realmente excluir o usuário selecionado?', 'Excluir');
+
+    // Transformando o Subject em Observable para usar o Subscribe
+    resposta$.asObservable()
+      .pipe(
+        take(1),
+        switchMap(resposta => resposta ? this.pessoaService.remove(this.objetoPessoa.idPessoa) : EMPTY)
+      ).subscribe( // Esse subscribe refere-se ao PessoaService.remove() que é retornado pelo resposta$ atraves do switchMap()
+        () => {
+          // Mensagem
+          this.toastService.toastInfo('Sucesso!', 'O registro foi excluído com sucesso.');
+          // Roteamento
+          this.router.navigate(['pessoa/listar']);
+        },
+        (error) => {
+          // Tratamento de Erros
+          switch (error['status']) {
+            // Erro Banco
+            case 400: {
+              this.toastService.toastErroBanco();
+              break;
+            }
+            // Código usuário não encontrado.
+            case 404: {
+              this.toastService.toastError('Erro!', 'Usuário não encontrado no banco de dados. Atualize a página e tente novamente.');
+              break;
+            }
+          }
+          this.spinner = false;
+        }, () => { // Requisicao acabou
+          this.spinner = false;
+        }
+      );
   }
 
   // Criando objeto Pessoa
@@ -154,8 +204,7 @@ export class CadastroComponent implements OnInit {
     this.objetoPessoa.cpfPessoa = cpf;
 
     // Tratando Data de Nascimento
-    const data: Date = formGroup.get('dataNascimento').value;
-    this.objetoPessoa.dataNascimentoPessoa = data.getDate() + '/' + data.getMonth() + '/' + data.getFullYear();
+    this.objetoPessoa.dataNascimentoPessoa = formGroup.get('dataNascimento').value;
 
     // Tratando Telefone - Retirando mascara
     const telefone: string = formGroup.get('telefone').value.replace(/[^0-9]+/g, '');
@@ -176,50 +225,11 @@ export class CadastroComponent implements OnInit {
     });
   }
 
-  // Validacoes de Erros
-  private aplicaCss(campo) {
-    return {
-      'is-invalid': this.verificaValidTouched(campo),
-      'is-valid': !this.verificaValidTouched(campo) && (this.formulario.get(campo).touched),
-    };
-  }
-
-  // Validacao de Erro do Campo CPF
-  private aplicaCssCpf() {
-
-    // Var Auxiliar
-    let digitos = '';
-
-    // Retirando mascara
-    if (this.formulario.get('cpf').value) {
-      digitos = (this.formulario.get('cpf').value).replace(/[^0-9]+/g, '');
-    }
-
-    // Verificando tamanho do CPF
-    if (digitos.length === 11) {
-
-      // Verificando Valido
-      return {
-        'is-valid': this.formulario.get('cpf').errors == null,
-        'is-invalid': this.formulario.get('cpf').errors
-      };
-    } else {
-      return {
-        'is-invalid': this.formulario.get('cpf').touched
-      };
-    }
-  }
-
-  // Verificando se o campo está invalido e se foi Focado
-  private verificaValidTouched(campo) {
-    return !this.formulario.get(campo).valid && this.formulario.get(campo).touched;
-  }
-
   resetForm() {
 
     // Validando Modo Alteracao
     if (this.telaAlteracao) {
-      this.router.navigate(['/administrativo']);
+      this.router.navigate(['/pessoa/listar']);
     } else {
 
       this.formulario.reset();

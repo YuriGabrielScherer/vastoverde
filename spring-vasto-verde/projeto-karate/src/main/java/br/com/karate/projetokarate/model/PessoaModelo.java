@@ -14,7 +14,7 @@ public class PessoaModelo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "idPessoa")
-    private int id;
+    private int idPessoa;
 
     @Column(nullable = false, name = "nome")
     private String nomePessoa;
@@ -45,11 +45,11 @@ public class PessoaModelo {
     // Getters and Setters
 
     public int getidPessoa() {
-        return id;
+        return idPessoa;
     }
 
     public void setidPessoa(int idPessoa) {
-        this.id = idPessoa;
+        this.idPessoa = idPessoa;
     }
 
     public String getNomePessoa() {
@@ -115,26 +115,6 @@ public class PessoaModelo {
     public void setSexoPessoa(String sexoPessoa) {
         System.out.println(sexoPessoa.toCharArray()[0]);
         this.sexoPessoa = sexoPessoa.toCharArray()[0];
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setSexoPessoa(char sexoPessoa) {
-        this.sexoPessoa = sexoPessoa;
     }
 
 }

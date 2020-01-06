@@ -1,19 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TextMaskModule } from 'angular2-text-mask';
 
-import { CampocontrolerroComponent } from './mensagens-formulario/campo-control-erro/campo-control-erro.component';
 
-import { ToastService } from './services/toast/toast.service';
 import { ValidacoesFormService } from './services/validacoes-form.service';
 import { MascaraCpfPipe } from './services/pipes/mascara-cpf.pipe';
 import { PrimeiroNomePipe } from './services/pipes/primeiro-nome.pipe';
-import { TextMaskModule } from 'angular2-text-mask';
+import { ToastService } from './services/toast/toast.service';
+import { CampocontrolerroComponent } from './mensagens-formulario/campo-control-erro/campo-control-erro.component';
+import { ConfirmModalComponent } from './mensagens-formulario/confirm-modal/confirm-modal.component';
+import { ConfirmModalService } from './mensagens-formulario/confirm-modal/confirm-modal.service';
 
 @NgModule({
   declarations: [
     CampocontrolerroComponent,
     MascaraCpfPipe,
-    PrimeiroNomePipe
+    PrimeiroNomePipe,
+    ConfirmModalComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +30,11 @@ import { TextMaskModule } from 'angular2-text-mask';
   ],
   providers: [
     ToastService,
-    ValidacoesFormService
+    ValidacoesFormService,
+    ConfirmModalService
+  ],
+  entryComponents: [
+    ConfirmModalComponent
   ]
 })
 export class SharedModule { }

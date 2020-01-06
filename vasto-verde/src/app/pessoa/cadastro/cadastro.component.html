@@ -19,12 +19,14 @@
               id="nome"
               placeholder="Nome Completo"
               formControlName="nome"
-              [ngClass]="aplicaCss('nome')"
+              [ngClass]="validacaoForm.aplicaCss(formulario.get('nome'))"
             />
 
             <!-- Div com mensagem de erro para o usuário -->
             <app-campo-control-erro
-              [mostraErro]="verificaValidTouched('nome')"
+              [mostraErro]="
+                validacaoForm.verificaValidTouched(formulario.get('nome'))
+              "
               msgErro="Nome é obrigatório."
             >
             </app-campo-control-erro>
@@ -39,12 +41,14 @@
               id="senha"
               placeholder="Senha"
               formControlName="senha"
-              [ngClass]="aplicaCss('senha')"
+              [ngClass]="validacaoForm.aplicaCss(formulario.get('senha'))"
             />
 
             <!-- Div com mensagem de erro para o usuário -->
             <app-campo-control-erro
-              [mostraErro]="verificaValidTouched('senha')"
+              [mostraErro]="
+                validacaoForm.verificaValidTouched(formulario.get('senha'))
+              "
               msgErro="Senha é obrigatória. Mínimo 5 caracteres."
             >
             </app-campo-control-erro>
@@ -60,11 +64,13 @@
               placeholder="CPF"
               formControlName="cpf"
               [textMask]="{ mask: maskCpf }"
-              [ngClass]="aplicaCssCpf()"
+              [ngClass]="validacaoForm.aplicaCssCpf(formulario.get('cpf'))"
             />
             <!-- Div com mensagem de erro para o usuário -->
             <app-campo-control-erro
-              [mostraErro]="verificaValidTouched('cpf')"
+              [mostraErro]="
+                validacaoForm.verificaValidTouched(formulario.get('cpf'))
+              "
               msgErro="CPF inválido."
             >
             </app-campo-control-erro>
@@ -74,11 +80,6 @@
               <option value="m">Masculino</option>
               <option value="f">Feminino</option>
             </select>
-            <app-campo-control-erro
-              [mostraErro]="verificaValidTouched('cpf')"
-              msgErro="CPF inválido."
-            >
-            </app-campo-control-erro>
           </div>
         </div>
 
@@ -91,11 +92,13 @@
               placeholder="Celular"
               formControlName="telefone"
               [textMask]="{ mask: maskTelefone }"
-              [ngClass]="aplicaCss('telefone')"
+              [ngClass]="validacaoForm.aplicaCss(formulario.get('telefone'))"
             />
             <!-- Div com mensagem de erro para o usuário -->
             <app-campo-control-erro
-              [mostraErro]="verificaValidTouched('telefone')"
+              [mostraErro]="
+                validacaoForm.verificaValidTouched(formulario.get('telefone'))
+              "
               msgErro="Número de celular é obrigatório."
             >
             </app-campo-control-erro>
@@ -107,19 +110,19 @@
               id="data"
               placeholder="Data de Nascimento"
               formControlName="dataNascimento"
-              [ngClass]="aplicaCss('dataNascimento')"
-              bsDatepicker
-              [bsConfig]="{
-                dateInputFormat: 'DD/MM/YYYY',
-                adaptivePosition: true
-              }"
-              [maxDate]="maxDate"
-              placement="top"
+              [ngClass]="
+                validacaoForm.aplicaCss(formulario.get('dataNascimento'))
+              "
+              [textMask]="{ mask: maskData }"
             />
 
             <!-- Div com mensagem de erro para o usuário -->
             <app-campo-control-erro
-              [mostraErro]="verificaValidTouched('dataNascimento')"
+              [mostraErro]="
+                validacaoForm.verificaValidTouched(
+                  formulario.get('dataNascimento')
+                )
+              "
               msgErro="Data de nascimento é obrigatória."
             >
             </app-campo-control-erro>
@@ -134,53 +137,70 @@
               id="email"
               placeholder="E-mail"
               formControlName="email"
-              [ngClass]="aplicaCss('email')"
+              [ngClass]="validacaoForm.aplicaCss(formulario.get('email'))"
             />
             <!-- Div com mensagem de erro para o usuário -->
             <app-campo-control-erro
-              [mostraErro]="verificaValidTouched('email')"
+              [mostraErro]="
+                validacaoForm.verificaValidTouched(formulario.get('email'))
+              "
               msgErro="E-mail é obrigatório."
             >
             </app-campo-control-erro>
           </div>
         </div>
 
-        <!-- Botoes de Submit -->
-        <button
-          type="submit"
-          class="btn btn-outline-success"
-          id="btnCadastro"
-          *ngIf="!telaAlteracao"
-          (click)="onSubmit()"
-        >
-          Cadastrar
-        </button>
+        <div class="row rowBotoes">
+          <!-- Botoes de Submit -->
 
-        <button
-          type="submit"
-          (click)="onSubmit()"
-          class="btn btn-outline-warning"
-          id="btnAlterar"
-          *ngIf="telaAlteracao"
-        >
-          Alterar
-        </button>
+          <button
+            type="submit"
+            class="btn btn-outline-success"
+            id="btnCadastro"
+            *ngIf="!telaAlteracao"
+            (click)="onSubmit()"
+          >
+            Cadastrar
+          </button>
 
-        <button
-          class="btn btn-outline-danger"
-          id="btnCancelar"
-          (click)="resetForm()"
-        >
-          Cancelar
-        </button>
+          <button
+            type="submit"
+            (click)="onSubmit()"
+            class="btn btn-outline-warning"
+            id="btnAlterar"
+            *ngIf="telaAlteracao"
+          >
+            Alterar
+          </button>
+
+          <button
+            type="button"
+            (click)="onDelete()"
+            class="btn btn-outline-secondary"
+            id="btnExcluir"
+            *ngIf="telaAlteracao"
+          >
+            Excluir
+          </button>
+
+          <button
+            class="btn btn-outline-danger"
+            id="btnCancelar"
+            (click)="resetForm()"
+          >
+            Cancelar
+          </button>
+
+          <!-- Spinner Carregamento -->
+          <div *ngIf="spinner">
+            <span class="sr-only">Loading...</span>
+            <div class="spinner-border text-success" role="status"></div>
+          </div>
+        </div>
       </form>
     </div>
-    <div class="divImagem col-lg-6 col-md-6 col-sm-12 ">
-      <!-- <img
-        class="img-fluid a"
-        src="../../../assets/Imagens/karate01.jpg"
-        alt="Imagem Karatê"
-      /> -->
-    </div>
+
+    <!-- Imagem Lateral -->
+    <div class="divImagem col-lg-6 col-md-6 col-sm-12 "></div>
   </div>
 </div>

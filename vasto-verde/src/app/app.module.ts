@@ -23,6 +23,7 @@ import { AuthService } from './login/auth.service';
 import { TextMaskModule } from 'angular2-text-mask';
 // NGX Bootrstrap
 import { ToastrModule } from 'ngx-toastr';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
@@ -46,6 +47,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SharedModule,
     ReactiveFormsModule,
     TextMaskModule,
+    ModalModule.forRoot(),
     ToastrModule.forRoot(
       // Configuracoes globais do Toast
       {

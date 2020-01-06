@@ -60,8 +60,6 @@ export class ListarPessoasComponent implements OnInit {
     this.formularioFiltro = this.formBuilder.group({
       nome: [null],
       tipoUsuario: [0],
-      // adulto: [false],
-      // campeonatos: this.buildCampeonatos()
     });
   }
 
@@ -96,15 +94,7 @@ export class ListarPessoasComponent implements OnInit {
     }
   }
 
-  // Metodo para atualizar a lista de Pessoas atualizada.
-  atualizarLista() {
 
-  }
-
-  imprimeFormulario() {
-    console.log('Formulario: ', this.formularioFiltro.value);
-    console.log('Pessoa: ', this.listaPessoa);
-  }
 
   // // Metodo para formar os CheckBoxes de Filtros de Camp.
   // private buildCampeonatos() {

@@ -13,7 +13,7 @@ public class AtletaModelo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, name = "id")
+    @Column(nullable = false, name = "idAtleta")
     private int id;
 
     @Column(nullable = false, name = "nomeResponsavel")
@@ -22,9 +22,11 @@ public class AtletaModelo {
     @Column(nullable = false, name = "telefoneResponsavel")
     private String telefoneResponsavel;
 
+    @Column(nullable = false, name = "cpfResponsavel")
+    private String cpfResponsavel;
+
     @Column(nullable = false, name = "idPessoaCompetitiva")
     private int idPessoaCompetitiva;
-
 
     // Getters and Setters
 
@@ -44,14 +46,6 @@ public class AtletaModelo {
         this.nomeResponsavel = nomeResponsavel;
     }
 
-    public String getNumeroResponsavel() {
-        return telefoneResponsavel;
-    }
-
-    public void setNumeroResponsavel(String numeroResponsavel) {
-        this.telefoneResponsavel = numeroResponsavel;
-    }
-
     public int getIdPessoaCompetitiva() {
         return idPessoaCompetitiva;
     }
@@ -60,5 +54,20 @@ public class AtletaModelo {
         this.idPessoaCompetitiva = idPessoaCompetitiva;
     }
 
-    
+    public String getTelefoneResponsavel() {
+        return telefoneResponsavel;
+    }
+
+    public void setTelefoneResponsavel(String telefoneResponsavel) {
+        this.telefoneResponsavel = telefoneResponsavel;
+    }
+
+    public String getCpfResponsavel() {
+        return cpfResponsavel;
+    }
+
+    public void setCpfResponsavel(String cpfResponsavel) {
+        this.cpfResponsavel = cpfResponsavel;
+    }
+
 }

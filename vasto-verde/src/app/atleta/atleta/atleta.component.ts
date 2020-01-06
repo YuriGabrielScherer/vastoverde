@@ -1,4 +1,4 @@
-import { AtletaService } from './../atleta.service';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
@@ -6,6 +6,7 @@ import { Atleta } from './../../shared/model/atleta';
 import { Pessoa } from './../../shared/model/pessoa';
 import { PessoaService } from './../../pessoa/pessoa.service';
 import { ToastService } from './../../shared/services/toast/toast.service';
+import { AtletaService } from './../atleta.service';
 import { ValidacoesFormService } from './../../shared/services/validacoes-form.service';
 
 @Component({
@@ -32,11 +33,12 @@ export class AtletaComponent implements OnInit {
   spinnerCarregarCadastro = false;
 
   constructor(
-    private validacoesForm: ValidacoesFormService,
+    public validacoesForm: ValidacoesFormService,
     private formBuild: FormBuilder,
     private pessoaService: PessoaService,
+    private atletaService: AtletaService,
     private toast: ToastService,
-    private atletaService: AtletaService
+    private route: Router
   ) { }
 
   ngOnInit() {
@@ -49,7 +51,7 @@ export class AtletaComponent implements OnInit {
       cpfResp: [null, [Validators.required, this.validacoesForm.isValidCpf()]],
       telResp: [null, [Validators.required, this.validacoesForm.isValidPhone()]],
       dataInicio: [null, Validators.required],
-      grau: [null, Validators.required],
+      grau: [1, Validators.required],
       federacao: [null],
       confederacao: [null]
     });
@@ -78,14 +80,20 @@ export class AtletaComponent implements OnInit {
         },
         // Tratamento de erros
         (error) => {
-          if (error['status'] === 404) {
-            // CPF nao cadastrado
-            this.toast.toastWarning('CPF não encontrado.',
-              'Confira o CPF ou realize o cadastro da pessoa.');
-            this.formulario.get('cpfAtleta').setErrors(isNaN);
-          } else {
-            this.toast.toastErroBanco();
+          switch (error['status']) {
+            case 400: {
+              // CPF nao cadastrado
+              this.toast.toastWarning('CPF não encontrado.',
+                'Confira o CPF ou realize o cadastro da pessoa.');
+              this.formulario.get('cpfAtleta').setErrors(isNaN);
+              break;
+            }
+            default: {
+              this.toast.toastErroBanco();
+              break;
+            }
           }
+
         },
         // Quando o Request terminar, tirar Spinner.
         () => this.spinnerCarregar = false);
@@ -110,16 +118,29 @@ export class AtletaComponent implements OnInit {
     if (this.formulario.valid) {
 
       this.spinnerCarregarCadastro = !this.spinnerCarregarCadastro;
+
+      // Salvando
       this.atletaService.save(this.criarObjeto()).subscribe(
         (sucesso) => {
-          console.log(sucesso);
-        }, (erro) => {
-          console.log(erro);
-        }, () => {
+          // Mensagem
+          this.toast.toastSuccess('Sucesso!', 'Atleta cadastrado com sucesso!');
 
+          // Mudando Rota
+          this.route.navigate(['/administrativo/atleta/listar']);
+        }, (error) => {
+          switch (error['status']) {
+            case 400: {
+              this.toast.toastError('Erro ao cadastrar!', 'Ocorreu um erro ao cadastrar o atleta. Verifique os dados e tente novamente.');
+              break;
+            }
+            case 404: {
+              this.toast.toastErroBanco();
+              break;
+            }
+          }
+        }, () => {
           // Escondendo Spinner
           this.spinnerCarregarCadastro = !this.spinnerCarregarCadastro;
-          console.log('finally');
         });
 
     }
@@ -128,11 +149,11 @@ export class AtletaComponent implements OnInit {
   // Criar objeto atleta
   criarObjeto() {
 
-    let atleta: Atleta = new Atleta();
+    const atleta: Atleta = new Atleta();
 
     atleta.nomeResponsavel = this.formulario.get('nomeResp').value;
-    atleta.telefoneResponsavel = this.formulario.get('telResp').value.replace(/[^0-9]+/g, '');;
-
+    atleta.telefoneResponsavel = this.formulario.get('telResp').value.replace(/[^0-9]+/g, '');
+    atleta.cpfResponsavel = this.formulario.get('cpfResp').value.replace(/[^0-9]+/g, '');
     atleta.confederacao = this.formulario.get('confederacao').value;
     atleta.federacao = this.formulario.get('federacao').value;
     atleta.idGrau = this.formulario.get('grau').value;

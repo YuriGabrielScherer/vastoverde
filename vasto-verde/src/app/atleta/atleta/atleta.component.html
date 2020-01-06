@@ -17,15 +17,11 @@
               formControlName="cpfAtleta"
               id="cpfAtleta"
               (blur)="buscarDadosAtleta()"
-              [ngClass]="
-                validacoesForm.aplicaCssCpf(formulario.get('cpfAtleta'))
-              "
+              [ngClass]="validacoesForm.aplicaCssCpf(formulario.get('cpfAtleta'))"
             />
             <!-- Div Mensagem de Erro -->
             <app-campo-control-erro
-              [mostraErro]="
-                validacoesForm.verificaValidTouched(formulario.get('cpfAtleta'))
-              "
+              [mostraErro]="validacoesForm.verificaValidTouched(formulario.get('cpfAtleta'))"
               msgErro="CPF do atleta é obrigatório."
             >
             </app-campo-control-erro>
@@ -44,11 +40,7 @@
 
               <!-- Div Mensagem de Erro -->
               <app-campo-control-erro
-                [mostraErro]="
-                  validacoesForm.verificaValidTouched(
-                    formulario.get('nomeResp')
-                  )
-                "
+                [mostraErro]="validacoesForm.verificaValidTouched(formulario.get('nomeResp'))"
                 msgErro="Nome do responsável é obrigatório."
               >
               </app-campo-control-erro>
@@ -63,18 +55,12 @@
                   id="cpfResp"
                   [textMask]="{ mask: maskCpf }"
                   formControlName="cpfResp"
-                  [ngClass]="
-                    validacoesForm.aplicaCssCpf(formulario.get('cpfResp'))
-                  "
+                  [ngClass]="validacoesForm.aplicaCssCpf(formulario.get('cpfResp'))"
                 />
 
                 <!-- Div Mensagem de Erro -->
                 <app-campo-control-erro
-                  [mostraErro]="
-                    validacoesForm.verificaValidTouched(
-                      formulario.get('cpfResp')
-                    )
-                  "
+                  [mostraErro]="validacoesForm.verificaValidTouched(formulario.get('cpfResp'))"
                   msgErro="CPF do responsável é obrigatório."
                 >
                 </app-campo-control-erro>
@@ -88,17 +74,11 @@
                   id="telefone"
                   formControlName="telResp"
                   [textMask]="{ mask: maskTel }"
-                  [ngClass]="
-                    validacoesForm.aplicaCss(formulario.get('telResp'))
-                  "
+                  [ngClass]="validacoesForm.aplicaCss(formulario.get('telResp'))"
                 />
                 <!-- Div com mensagem de erro para o usuário -->
                 <app-campo-control-erro
-                  [mostraErro]="
-                    validacoesForm.verificaValidTouched(
-                      formulario.get('telResp')
-                    )
-                  "
+                  [mostraErro]="validacoesForm.verificaValidTouched(formulario.get('telResp'))"
                   msgErro="Número de celular é obrigatório."
                 >
                 </app-campo-control-erro>
@@ -114,17 +94,11 @@
                   id="dataInicio"
                   [textMask]="{ mask: maskData }"
                   formControlName="dataInicio"
-                  [ngClass]="
-                    validacoesForm.aplicaCss(formulario.get('dataInicio'))
-                  "
+                  [ngClass]="validacoesForm.aplicaCss(formulario.get('dataInicio'))"
                 />
                 <!-- Div Mensagem de Erro -->
                 <app-campo-control-erro
-                  [mostraErro]="
-                    validacoesForm.verificaValidTouched(
-                      formulario.get('dataInicio')
-                    )
-                  "
+                  [mostraErro]="validacoesForm.verificaValidTouched(formulario.get('dataInicio'))"
                   msgErro="Data de início da prática inválida."
                 >
                 </app-campo-control-erro>
@@ -138,9 +112,8 @@
                   formControlName="grau"
                   [ngClass]="validacoesForm.aplicaCss(formulario.get('grau'))"
                 >
-                  <option disabled selected>Cor da Faixa</option>
 
-                  <option value="1">Branca</option>
+                  <option value="1" selected>Branca</option>
                   <option value="2">Amarela</option>
                   <option value="3">Vermelha</option>
                   <option value="4">Laranja</option>
@@ -152,9 +125,7 @@
 
                 <!-- Div Mensagem de Erro -->
                 <app-campo-control-erro
-                  [mostraErro]="
-                    validacoesForm.verificaValidTouched(formulario.get('grau'))
-                  "
+                  [mostraErro]="validacoesForm.verificaValidTouched(formulario.get('grau'))"
                   msgErro="Selecione o grau do Atleta."
                 >
                 </app-campo-control-erro>
@@ -169,9 +140,7 @@
                   class="form-control"
                   id="cadFck"
                   formControlName="federacao"
-                  [ngClass]="
-                    validacoesForm.aplicaCss(formulario.get('federacao'))
-                  "
+                  [ngClass]="validacoesForm.aplicaCss(formulario.get('federacao'))"
                 />
               </div>
 
@@ -182,9 +151,7 @@
                   class="form-control"
                   id="cadCbk"
                   formControlName="confederacao"
-                  [ngClass]="
-                    validacoesForm.aplicaCss(formulario.get('confederacao'))
-                  "
+                  [ngClass]="validacoesForm.aplicaCss(formulario.get('confederacao'))"
                 />
               </div>
             </div>

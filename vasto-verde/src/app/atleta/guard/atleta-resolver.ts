@@ -19,8 +19,6 @@ export class AtletaResolver implements Resolve<Atleta> {
     state: RouterStateSnapshot
   ): Observable<Atleta> | Atleta {
 
-    console.log('pasosu no atleta resolver');
-
     return this.atleta;
 
   }

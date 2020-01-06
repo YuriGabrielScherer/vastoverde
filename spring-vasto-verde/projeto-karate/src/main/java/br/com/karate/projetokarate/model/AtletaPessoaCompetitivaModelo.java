@@ -2,8 +2,8 @@ package br.com.karate.projetokarate.model;
 
 public class AtletaPessoaCompetitivaModelo {
 
-    private int idAtleta, idGrau, idPessoaCompetitiva, idPessoa, federacao, condeferacao;
-    private String nomeResponsavel, telefoneResponsavel, dataInicio;
+    private int idAtleta, idGrau, idPessoaCompetitiva, idPessoa, federacao, confederacao;
+    private String nomeResponsavel, telefoneResponsavel, dataInicio, cpfResponsavel;
 
     public int getIdAtleta() {
         return idAtleta;
@@ -45,14 +45,6 @@ public class AtletaPessoaCompetitivaModelo {
         this.federacao = federacao;
     }
 
-    public int getCondeferacao() {
-        return condeferacao;
-    }
-
-    public void setCondeferacao(int condeferacao) {
-        this.condeferacao = condeferacao;
-    }
-
     public String getNomeResponsavel() {
         return nomeResponsavel;
     }
@@ -75,6 +67,22 @@ public class AtletaPessoaCompetitivaModelo {
 
     public void setDataInicio(String dataInicio) {
         this.dataInicio = dataInicio;
+    }
+
+    public int getConfederacao() {
+        return confederacao;
+    }
+
+    public void setConfederacao(int confederacao) {
+        this.confederacao = confederacao;
+    }
+
+    public String getCpfResponsavel() {
+        return cpfResponsavel;
+    }
+
+    public void setCpfResponsavel(String cpfResponsavel) {
+        this.cpfResponsavel = cpfResponsavel;
     }
 
 }

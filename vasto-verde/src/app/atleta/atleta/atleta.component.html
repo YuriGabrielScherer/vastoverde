@@ -4,7 +4,7 @@
   <hr />
 
   <div class="divFormulario">
-    <form [formGroup]="formulario">
+    <form [formGroup]="formulario" >
       <div class="form-row  ">
         <!-- Parte Formulario -->
         <div class="form-group col-md-6 col-sm-12 ">
@@ -189,12 +189,25 @@
               </div>
             </div>
 
+            <!-- Spinner carregamento -->
+            <div
+              class="spinner-border text-success"
+              role="status"
+              *ngIf="spinnerCarregarCadastro"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+
             <div class="form-group col-md-12 col-sm-12">
-              <button type="submit" class="btn btn-outline-success">
+              <button type="submit" class="btn btn-outline-success" (click)="onSubmit()">
                 Cadastrar
               </button>
 
-              <button type="button" class="btn btn-outline-danger" (click)="cancelarCadastro()">
+              <button
+                type="button"
+                class="btn btn-outline-danger"
+                (click)="cancelarCadastro()"
+              >
                 Cancelar
               </button>
             </div>

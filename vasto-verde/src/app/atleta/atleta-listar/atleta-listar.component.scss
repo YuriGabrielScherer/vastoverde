@@ -15,6 +15,15 @@
   user-select: none;
 }
 
+.divFiltros{
+  padding: 0.5em;
+}
+
+.divSwitch{
+  // Alinhando o Switch no meio
+  display: flex;
+  align-items: center;
+}
 .divListagem{
   max-height: 400px;
   overflow-y: scroll;

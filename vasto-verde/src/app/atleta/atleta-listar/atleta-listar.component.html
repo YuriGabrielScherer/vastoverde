@@ -4,92 +4,91 @@
   <h4>Atletas Cadastrados</h4>
   <hr />
 
-  <div class="divListagem">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">Nome</th>
-          <th scope="col">CPF</th>
-          <th scope="col">Nascimento</th>
-          <th scope="col">Grau</th>
-          <th scope="col">FCK</th>
-          <th scope="col">Ação</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td><button class="btn btn-outline-info">Alterar</button></td>
-        </tr>
-        <tr>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td><button class="btn btn-outline-info">Alterar</button></td>
-        </tr>
-        <tr>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td><button class="btn btn-outline-info">Alterar</button></td>
-        </tr>
-        <tr>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td><button class="btn btn-outline-info">Alterar</button></td>
-        </tr>
-        <tr>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td><button class="btn btn-outline-info">Alterar</button></td>
-        </tr>
-        <tr>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td><button class="btn btn-outline-info">Alterar</button></td>
-        </tr>
-        <tr>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td><button class="btn btn-outline-info">Alterar</button></td>
-        </tr>
-        <tr>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td><button class="btn btn-outline-info">Alterar</button></td>
-        </tr>
-      </tbody>
+  <!-- Spinner Loading -->
+  <ng-template #loading>
+    <div class="spinner-border text-success" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </ng-template>
+
+  <div
+    class="divListagemDados"
+    *ngIf="retornarAtletas() as atletas; else loading"
+  >
+    <!-- Filtros da Listagem -->
+    <div class="divFiltros">
+      <div class="row">
+        <!-- Div Filtragem por nome -->
+        <div class="col-sm-12 col-md">
+          <label for="nome">Pesquise por nome</label>
+          <div class="form-group">
+            <input
+              class="form-control mr-sm-2 filtroNome"
+              type="search"
+              placeholder="Nome"
+              id="nome"
+            />
+          </div>
+        </div>
+
+        <!-- Div Switch Apenas Adultos -->
+        <div class="col-sm-12 col-md divSwitch">
+          <div class="custom-control custom-switch ">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="apenasAdultos"
+            />
+
+            <label class="custom-control-label" for="apenasAdultos">
+              Apenas adultos
+            </label>
+          </div>
+        </div>
+
+        <!-- Div Select campeonatos -->
+        <div class="col-sm-12 col-md">
+          <div class="form-group">
+            <label>Aptos para os campeonatos</label>
+            <div id="campeonatos" class="row">
+              <div class="col-sm-5" *ngFor="let item of campeonatos">
+                <label class="checkbox-inline">
+                  <input type="checkbox" />
+                  {{ item }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="divListagem">
+      <!-- Tabela -->
+      <table class="table table-striped">
+        <thead>
           <tr>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td><button class="btn btn-outline-info">Alterar</button></td>
+            <th scope="col">Nome</th>
+            <th scope="col">CPF</th>
+            <th scope="col">Nascimento</th>
+            <th scope="col">Grau</th>
+            <th scope="col">FCK</th>
+            <th scope="col">Ação</th>
           </tr>
-    </table>
+        </thead>
+        <tbody>
+          <tr *ngFor="let atleta of atletas">
+            <td>{{ atleta.idPessoa }}</td>
+            <td>{{ atleta.nomeResponsavel }}</td>
+            <td>atletas</td>
+            <td>atletas</td>
+            <td>atletas</td>
+            <td>
+              <button class="btn btn-outline-info">Alterar</button>
+              <button class="btn btn-outline-success">Contato</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

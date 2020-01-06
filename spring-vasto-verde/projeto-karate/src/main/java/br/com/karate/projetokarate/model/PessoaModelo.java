@@ -8,12 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "pessoa")
+@Table(name = "pessoas")
 public class PessoaModelo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, name = "id")
+    @Column(nullable = false, name = "idPessoa")
     private int id;
 
     @Column(nullable = false, name = "nome")
@@ -39,6 +39,8 @@ public class PessoaModelo {
 
     @Column(nullable = false, name = "sexo")
     private char sexoPessoa;
+
+    @Column(nullable = false, name = "idAssociacao")
 
     // Getters and Setters
 
@@ -108,6 +110,27 @@ public class PessoaModelo {
 
     public char getSexoPessoa() {
         return sexoPessoa;
+    }
+
+    public void setSexoPessoa(String sexoPessoa) {
+        System.out.println(sexoPessoa.toCharArray()[0]);
+        this.sexoPessoa = sexoPessoa.toCharArray()[0];
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setSexoPessoa(char sexoPessoa) {

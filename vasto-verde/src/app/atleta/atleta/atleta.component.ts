@@ -1,3 +1,4 @@
+import { AtletaService } from './../atleta.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
@@ -24,24 +25,24 @@ export class AtletaComponent implements OnInit {
   formulario: FormGroup;
 
   // Objetos
-  atleta: Atleta = null;
   pessoa: Pessoa = null;
 
   // Var Controle Spinner
   spinnerCarregar = false;
+  spinnerCarregarCadastro = false;
 
   constructor(
     private validacoesForm: ValidacoesFormService,
     private formBuild: FormBuilder,
     private pessoaService: PessoaService,
-    private toast: ToastService
+    private toast: ToastService,
+    private atletaService: AtletaService
   ) { }
 
   ngOnInit() {
     // Criando formulario
     this.formulario = this.formBuild.group({
       // Dados da Pessoa
-      idPessoa: [null, Validators.required],
       cpfAtleta: [null, [Validators.required, this.validacoesForm.isValidCpf()]],
       // Dados do Atleta
       nomeResp: [null, Validators.required],
@@ -101,4 +102,46 @@ export class AtletaComponent implements OnInit {
     // Habilitando Campo CPF
     this.formulario.get('cpfAtleta').enable();
   }
+
+  // Metodo Realizar Cadastro
+  onSubmit() {
+
+    // Verificando formulario
+    if (this.formulario.valid) {
+
+      this.spinnerCarregarCadastro = !this.spinnerCarregarCadastro;
+      this.atletaService.save(this.criarObjeto()).subscribe(
+        (sucesso) => {
+          console.log(sucesso);
+        }, (erro) => {
+          console.log(erro);
+        }, () => {
+
+          // Escondendo Spinner
+          this.spinnerCarregarCadastro = !this.spinnerCarregarCadastro;
+          console.log('finally');
+        });
+
+    }
+  }
+
+  // Criar objeto atleta
+  criarObjeto() {
+
+    let atleta: Atleta = new Atleta();
+
+    atleta.nomeResponsavel = this.formulario.get('nomeResp').value;
+    atleta.telefoneResponsavel = this.formulario.get('telResp').value.replace(/[^0-9]+/g, '');;
+
+    atleta.confederacao = this.formulario.get('confederacao').value;
+    atleta.federacao = this.formulario.get('federacao').value;
+    atleta.idGrau = this.formulario.get('grau').value;
+    atleta.dataInicio = this.formulario.get('dataInicio').value;
+
+    atleta.idPessoa = this.pessoa.idPessoa;
+
+    return atleta;
+
+  }
+
 }

@@ -8,5 +8,5 @@ export class Pessoa {
   emailPessoa: string;
   tipoUsuarioPessoa: number;
   telefonePessoa: string;
-
+  sexoPessoa: string;
 }

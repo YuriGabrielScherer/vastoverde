@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.karate.projetokarate.model.PessoaLogin;
 import br.com.karate.projetokarate.model.PessoaModelo;
-import br.com.karate.projetokarate.model.RespostaModelo;
 import br.com.karate.projetokarate.repository.PessoaRepository;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -29,12 +28,12 @@ public class PessoaService {
 
     // Metodo Cadastrar
     @RequestMapping(value = "/pessoa", method = RequestMethod.POST)
-    public @ResponseBody RespostaModelo save(@RequestBody PessoaModelo pessoa) {
+    public ResponseEntity<PessoaModelo> save(@RequestBody PessoaModelo pessoa) {
         try {
             this.pessoaRepository.save(pessoa);
-            return new RespostaModelo(pessoa.getNomePessoa() + " foi salvo (a) com sucesso!", "Sucesso!");
+            return new ResponseEntity<PessoaModelo>(pessoa, HttpStatus.OK);
         } catch (Exception erro) {
-            return new RespostaModelo(erro.getMessage());
+            return new ResponseEntity<PessoaModelo>(pessoa, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -104,7 +103,7 @@ public class PessoaService {
 
     // Metodo Excluir
     @RequestMapping(value = "/pessoa/{idPessoa}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public @ResponseBody RespostaModelo delete(@PathVariable("idPessoa") int idPessoa) {
+    public ResponseEntity<String> delete(@PathVariable("idPessoa") int idPessoa) {
 
         // Buscando a pessoa no Banco com o codigo
         PessoaModelo pessoa = this.pessoaRepository.findById(idPessoa);
@@ -112,23 +111,22 @@ public class PessoaService {
         // Excluindo
         try {
             this.pessoaRepository.delete(pessoa);
-            return new RespostaModelo("Registro excluído com sucesso!", "Sucesso!");
+            return new ResponseEntity<String>("Registro excluído com sucesso!", HttpStatus.OK);
         } catch (Exception erro) {
-            return new RespostaModelo(erro.getMessage());
+            return new ResponseEntity<String>(erro.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     // Metodo Realizar login
     @RequestMapping(value = "/pessoa/login", method = RequestMethod.POST)
-    public ResponseEntity<PessoaModelo> auth(@RequestBody PessoaLogin pessoaLogin) {
+    public ResponseEntity<PessoaModelo> login(@RequestBody PessoaLogin pessoaLogin) {
 
         try {
             // Retornando as pessoas
             PessoaModelo pessoa = this.buscarPorEmail(pessoaLogin.getLogin());
-
+            
             // Verificando a senha
             if (pessoa.getSenhaPessoa().equals(pessoaLogin.getSenha())) {
-
                 return new ResponseEntity<PessoaModelo>(pessoa, HttpStatus.OK);
             }
 

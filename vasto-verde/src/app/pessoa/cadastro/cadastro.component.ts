@@ -27,7 +27,6 @@ export class CadastroComponent implements OnInit {
   // Mascaras para os campos Input
   public maskTelefone = ['(', /[1-9]/, /\d/, ')', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   public maskCpf = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
-  public maskTel = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/,  /\d/];
 
   // Variavel validar Tela Alteracao
   telaAlteracao = false;
@@ -65,7 +64,8 @@ export class CadastroComponent implements OnInit {
       email: [null, [Validators.required, Validators.email]],
       telefone: [null, [Validators.required, this.validacaoForm.isValidPhone()]],
       dataNascimento: [null, [Validators.required]],
-      senha: [null, [Validators.required, Validators.minLength(5)]]
+      senha: [null, [Validators.required, Validators.minLength(5)]],
+      sexo: ['m', Validators.required]
     });
 
     // Tentando pegar atributos do Roteamento
@@ -87,7 +87,8 @@ export class CadastroComponent implements OnInit {
           email: this.objetoPessoa.emailPessoa,
           telefone: this.objetoPessoa.telefonePessoa,
           dataNascimento: this.objetoPessoa.dataNascimentoPessoa,
-          senha: this.objetoPessoa.senhaPessoa
+          senha: this.objetoPessoa.senhaPessoa,
+          sexo: this.objetoPessoa.sexoPessoa
         });
 
         // Setando Formulario como valido - Aplicar CSS Valido
@@ -112,7 +113,7 @@ export class CadastroComponent implements OnInit {
         .subscribe((retorno) => {
 
           // Mensagem Sucesso
-          this.toastService.toastSuccess(retorno['mensagem'], retorno['titulo']);
+          this.toastService.toastSuccess('Registrado com sucesso!', 'Usuário cadastrado com sucesso!');
 
           // Resetando o Form
           this.formulario.reset();
@@ -126,9 +127,12 @@ export class CadastroComponent implements OnInit {
           }
         },
           (error) => {
-            this.toastService.toastError('Erro ao se conectar com o banco de dados.',
-              'Se o problema persistir, contate o administrador do sistema.');
-            console.log(error);
+
+            if (error['status'] === 400) {
+              this.toastService.toastWarning('Erro ao registrar.', 'Erro ao cadastrar o usuário. Verifique os dados e tente novamente.');
+            } else {
+              this.toastService.toastErroBanco();
+            }
           });
     } else {
       // Resgatando os Componentes do Formulario
@@ -143,7 +147,7 @@ export class CadastroComponent implements OnInit {
     this.objetoPessoa.nomePessoa = formGroup.get('nome').value;
     this.objetoPessoa.emailPessoa = formGroup.get('email').value;
     this.objetoPessoa.senhaPessoa = formGroup.get('senha').value;
-    this.objetoPessoa.telefonePessoa = formGroup.get('telefone').value;
+    this.objetoPessoa.sexoPessoa = formGroup.get('sexo').value;
 
     // Tratando o CPF - Retirando a mascara
     const cpf: string = formGroup.get('cpf').value.replace(/[^0-9]+/g, '');
@@ -152,6 +156,10 @@ export class CadastroComponent implements OnInit {
     // Tratando Data de Nascimento
     const data: Date = formGroup.get('dataNascimento').value;
     this.objetoPessoa.dataNascimentoPessoa = data.getDate() + '/' + data.getMonth() + '/' + data.getFullYear();
+
+    // Tratando Telefone - Retirando mascara
+    const telefone: string = formGroup.get('telefone').value.replace(/[^0-9]+/g, '');
+    this.objetoPessoa.telefonePessoa = telefone;
 
     // Retornando objeto para POST
     return this.objetoPessoa;
@@ -222,4 +230,6 @@ export class CadastroComponent implements OnInit {
       });
     }
   }
+
 }
+

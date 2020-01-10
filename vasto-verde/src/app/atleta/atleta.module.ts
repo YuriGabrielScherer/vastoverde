@@ -1,36 +1,42 @@
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { AtletaService } from './atleta.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SharedModule } from './../shared/shared.module';
 import { AtletaRoutingModule } from './atleta-routing.module';
 
-import { AtletaComponent } from './atleta/atleta.component';
 import { AtletaResolver } from './guard/atleta-resolver';
+import { AtletaService } from './atleta.service';
+import { AtletaAlterarService } from './atleta-alterar/atleta-alterar.service';
 
+import { AtletaComponent } from './atleta/atleta.component';
 import { AtletaListarComponent } from './atleta-listar/atleta-listar.component';
 import { AtletaFckComponent } from './atleta-fck/atleta-fck.component';
+
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 @NgModule({
   declarations: [
     AtletaComponent,
     AtletaListarComponent,
-    AtletaFckComponent
+    AtletaFckComponent,
   ],
   imports: [
     CommonModule,
     AtletaRoutingModule,
     SharedModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CollapseModule.forRoot()
   ],
   exports: [
-    AtletaComponent
+    AtletaComponent,
   ],
   providers: [
     AtletaResolver,
-    AtletaService
+    AtletaService,
+    AtletaAlterarService
   ]
+
 })
 export class AtletaModule { }

@@ -26,10 +26,6 @@ const routes: Routes = [
   {
     path: 'pessoa',
     loadChildren: () => import('./pessoa/pessoa.module').then(m => m.PessoaModule)
-  },
-  {
-    path: 'atleta',
-    loadChildren: () => import('./atleta/atleta.module').then(m => m.AtletaModule)
   }
 
 ];

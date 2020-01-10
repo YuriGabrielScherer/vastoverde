@@ -25,8 +25,6 @@ export class ConfirmModalService {
     }
 
     return (bsModalRef.content as ConfirmModalComponent).respostaModal;
-
-
   }
 
 }

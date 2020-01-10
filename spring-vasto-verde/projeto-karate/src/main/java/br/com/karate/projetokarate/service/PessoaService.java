@@ -51,7 +51,7 @@ public class PessoaService {
 
   // Metodo Get por Email
   @RequestMapping(value = "/pessoa/email/{emailPessoa}", method = RequestMethod.GET)
-  public @ResponseBody PessoaModelo buscarPorEmail(@PathVariable("emailPessoa") String emailPessoa) {
+  public PessoaModelo buscarPorEmail(@PathVariable("emailPessoa") String emailPessoa) {
 
     // Criando Objeto para retornar
     PessoaModelo pessoa = new PessoaModelo();
@@ -67,7 +67,7 @@ public class PessoaService {
       }
     }
 
-    // Retornando
+    // Retornando caso nao encontrado
     return pessoa;
   }
 

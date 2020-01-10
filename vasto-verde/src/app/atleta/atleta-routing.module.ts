@@ -1,9 +1,9 @@
-import { AtletaResolver } from './guard/atleta-resolver';
-import { AtletaListarComponent } from './atleta-listar/atleta-listar.component';
-import { AtletaComponent } from './atleta/atleta.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, Resolve } from '@angular/router';
 
+import { AtletaResolver } from './guard/atleta-resolver';
+import { AtletaListarComponent } from './atleta-listar/atleta-listar.component';
+import { AtletaComponent } from './atleta/atleta.component';
 
 const routes: Routes = [
   {

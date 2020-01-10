@@ -1,4 +1,3 @@
-import { AtletaModule } from './../atleta/atleta.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -15,7 +14,6 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
     AdministrativoRoutingModule,
     SharedModule,
     CollapseModule.forRoot(),
-    // AtletaModule
   ]
 })
 export class AdministrativoModule { }

@@ -7,8 +7,9 @@ import { ValidacoesFormService } from './../../shared/services/validacoes-form.s
 import { Pessoa } from '../../shared/model/pessoa';
 import { PessoaService } from '../pessoa.service';
 import { ToastService } from './../../shared/services/toast/toast.service';
-import { ConfirmModalService } from './../../shared/mensagens-formulario/confirm-modal/confirm-modal.service';
-import { switchMap, take, subscribeOn } from 'rxjs/operators';
+import { ConfirmModalService } from '../../shared/mensagens-formulario/confirm-modal/confirm-modal.service';
+
+import { switchMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-cadastro',
@@ -41,7 +42,7 @@ export class CadastroComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private pessoaService: PessoaService,
-    public validacaoForm: ValidacoesFormService,
+    protected validacaoForm: ValidacoesFormService,
     private toastService: ToastService,
     private modalService: ConfirmModalService,
     private router: Router,
@@ -80,8 +81,8 @@ export class CadastroComponent implements OnInit, OnDestroy {
         let telefone = this.objetoPessoa.telefonePessoa;
 
         // Colocando mascara para passar na validacao
-        telefone = telefone.replace(/^(\d{2})(\d)/g, "($1)$2"); // Colocando parenteses
-        telefone = telefone.replace(/(\d)(\d{4})$/, "$1-$2");  // Colocando hifen
+        telefone = telefone.replace(/^(\d{2})(\d)/g, '($1)$2'); // Colocando parenteses
+        telefone = telefone.replace(/(\d)(\d{4})$/, '$1-$2');  // Colocando hifen
 
         // Retornando dados alterados
         this.objetoPessoa.telefonePessoa = telefone;

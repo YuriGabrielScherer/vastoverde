@@ -6,8 +6,12 @@
 
   <!-- Spinner Loading -->
   <ng-template #loading>
-    <div class="spinner-border text-success" role="status">
-      <span class="sr-only">Loading...</span>
+    <div class="row">
+      <div class="divSpinner">
+        <div class="spinner-border text-success" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
     </div>
   </ng-template>
 
@@ -25,8 +29,7 @@
               class="form-control mr-sm-2 filtroNome"
               type="search"
               placeholder="Nome"
-              id="nome"
-            />
+              id="nome"/>
           </div>
         </div>
 
@@ -36,8 +39,7 @@
             <input
               type="checkbox"
               class="custom-control-input"
-              id="apenasAdultos"
-            />
+              id="apenasAdultos"/>
 
             <label class="custom-control-label" for="apenasAdultos">
               Apenas adultos
@@ -70,20 +72,21 @@
             <th scope="col">CPF</th>
             <th scope="col">Nascimento</th>
             <th scope="col">Grau</th>
-            <th scope="col">FCK</th>
             <th scope="col">Ação</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let atleta of atletas">
-            <td>{{ atleta.idPessoa }}</td>
-            <td>{{ atleta.nomeResponsavel }}</td>
-            <td>atletas</td>
-            <td>atletas</td>
-            <td>atletas</td>
+          <tr *ngFor="let atleta of retornarAtletas()">
+            <td>{{ atleta.nomePessoa }}</td>
+            <td>{{ atleta.cpfPessoa | mascaraCpf }}</td>
+            <td>{{ atleta.dataNascimento }}</td>
+            <td>{{ atleta.idGrau }}</td>
             <td>
-              <button class="btn btn-outline-info">Alterar</button>
-              <button class="btn btn-outline-success">Contato</button>
+              <button
+                class="btn btn-outline-info"
+                (click)="openModal(atleta.idAtleta)">
+                Detalhes
+              </button>
             </td>
           </tr>
         </tbody>
@@ -91,3 +94,4 @@
     </div>
   </div>
 </div>
+

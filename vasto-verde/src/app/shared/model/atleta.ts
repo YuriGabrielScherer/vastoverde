@@ -1,5 +1,5 @@
 export class Atleta {
-  id: number;
+  idAtleta: number;
   idGrau: number;
   idPessoaCompetitiva: number;
   idPessoa: number;

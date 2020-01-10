@@ -19,16 +19,13 @@
               id="nome"
               placeholder="Nome Completo"
               formControlName="nome"
-              [ngClass]="validacaoForm.aplicaCss(formulario.get('nome'))"
-            />
+              [ngClass]="validacaoForm.aplicaCss(formulario.get('nome'))"/>
 
             <!-- Div com mensagem de erro para o usuário -->
             <app-campo-control-erro
               [mostraErro]="
-                validacaoForm.verificaValidTouched(formulario.get('nome'))
-              "
-              msgErro="Nome é obrigatório."
-            >
+                validacaoForm.verificaValidTouched(formulario.get('nome'))"
+                msgErro="Nome é obrigatório.">
             </app-campo-control-erro>
           </div>
         </div>
@@ -41,16 +38,12 @@
               id="senha"
               placeholder="Senha"
               formControlName="senha"
-              [ngClass]="validacaoForm.aplicaCss(formulario.get('senha'))"
-            />
+              [ngClass]="validacaoForm.aplicaCss(formulario.get('senha'))"/>
 
             <!-- Div com mensagem de erro para o usuário -->
             <app-campo-control-erro
-              [mostraErro]="
-                validacaoForm.verificaValidTouched(formulario.get('senha'))
-              "
-              msgErro="Senha é obrigatória. Mínimo 5 caracteres."
-            >
+              [mostraErro]="validacaoForm.verificaValidTouched(formulario.get('senha'))"
+              msgErro="Senha é obrigatória. Mínimo 5 caracteres.">
             </app-campo-control-erro>
           </div>
         </div>
@@ -68,11 +61,8 @@
             />
             <!-- Div com mensagem de erro para o usuário -->
             <app-campo-control-erro
-              [mostraErro]="
-                validacaoForm.verificaValidTouched(formulario.get('cpf'))
-              "
-              msgErro="CPF inválido."
-            >
+              [mostraErro]="validacaoForm.verificaValidTouched(formulario.get('cpf'))"
+              msgErro="CPF inválido.">
             </app-campo-control-erro>
           </div>
           <div class="form-group col">
@@ -96,9 +86,7 @@
             />
             <!-- Div com mensagem de erro para o usuário -->
             <app-campo-control-erro
-              [mostraErro]="
-                validacaoForm.verificaValidTouched(formulario.get('telefone'))
-              "
+              [mostraErro]="validacaoForm.verificaValidTouched(formulario.get('telefone'))"
               msgErro="Número de celular é obrigatório."
             >
             </app-campo-control-erro>
@@ -110,19 +98,13 @@
               id="data"
               placeholder="Data de Nascimento"
               formControlName="dataNascimento"
-              [ngClass]="
-                validacaoForm.aplicaCss(formulario.get('dataNascimento'))
-              "
+              [ngClass]="validacaoForm.aplicaCss(formulario.get('dataNascimento'))"
               [textMask]="{ mask: maskData }"
             />
 
             <!-- Div com mensagem de erro para o usuário -->
             <app-campo-control-erro
-              [mostraErro]="
-                validacaoForm.verificaValidTouched(
-                  formulario.get('dataNascimento')
-                )
-              "
+              [mostraErro]="validacaoForm.verificaValidTouched(formulario.get('dataNascimento'))"
               msgErro="Data de nascimento é obrigatória."
             >
             </app-campo-control-erro>
@@ -141,9 +123,7 @@
             />
             <!-- Div com mensagem de erro para o usuário -->
             <app-campo-control-erro
-              [mostraErro]="
-                validacaoForm.verificaValidTouched(formulario.get('email'))
-              "
+              [mostraErro]="validacaoForm.verificaValidTouched(formulario.get('email'))"
               msgErro="E-mail é obrigatório."
             >
             </app-campo-control-erro>
@@ -196,6 +176,7 @@
             <span class="sr-only">Loading...</span>
             <div class="spinner-border text-success" role="status"></div>
           </div>
+
         </div>
       </form>
     </div>

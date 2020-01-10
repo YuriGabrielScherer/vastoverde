@@ -1,9 +1,8 @@
-import { AtletaComponent } from './../atleta/atleta/atleta.component';
-import { AuthGuard } from './../guards/auth-guard';
-import { AdministrativoComponent } from './administrativo/administrativo.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { AdministrativoComponent } from './administrativo/administrativo.component';
+import { AuthGuard } from './../guards/auth-guard';
 
 const routes: Routes = [
   {

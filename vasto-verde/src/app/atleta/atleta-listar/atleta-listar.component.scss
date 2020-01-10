@@ -15,16 +15,26 @@
   user-select: none;
 }
 
-.divFiltros{
+// Centralizando o Spinner
+.divSpinner {
+  margin: auto;
+  margin-top: 5px;
+}
+
+// Div com os Filtros
+.divFiltros {
   padding: 0.5em;
 }
 
-.divSwitch{
+.divSwitch {
   // Alinhando o Switch no meio
   display: flex;
   align-items: center;
 }
-.divListagem{
+
+// Tabela de Dados
+.divListagem {
   max-height: 400px;
   overflow-y: scroll;
 }
+

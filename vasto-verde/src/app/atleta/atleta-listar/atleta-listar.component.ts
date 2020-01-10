@@ -1,12 +1,12 @@
+import { ToastService } from './../../shared/services/toast/toast.service';
+import { AtletaAlterarService } from './../atleta-alterar/atleta-alterar.service';
+import { ValidacoesFormService } from './../../shared/services/validacoes-form.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { Router } from '@angular/router';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-
-import { Atleta } from './../../shared/model/atleta';
 import { AtletaService } from './../atleta.service';
-
-import { Pessoa } from './../../shared/model/pessoa';
-import { PessoaService } from './../../pessoa/pessoa.service';
+import { VwAtletaPessoa } from './../../shared/model/vwAtletaPessoa';
 
 @Component({
   selector: 'app-atleta-listar',
@@ -17,7 +17,9 @@ import { PessoaService } from './../../pessoa/pessoa.service';
 export class AtletaListarComponent implements OnInit {
 
   // Listagem de Atletas cadastrados.
-  atletas: Atleta[];
+  atletas: VwAtletaPessoa[];
+
+
 
   // Objeto Campeonato
   campeonatos = [
@@ -27,23 +29,48 @@ export class AtletaListarComponent implements OnInit {
     'Brasileiro'
   ];
 
+  formulario: any;
+
+  modalRef: BsModalRef;
+
   constructor(
-    private atletaService: AtletaService
+    private atletaService: AtletaService,
+    private modal: AtletaAlterarService,
+    private toast: ToastService,
+    protected validacaoForm: ValidacoesFormService
   ) { }
 
   ngOnInit() {
 
+    console.log(this.atletas);
+
+    this.carregarListaAtletas();
+
   }
 
   retornarAtletas() {
-
-
-    setTimeout(() => {// Retornando os atletas
-      this.atletas = this.atletaService.getAtletas();
-    }, 2000);
     return this.atletas;
   }
 
+  openModal(idAtleta: number) {
+    this.modal.showModal(idAtleta);
+  }
+
+  // Metodo para carregar a Lista de Atletas
+  private carregarListaAtletas() {
+    this.atletaService.getAtletasPessoas().subscribe(
+      (success) => {
+        this.atletas = success;
+      },
+      (error) => {
+        switch (error['status']) {
+          default: {
+            this.toast.toastErroBanco();
+            break;
+          }
+        }
+      });
+  }
 
 
 }

@@ -80,14 +80,14 @@ export class ListarPessoasComponent implements OnInit {
           pessoa.nomePessoa.toLocaleLowerCase().includes(nome)
       );
 
-    } else if (this.formularioFiltro.get('tipoUsuario').value != 0) {
+    } else if (this.formularioFiltro.get('tipoUsuario').value !== 0) {
 
       const tipo = this.formularioFiltro.get('tipoUsuario').value;
 
       // Retornando Lista filtrada
       return this.listaPessoa.filter(
         (pessoa) =>
-          pessoa.tipoUsuarioPessoa == tipo
+          pessoa.tipoUsuarioPessoa === tipo
       );
     } else {
       return this.listaPessoa;

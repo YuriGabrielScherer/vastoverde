@@ -28,12 +28,14 @@
               <div class="form-group col-md-6">
                 <label for="federacao">Federação</label>
                 <input type="text" class="form-control" id="federacao"
-                  formControlName="federacao" />
+                  formControlName="federacao"
+                  [ngClass]="validaForm.aplicaCss(formulario.get('federacao'))" />
               </div>
               <div class="form-group col-md-6">
                 <label for="confederacao">Confederação</label>
                 <input type="text" class="form-control" id="confederacao"
-                  formControlName="confederacao" />
+                  formControlName="confederacao"
+                  [ngClass]="validaForm.aplicaCss(formulario.get('confederacao'))"/>
               </div>
             </div>
             <div class="form-row">
@@ -44,12 +46,18 @@
                   class="form-control"
                   id="dataInicio"
                   formControlName="dataInicio"
-                  [textMask]="{ mask: maskData}"/>
+                  [textMask]="{ mask: maskData}"
+                  [ngClass]="validaForm.aplicaCss(formulario.get('dataInicio'))"/>
+                  <!-- Div Mensagem de Erro -->
+                  <app-campo-control-erro
+                    [mostraErro]="validaForm.verificaValidTouched(formulario.get('dataInicio'))"
+                    msgErro="Data de início da prática do atleta é obrigatória.">
+                  </app-campo-control-erro>
               </div>
 
               <div class="form-group col-md-6">
                 <label for="idGrau">Grau</label>
-                <select id="idGrau" class="form-control" formControlName="idGrau">
+                <select id="idGrau" class="custom-select" formControlName="idGrau" [ngClass]="validaForm.aplicaCss(formulario.get('idGrau'))">
                   <option value="1" selected>Branca</option>
                   <option value="2">Amarela</option>
                   <option value="3">Vermelha</option>
@@ -69,9 +77,15 @@
           <form [formGroup]="formulario">
             <div class="form-row">
               <div class="form-group col-md-12">
-                <label for="nomeResponsavel">Nome do Responsável</label>
+                <label for="nomeResponsavel">Nome da Mãe</label>
                 <input type="text" class="form-control" id="nomeResponsavel"
-                formControlName="nomeResponsavel"/>
+                formControlName="nomeResponsavel"
+                [ngClass]="validaForm.aplicaCss(formulario.get('nomeResponsavel'))"/>
+                <!-- Div Mensagem de Erro -->
+                <app-campo-control-erro
+                  [mostraErro]="validaForm.verificaValidTouched(formulario.get('nomeResponsavel'))"
+                  msgErro="Nome da mãe do atleta é obrigatório.">
+                </app-campo-control-erro>
               </div>
             </div>
             <div class="form-row">
@@ -80,13 +94,25 @@
                 <input
                   type="text" class="form-control" id="telefoneResponsavel"
                   formControlName="telefoneResponsavel"
-                  [textMask]="{ mask: maskTelefone}"/>
+                  [textMask]="{ mask: maskTelefone}"
+                  [ngClass]="validaForm.aplicaCss(formulario.get('telefoneResponsavel'))"/>
+                  <!-- Div Mensagem de Erro -->
+                  <app-campo-control-erro
+                    [mostraErro]="validaForm.verificaValidTouched(formulario.get('telefoneResponsavel'))"
+                    msgErro="Telefone do responsável do atleta é obrigatório.">
+                  </app-campo-control-erro>
               </div>
               <div class="form-group col-md-6">
-                <label for="cpfResponsavel">CPF do Responsável</label>
+                <label for="cpfResponsavel">CPF da Mãe</label>
                 <input type="text" class="form-control" id="cpfResponsavel"
                 formControlName="cpfResponsavel"
-                [textMask]="{ mask: maskCpf}"/>
+                [textMask]="{ mask: maskCpf}"
+                [ngClass]="validaForm.aplicaCssCpf(formulario.get('cpfResponsavel'))"/>
+                <!-- Div Mensagem de Erro -->
+                <app-campo-control-erro
+                   [mostraErro]="validaForm.verificaValidTouched(formulario.get('cpfResponsavel'))"
+                   msgErro="CPF da mãe do atleta é obrigatório.">
+                </app-campo-control-erro>
               </div>
             </div>
           </form>
@@ -105,7 +131,8 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="submit" class="btn btn-outline-warning" (click)="onClick()">Alterar</button>
+    <button type="submit" class="btn btn-outline-warning" (click)="onSubmit()" [disabled]="!formulario.dirty" >Alterar</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="onDelete()">Excluir</button>
     <button type="button" class="btn btn-outline-danger" (click)="onClose()">
       Cancelar
     </button>

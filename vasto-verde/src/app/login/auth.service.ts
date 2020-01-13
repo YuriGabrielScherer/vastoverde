@@ -1,11 +1,8 @@
-import { Injectable, EventEmitter, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError } from 'rxjs/operators';
-import { EMPTY, Observable } from 'rxjs';
 
 import { Pessoa } from '../shared/model/pessoa';
-import { PessoaService } from '../pessoa/pessoa.service';
-import { ToastService } from '../shared/services/toast/toast.service';
+import { PessoaService } from './../pessoa/pessoa.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +13,7 @@ export class AuthService {
 
   constructor(
     private router: Router,
+    private pessoaService: PessoaService
   ) { }
 
   // Retornar Usuario autenticado ou nao
@@ -26,16 +24,6 @@ export class AuthService {
     }
 
     return false;
-  }
-
-
-
-  getIdAutenticado(): number {
-    if (sessionStorage.getItem('usuario_logado')) {
-      return sessionStorage.getItem('usuario_logado') as unknown as number;
-    } else {
-      return localStorage.getItem('usuario_logado') as unknown as number;
-    }
   }
 
   // Deslogar
@@ -54,7 +42,24 @@ export class AuthService {
     this.usuarioLogado = pessoa;
   }
 
-  getUsuarioAutenticado(): Pessoa {
-    return this.usuarioLogado;
+  getUsuarioAutenticado() {
+
+    let idPessoa;
+
+    if (sessionStorage.getItem('usuario_logado')) {
+      idPessoa = sessionStorage.getItem('usuario_logado') as unknown as number;
+    } else {
+      idPessoa = localStorage.getItem('usuario_logado') as unknown as number;
+    }
+
+    this.pessoaService.loadById(idPessoa).subscribe(
+      (success: Pessoa) => {
+
+        this.usuarioLogado = success;
+
+        return success;
+      }, (erro) => {
+        console.log('Degub Administrativo Service -> Erro ao retornar usuário.');
+      });
   }
 }

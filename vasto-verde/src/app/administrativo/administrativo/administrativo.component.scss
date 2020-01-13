@@ -22,3 +22,19 @@
 .list-group-item {
   color: black !important;
 }
+
+// Alinhando o painel quando a tela ficar menor
+@media (max-width: 768px) {
+  .col-sm-12 {
+    padding-right: 0;
+  }
+}
+
+// Spinner
+.rowSpinner{
+  width: 100%;
+  align-items: center;
+}
+.divSpinner{
+  margin: 0 auto;
+}

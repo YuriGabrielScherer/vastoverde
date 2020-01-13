@@ -17,22 +17,23 @@ public class PessoaCompetitivaService {
     @Autowired
     private PessoaCompetitivaRepository pessoaCompetitivaRepository;
 
-    public int savePessoaCompetitiva(AtletaPessoaCompetitivaModelo objCadastrar) {
+    public int savePessoaCompetitiva(AtletaPessoaCompetitivaModelo objeto) {
 
         PessoaCompetitivaModelo pessoaCompetitiva = new PessoaCompetitivaModelo();
         try {
 
             // Criando o Objeto pessoaCompetitiva
-            pessoaCompetitiva.setIdGrau(objCadastrar.getIdGrau());
-            pessoaCompetitiva.setIdPessoa(objCadastrar.getIdPessoa());
-            pessoaCompetitiva.setDataInicio(objCadastrar.getDataInicio());
+            pessoaCompetitiva.setId(objeto.getIdPessoaCompetitiva());
+            pessoaCompetitiva.setIdGrau(objeto.getIdGrau());
+            pessoaCompetitiva.setIdPessoa(objeto.getIdPessoa());
+            pessoaCompetitiva.setDataInicio(objeto.getDataInicio());
 
             // If - Federacao e Confederacao
-            if (objCadastrar.getConfederacao() != 0)
-                pessoaCompetitiva.setConfederacao(objCadastrar.getConfederacao());
+            if (objeto.getConfederacao() != 0)
+                pessoaCompetitiva.setConfederacao(objeto.getConfederacao());
 
-            if (objCadastrar.getFederacao() != 0)
-                pessoaCompetitiva.setFederacao(objCadastrar.getFederacao());
+            if (objeto.getFederacao() != 0)
+                pessoaCompetitiva.setFederacao(objeto.getFederacao());
 
             // Salvando a Pessoa Competitiva
             this.pessoaCompetitivaRepository.save(pessoaCompetitiva);
@@ -42,6 +43,25 @@ public class PessoaCompetitivaService {
             System.out.println(e.getStackTrace());
             return -1;
         }
+
+    }
+
+    public boolean excluir(int idPessoaCompetitiva) {
+
+        try {
+
+            // Find Pessoa Competitiva
+            PessoaCompetitivaModelo pessoa = this.pessoaCompetitivaRepository.findById(idPessoaCompetitiva);
+            
+            // Tentando excluir a Pessoa Competitiva
+            this.pessoaCompetitivaRepository.delete(pessoa);
+
+            return true;
+        } catch (Exception e) {
+            System.out.println("Erro ao excluir PessoaCompetitiva -> " + e.getMessage());
+            return false;
+        }
+
     }
 
 }

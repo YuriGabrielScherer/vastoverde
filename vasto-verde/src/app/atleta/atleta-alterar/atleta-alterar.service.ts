@@ -1,10 +1,11 @@
+import { Subscription, Subject } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ToastService } from './../../shared/services/toast/toast.service';
 import { Injectable } from '@angular/core';
 
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AtletaService } from './../atleta.service';
 import { ValidacoesFormService } from './../../shared/services/validacoes-form.service';
+import { ToastService } from './../../shared/services/toast/toast.service';
 
 import { AtletaAlterarComponent } from './atleta-alterar.component';
 import { VwAtletaPessoa } from './../../shared/model/vwAtletaPessoa';
@@ -25,6 +26,7 @@ export class AtletaAlterarService {
     protected validacaoForm: ValidacoesFormService,
   ) { }
 
+
   showModal(idAtleta: number) {
 
     // Abrindo o Modal
@@ -34,16 +36,12 @@ export class AtletaAlterarService {
     this.atletaService.getAtletaPessoaById(idAtleta).subscribe(
       // Caso Sucesso
       (success) => {
-
+        // Get dos Dados
         this.vwAtletaPessoa = success;
-
 
         // Passando as informacoes
         bsModalRef.content.atleta = this.vwAtletaPessoa;
         bsModalRef.content.formulario = this.criarFormulario(this.vwAtletaPessoa);
-
-        return (bsModalRef.content as AtletaAlterarComponent);
-
       },
       // Tratamento de erros
       (error) => {
@@ -53,7 +51,7 @@ export class AtletaAlterarService {
               'O atleta não foi encontrado na base de dados. Atualize a página e tente novamente.');
             break;
           }
-          case 500: {
+          case 400: {
             this.toast.toastErroBanco();
             break;
           }
@@ -62,12 +60,20 @@ export class AtletaAlterarService {
             break;
           }
         }
+      }
+    );
 
-        console.log('Debug Atleta Alterar Service Error: ', error);
-      });
+    // Retornando para atualizar a lista de Atletas
+    return (bsModalRef.content as AtletaAlterarComponent).respostaModal;
   }
 
   private criarFormulario(vwAtletaPessoa: VwAtletaPessoa): FormGroup {
+
+    // Alterando telefone - Colocando mascara para passar na validacao do Form
+    let telefone = vwAtletaPessoa.telefoneResponsavel.replace(/^(\d{2})(\d)/g, '($1)$2'); // Colocando parenteses
+    telefone = telefone.replace(/(\d)(\d{4})$/, '$1-$2');  // Colocando hifen
+
+    // Variavel do Formulario
     let formulario: FormGroup;
 
     formulario = this.formBuilder.group({
@@ -75,12 +81,19 @@ export class AtletaAlterarService {
       idAtleta: [vwAtletaPessoa.idAtleta],
       federacao: [vwAtletaPessoa.federacao],
       confederacao: [vwAtletaPessoa.confederacao],
-      dataInicio: [vwAtletaPessoa.dataInicio],
+      dataInicio: [vwAtletaPessoa.dataInicio, Validators.required, ],
       idGrau: [vwAtletaPessoa.idGrau, Validators.required],
+      idPessoaCompetitiva: [vwAtletaPessoa.idPessoaCompetitiva],
+      idPessoa: [vwAtletaPessoa.idPessoa],
       // Campos referentes ao Responsavel
       nomeResponsavel: [vwAtletaPessoa.nomeResponsavel, Validators.required],
-      telefoneResponsavel: [vwAtletaPessoa.telefoneResponsavel, [Validators.required, this.validacaoForm.isValidPhone()]],
+      telefoneResponsavel: [telefone, [Validators.required, this.validacaoForm.isValidPhone()]],
       cpfResponsavel: [vwAtletaPessoa.cpfResponsavel, [Validators.required, this.validacaoForm.isValidCpf()]]
+    });
+
+    Object.keys(formulario.controls).forEach(controle => {
+      // Marcando como Touched para aplicar as validacoes
+      formulario.get(controle).markAsTouched();
     });
 
     return formulario;

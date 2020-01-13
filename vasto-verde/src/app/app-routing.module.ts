@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, CanActivate } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
 // Componentes
 import { IndexComponent } from './shared/index/index.component';
@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login/login.component';
 
 // Guards
 import { AuthGuard } from './guards/auth-guard';
+import { PessoaResolver } from './guards/pessoa-resolver';
 
 const routes: Routes = [
   { // Caso vazio, vai para o index
@@ -21,7 +22,8 @@ const routes: Routes = [
   {
     path: 'administrativo',
     loadChildren: () => import('./administrativo/administrativo.module').then(m => m.AdministrativoModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    resolve: { pessoa: PessoaResolver}
   },
   {
     path: 'pessoa',

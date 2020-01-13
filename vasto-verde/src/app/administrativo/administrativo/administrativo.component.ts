@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
-import { AuthService } from './../../login/auth.service';
-import { PessoaService } from './../../pessoa/pessoa.service';
+
 import { Pessoa } from './../../shared/model/pessoa';
 import { Title } from '@angular/platform-browser';
 
@@ -14,20 +14,25 @@ import { Title } from '@angular/platform-browser';
 export class AdministrativoComponent implements OnInit {
 
   // Usuario autenticado
-  usuarioAutenticado: Pessoa = new Pessoa();
+  usuarioAutenticado: Pessoa = null;
 
 
   constructor(
-    private pessoaService: PessoaService,
-    private authService: AuthService,
-    private title: Title
+    private title: Title,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
     this.title.setTitle('Administrativo Karatê');
-    // this.usuarioAutenticado = this.authService.getUsuarioAutenticado();
+    this.getUsuarioLogado();
   }
 
-
-
+  // // Retornando Usuario logado
+  private getUsuarioLogado() {
+    // Pegando valores do Banco de dados
+    this.route.data.subscribe(
+      (pessoa) => {
+        this.usuarioAutenticado = pessoa.pessoa;
+      });
+  }
 }

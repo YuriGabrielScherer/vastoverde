@@ -33,10 +33,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private pessoaService: PessoaService,
-
-    // private toast: ToastrService,
     private toastService: ToastService,
-
     private formBuilder: FormBuilder
   ) { }
 
@@ -77,6 +74,8 @@ export class LoginComponent implements OnInit {
           this.lembrarDeMim ?
             localStorage.setItem('usuario_logado', pessoaLogada.idPessoa.toString())
             : sessionStorage.setItem('usuario_logado', pessoaLogada.idPessoa.toString());
+
+          // sessionStorage.setItem('usuario_logado', pessoaLogada.idPessoa.toString());
 
           // Setando a pessoa logada.
           this.authService.setUsuarioLogado(pessoaLogada);

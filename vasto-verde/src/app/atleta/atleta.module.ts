@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from './../shared/shared.module';
 import { AtletaRoutingModule } from './atleta-routing.module';
 
-import { AtletaResolver } from './guard/atleta-resolver';
 import { AtletaService } from './atleta.service';
 import { AtletaAlterarService } from './atleta-alterar/atleta-alterar.service';
 
@@ -33,7 +32,6 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
     AtletaComponent,
   ],
   providers: [
-    AtletaResolver,
     AtletaService,
     AtletaAlterarService
   ]

@@ -6,9 +6,10 @@ import { AdministrativoComponent } from './administrativo/administrativo.compone
 
 import { SharedModule } from './../shared/shared.module';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { PainelAdministrativoComponent } from './painel-administrativo/painel-administrativo.component';
 
 @NgModule({
-  declarations: [AdministrativoComponent],
+  declarations: [AdministrativoComponent, PainelAdministrativoComponent],
   imports: [
     CommonModule,
     AdministrativoRoutingModule,

@@ -178,9 +178,10 @@ export class CadastroComponent implements OnInit, OnDestroy {
               this.toastService.toastErroBanco();
               break;
             }
-            // Código usuário não encontrado.
+            // Usuário não encontrado.
             case 404: {
-              this.toastService.toastError('Erro!', 'Usuário não encontrado no banco de dados. Atualize a página e tente novamente.');
+              this.toastService.toastError('Não encontrado!',
+                'Usuário não encontrado no banco de dados. Atualize a página e tente novamente.');
               break;
             }
           }

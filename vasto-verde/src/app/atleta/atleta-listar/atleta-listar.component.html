@@ -1,7 +1,7 @@
 <div class="divAtletaListar">
   <h5 class="gambiarra">a</h5>
 
-  <h4>Atletas Cadastrados</h4>
+  <h4>Atletas Cadastrados -> <strong> Falta Fazer o Filtro Funcionar!</strong></h4>
   <hr />
 
   <!-- Spinner Loading -->
@@ -80,10 +80,10 @@
             <td>{{ atleta.nomePessoa }}</td>
             <td>{{ atleta.cpfPessoa | mascaraCpf }}</td>
             <td>{{ atleta.dataNascimento }}</td>
-            <td>{{ atleta.idGrau }}</td>
+            <td>{{ atleta.idGrau | corFaixa }}</td>
             <td>
               <button
-                class="btn btn-outline-info"
+                class="btn btn-outline-success"
                 (click)="openModal(atleta.idAtleta)">
                 Detalhes
               </button>

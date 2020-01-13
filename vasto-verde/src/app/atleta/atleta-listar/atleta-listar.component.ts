@@ -1,11 +1,11 @@
+import { take } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+
+import { AtletaService } from './../atleta.service';
 import { ToastService } from './../../shared/services/toast/toast.service';
 import { AtletaAlterarService } from './../atleta-alterar/atleta-alterar.service';
 import { ValidacoesFormService } from './../../shared/services/validacoes-form.service';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { Router } from '@angular/router';
-import { Component, OnInit, TemplateRef } from '@angular/core';
 
-import { AtletaService } from './../atleta.service';
 import { VwAtletaPessoa } from './../../shared/model/vwAtletaPessoa';
 
 @Component({
@@ -19,8 +19,6 @@ export class AtletaListarComponent implements OnInit {
   // Listagem de Atletas cadastrados.
   atletas: VwAtletaPessoa[];
 
-
-
   // Objeto Campeonato
   campeonatos = [
     'Olesc',
@@ -28,10 +26,6 @@ export class AtletaListarComponent implements OnInit {
     'Jasc',
     'Brasileiro'
   ];
-
-  formulario: any;
-
-  modalRef: BsModalRef;
 
   constructor(
     private atletaService: AtletaService,
@@ -41,11 +35,7 @@ export class AtletaListarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    console.log(this.atletas);
-
     this.carregarListaAtletas();
-
   }
 
   retornarAtletas() {
@@ -53,10 +43,19 @@ export class AtletaListarComponent implements OnInit {
   }
 
   openModal(idAtleta: number) {
-    this.modal.showModal(idAtleta);
+    // Verificando se o usuário foi alterado após a abertura do Modal
+    const resposta$ = this.modal.showModal(idAtleta);
+
+    // Tratando a resposta
+    resposta$.asObservable().pipe(
+      take(1)
+    ).subscribe(
+      (alterado) => {
+        this.carregarListaAtletas();
+      });
   }
 
-  // Metodo para carregar a Lista de Atletas
+  // Metodos privados
   private carregarListaAtletas() {
     this.atletaService.getAtletasPessoas().subscribe(
       (success) => {

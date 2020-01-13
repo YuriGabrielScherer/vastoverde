@@ -1,3 +1,4 @@
+import { PessoaResolver } from './guards/pessoa-resolver';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -66,7 +67,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   providers: [
     AuthService,
-    AuthGuard
+    AuthGuard,
+    PessoaResolver
   ],
   bootstrap: [AppComponent],
   entryComponents: [

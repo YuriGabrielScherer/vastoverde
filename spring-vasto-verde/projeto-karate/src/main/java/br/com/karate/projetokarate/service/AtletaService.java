@@ -82,18 +82,46 @@ public class AtletaService {
 
         // Retornando toda a Lista Atualizada
         List<VwPessoaAtletaModelo> vwPessoas = this.vwPessoaAtletaRepository.findAll();
+        try {
 
-        // Filtrando pelo ID para retornar para o usuario
-        for (int i = 0; i < vwPessoas.size(); i++) {
-            System.out.println(vwPessoas.get(i).getIdAtleta() + " -- " + i);
-            if (vwPessoas.get(i).getIdAtleta() == idAtleta) {
-                pessoaAtleta = vwPessoas.get(i);
-                return new ResponseEntity<>(pessoaAtleta, HttpStatus.OK);
+            // Filtrando pelo ID para retornar para o usuario
+            for (int i = 0; i < vwPessoas.size(); i++) {
+                if (vwPessoas.get(i).getIdAtleta() == idAtleta) {
+                    pessoaAtleta = vwPessoas.get(i);
+                    return new ResponseEntity<>(pessoaAtleta, HttpStatus.OK);
+                }
             }
+
+            // Caso nao encontrado
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Excluir Atleta - Pessoa Competitiva Tambem
+    @RequestMapping(value = "/atleta/{idAtleta}", method = RequestMethod.DELETE)
+    public ResponseEntity<String> delete(@PathVariable("idAtleta") int idAtleta) {
+
+        try {
+
+            // Procurando atleta para saber o Id Pessoa Competitiva.
+            AtletaModelo atleta = this.atletaRepository.findById(idAtleta);
+
+            int idPessoaCompetitiva = atleta.getIdPessoaCompetitiva();
+
+            // Excluindo atleta
+            this.atletaRepository.delete(atleta);
+
+            // Excluindo Pessoa Competitiva
+            this.pessoaCompetitivaService.excluir(idPessoaCompetitiva);
+
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        // Caso nao encontrado
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     // Metodo para criar um objeto atleta
@@ -103,6 +131,7 @@ public class AtletaService {
 
         try {
             // Passando as informacoes
+            atleta.setId(objeto.getIdAtleta());
             atleta.setIdPessoaCompetitiva(objeto.getIdPessoaCompetitiva());
             atleta.setNomeResponsavel(objeto.getNomeResponsavel());
             atleta.setTelefoneResponsavel(objeto.getTelefoneResponsavel());

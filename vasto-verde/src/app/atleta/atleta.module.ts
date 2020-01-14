@@ -10,15 +10,15 @@ import { AtletaAlterarService } from './atleta-alterar/atleta-alterar.service';
 
 import { AtletaComponent } from './atleta/atleta.component';
 import { AtletaListarComponent } from './atleta-listar/atleta-listar.component';
-import { AtletaFckComponent } from './atleta-fck/atleta-fck.component';
 
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { AtletaFuncoesComponent } from './atleta-funcoes/atleta-funcoes.component';
 
 @NgModule({
   declarations: [
     AtletaComponent,
     AtletaListarComponent,
-    AtletaFckComponent,
+    AtletaFuncoesComponent,
   ],
   imports: [
     CommonModule,

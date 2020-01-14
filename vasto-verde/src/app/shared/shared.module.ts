@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TextMaskModule } from 'angular2-text-mask';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { CampocontrolerroComponent } from './mensagens-formulario/campo-control-erro/campo-control-erro.component';
+import { CampoControlErroComponent } from './mensagens-formulario/campo-control-erro/campo-control-erro.component';
 import { ConfirmModalComponent } from './mensagens-formulario/confirm-modal/confirm-modal.component';
+import { EnviaEmailComponent } from './envia-email/envia-email.component';
 
 import { MascaraCpfPipe } from './services/pipes/mascara-cpf.pipe';
 import { PrimeiroNomePipe } from './services/pipes/primeiro-nome.pipe';
@@ -12,21 +14,24 @@ import { CorFaixaPipe } from './services/pipes/cor-faixa.pipe';
 import { ToastService } from './services/toast/toast.service';
 import { ConfirmModalService } from './mensagens-formulario/confirm-modal/confirm-modal.service';
 import { ValidacoesFormService } from './services/validacoes-form.service';
+import { EnviaEmailService } from './envia-email/envia-email.service';
 
 @NgModule({
   declarations: [
-    CampocontrolerroComponent,
+    CampoControlErroComponent,
     ConfirmModalComponent,
+    EnviaEmailComponent,
     MascaraCpfPipe,
     PrimeiroNomePipe,
-    CorFaixaPipe
+    CorFaixaPipe,
   ],
   imports: [
     CommonModule,
-    TextMaskModule
+    TextMaskModule,
+    ReactiveFormsModule
   ],
   exports: [
-    CampocontrolerroComponent,
+    CampoControlErroComponent,
     MascaraCpfPipe,
     PrimeiroNomePipe,
     CorFaixaPipe,
@@ -35,10 +40,12 @@ import { ValidacoesFormService } from './services/validacoes-form.service';
   providers: [
     ToastService,
     ValidacoesFormService,
-    ConfirmModalService
+    ConfirmModalService,
+    EnviaEmailService
   ],
   entryComponents: [
-    ConfirmModalComponent
+    ConfirmModalComponent,
+    EnviaEmailComponent
   ]
 })
 export class SharedModule { }

@@ -24,6 +24,7 @@ export class PessoaResolver implements Resolve<Pessoa> {
     if (sessionStorage.getItem('usuario_logado')) {
       idPessoa = sessionStorage.getItem('usuario_logado') as unknown as number;
     } else {
+
       idPessoa = localStorage.getItem('usuario_logado') as unknown as number;
     }
 

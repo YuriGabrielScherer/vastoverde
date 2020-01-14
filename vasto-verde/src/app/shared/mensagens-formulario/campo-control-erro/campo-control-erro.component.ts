@@ -5,7 +5,7 @@ import { Component, OnInit, Input} from '@angular/core';
   templateUrl: './campo-control-erro.component.html',
   styleUrls: ['./campo-control-erro.component.scss']
 })
-export class CampocontrolerroComponent implements OnInit {
+export class CampoControlErroComponent implements OnInit {
 
   @Input() mostraErro;
   @Input() msgErro;

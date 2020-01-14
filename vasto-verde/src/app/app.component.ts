@@ -8,6 +8,6 @@ import { AuthService } from './login/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'vasto-verde';
+  title = 'Vasto Verde';
 
 }

@@ -1,3 +1,4 @@
+import { AtletaFuncoesComponent } from './atleta-funcoes/atleta-funcoes.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, Resolve } from '@angular/router';
 
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'listar',
     component: AtletaListarComponent
+  },
+  {
+    path: 'funcoes',
+    component: AtletaFuncoesComponent
   }
 
 ];

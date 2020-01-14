@@ -39,7 +39,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
 
-    // Criando o formulario
     this.formulario = this.formBuilder.group({
       email: [null, Validators.required],
       senha: [null, Validators.required],
@@ -48,8 +47,7 @@ export class LoginComponent implements OnInit {
 
   }
 
-  // Metodo que realiza o Login
-  realizarLogin() {
+  private realizarLogin() {
 
     if (this.formulario.valid) {
 

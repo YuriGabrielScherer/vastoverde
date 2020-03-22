@@ -58,8 +58,6 @@ public class PessoaController {
 
 	@RequestMapping(value = "pessoa/{idPessoa}", method = RequestMethod.DELETE)
 	public ResponseEntity<String> delete(@PathVariable("idPessoa") int idPessoa) {
-		Logger log;
-		log.
 		return this.pessoaService.excluir(idPessoa);
 	}
 	

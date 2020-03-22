@@ -1,4 +1,4 @@
-export class Email{
+export class Email {
 
   destinatario: string;
   remetente: string;

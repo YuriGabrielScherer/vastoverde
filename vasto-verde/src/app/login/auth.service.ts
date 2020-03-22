@@ -1,8 +1,10 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Pessoa } from '../shared/model/pessoa';
 import { PessoaService } from './../pessoa/pessoa.service';
+import { map, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,17 +15,43 @@ export class AuthService {
 
   constructor(
     private router: Router,
+    private http: HttpClient,
     private pessoaService: PessoaService
-  ) { }
+  ) {
 
-  // Retornar Usuario autenticado ou nao
-  usuarioAutenticado(): boolean {
-    // Verificando se existe no sessionStorage
-    if ((sessionStorage.getItem('usuario_logado')) || (localStorage.getItem('usuario_logado'))) {
-      return true;
-    }
+  }
 
-    return false;
+  authenticate(login: any) {
+    return this.http.post('http://localhost:8080/login', login).pipe(
+      take(1)
+    );
+  }
+
+  authenticate1(login) {
+    return this.http.post<Pessoa>('http://localhost:8080/login', login).pipe(
+      take(1),
+      map(
+        (userData: any) => {
+          console.log('UserData -> ', userData);
+          sessionStorage.setItem('email', login.username);
+
+          const tokenStr = 'Bearer ' + userData.token;
+
+          sessionStorage.setItem('token', tokenStr);
+
+          return userData;
+        }
+      )
+    );
+  }
+
+  isUserLoggedIn(): boolean {
+    const user = sessionStorage.getItem('email');
+    return !(user === null);
+  }
+
+  logOut() {
+    sessionStorage.removeItem('email');
   }
 
   // Deslogar
@@ -38,28 +66,19 @@ export class AuthService {
     this.router.navigate(['/', 'login']);
   }
 
-  setUsuarioLogado(pessoa: Pessoa) {
-    this.usuarioLogado = pessoa;
-  }
+  getUserLogged() {
 
-  getUsuarioAutenticado() {
+    let email: string;
 
-    let idPessoa;
-
-    if (sessionStorage.getItem('usuario_logado')) {
-      idPessoa = sessionStorage.getItem('usuario_logado') as unknown as number;
+    if (sessionStorage.getItem('email')) {
+      email = sessionStorage.getItem('email');
     } else {
-      idPessoa = localStorage.getItem('usuario_logado') as unknown as number;
+      email = localStorage.getItem('email');
     }
 
-    this.pessoaService.loadById(idPessoa).subscribe(
-      (success: Pessoa) => {
-
-        this.usuarioLogado = success;
-
-        return success;
-      }, (erro) => {
-        console.log('Degub Administrativo Service -> Erro ao retornar usuário.');
-      });
+    return this.pessoaService.loadByEmail(email)
+      .pipe(
+        take(1)
+      );
   }
 }

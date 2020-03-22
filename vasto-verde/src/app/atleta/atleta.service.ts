@@ -36,8 +36,15 @@ export class AtletaService extends CrudService<Atleta> {
       );
   }
 
-  alterarAtleta(atleta: VwAtletaPessoa){
+  alterarAtleta(atleta: VwAtletaPessoa) {
     return this.http.post<VwAtletaPessoa>(`${environment.API}atleta`, atleta)
+      .pipe(
+        take(1)
+      );
+  }
+
+  cadastrarFck() {
+    return this.http.get<string>(`${environment.API}fck`)
       .pipe(
         take(1)
       );

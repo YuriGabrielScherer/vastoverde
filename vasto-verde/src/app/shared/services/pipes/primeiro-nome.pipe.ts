@@ -11,7 +11,7 @@ export class PrimeiroNomePipe implements PipeTransform {
     let array: string[];
     // Separando e retomando o primeiro nome
     if (value) {
-      array = value.split(" ");
+      array = value.split(' ');
       return array[0];
     }
 

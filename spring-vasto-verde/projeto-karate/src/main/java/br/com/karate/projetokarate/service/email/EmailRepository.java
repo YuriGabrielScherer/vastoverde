@@ -1,4 +1,4 @@
-package br.com.karate.projetokarate.repository;
+package br.com.karate.projetokarate.service.email;
 
 import java.util.Properties;
 

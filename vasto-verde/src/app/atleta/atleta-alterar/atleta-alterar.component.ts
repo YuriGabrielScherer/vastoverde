@@ -1,15 +1,14 @@
 import { take, switchMap } from 'rxjs/operators';
 import { Subject, EMPTY } from 'rxjs';
-import { Router } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastService } from './../../shared/services/toast/toast.service';
-import { ConfirmModalService } from './../../shared/mensagens-formulario/confirm-modal/confirm-modal.service';
 import { AtletaService } from './../atleta.service';
 import { ValidacoesFormService } from './../../shared/services/validacoes-form.service';
 import { VwAtletaPessoa } from './../../shared/model/vwAtletaPessoa';
+import { ModalService } from './../../shared/modais/modal.service';
 
 @Component({
   selector: 'app-atleta-alterar',
@@ -36,7 +35,7 @@ export class AtletaAlterarComponent implements OnInit {
     public validaForm: ValidacoesFormService,
     private bsModalRef: BsModalRef,
     private atletaService: AtletaService,
-    private confirmModal: ConfirmModalService,
+    private modalService: ModalService,
     private toast: ToastService
   ) { }
 
@@ -87,7 +86,7 @@ export class AtletaAlterarComponent implements OnInit {
 
   onDelete() {
     // Confirmando Exclusao.
-    const resposta$ = this.confirmModal.showConfirm('Confirmar exclusão', 'Deseja mesmo excluir o atleta?', 'Excluir');
+    const resposta$ = this.modalService.showConfirmModal('Confirmar exclusão', 'Deseja mesmo excluir o atleta?', 'Excluir');
 
     resposta$.asObservable()
       .pipe(

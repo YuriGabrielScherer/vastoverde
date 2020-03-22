@@ -1,24 +1,10 @@
-package br.com.karate.projetokarate.repository;
+package br.com.karate.projetokarate.pessoa;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import org.springframework.data.repository.Repository;
+public interface PessoaRepository extends JpaRepository<Pessoa, Integer> {
 
-import br.com.karate.projetokarate.model.PessoaModelo;
-
-public interface PessoaRepository extends Repository<PessoaModelo, Integer> {
-
-    // Metodos Crud
-    void save(PessoaModelo pessoa);
-
-    List<PessoaModelo> findAll();
-
-    PessoaModelo findById(int idPessoa);
-
-    // PessoaModelo findByEmail(String email);
-
-    // PessoaModelo findByCpf(String cpf);
-
-    void delete(PessoaModelo pessoa);
-
+	Pessoa findByEmail(String email); 
+	Pessoa findByCpf(String cpf);
+	
 }

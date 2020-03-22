@@ -1,7 +1,4 @@
-package br.com.karate.projetokarate.model;
-
-import java.util.List;
-
+package br.com.karate.projetokarate.service.email;
 
 public class EmailModelo{
     

@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
   }
 
   usuario_logado() {
-    return this.authService.usuarioAutenticado();
+    return this.authService.isUserLoggedIn();
   }
 
   deslogar() {

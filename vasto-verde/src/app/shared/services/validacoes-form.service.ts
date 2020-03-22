@@ -23,7 +23,14 @@ export class ValidacoesFormService {
 
       // console.log(cpf);
       if (cpf) {
-        let numbers, digits, sum, i, result, equalDigits;
+
+        let numbers;
+        let digits;
+        let sum;
+        let i;
+        let result;
+        let equalDigits;
+
         equalDigits = 1;
         if (cpf.length < 11) {
           return { cpfNotValid: true };
@@ -78,7 +85,7 @@ export class ValidacoesFormService {
       const telefone: string = control.value;
 
       // Validando
-      var regex = new RegExp('^\\([0-9]{2}\\)(9[0-9]{4}-[0-9]{4})$');
+      const regex = new RegExp('^\\([0-9]{2}\\)(9[0-9]{4}-[0-9]{4})$');
 
       if (regex.test(telefone) === false) {
         return { phoneNotValid: true };

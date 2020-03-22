@@ -8,7 +8,7 @@
     />
   </div>
 
-  <form class="formulario" [formGroup]="formulario">
+  <form class="formulario" [formGroup]="formulario" (submit)="realizarLogin()">
     <div class="form-group">
       <label for="campoEmail">E-mail</label>
       <input
@@ -41,7 +41,6 @@
         type="submit"
         id="btnEntrar"
         class="btn btn-outline-success my-2 my-sm-0"
-        (click)="realizarLogin()"
       >
         Entrar
       </button>

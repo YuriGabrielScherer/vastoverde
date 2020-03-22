@@ -7,7 +7,7 @@ import { ValidacoesFormService } from './../../shared/services/validacoes-form.s
 import { Pessoa } from '../../shared/model/pessoa';
 import { PessoaService } from '../pessoa.service';
 import { ToastService } from './../../shared/services/toast/toast.service';
-import { ConfirmModalService } from '../../shared/mensagens-formulario/confirm-modal/confirm-modal.service';
+import { ModalService } from './../../shared/modais/modal.service';
 
 import { switchMap, take } from 'rxjs/operators';
 
@@ -44,7 +44,7 @@ export class CadastroComponent implements OnInit, OnDestroy {
     private pessoaService: PessoaService,
     protected validacaoForm: ValidacoesFormService,
     private toastService: ToastService,
-    private modalService: ConfirmModalService,
+    private modalService: ModalService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -156,7 +156,8 @@ export class CadastroComponent implements OnInit, OnDestroy {
   // Excluindo Pessoa
   onDelete() {
     // Confirmando exclusao com o usuario
-    const resposta$ = this.modalService.showConfirm('Confirmar exclusão', 'Deseja realmente excluir o usuário selecionado?', 'Excluir');
+    const resposta$ = this.modalService.showConfirmModal('Confirmar exclusão',
+      'Deseja realmente excluir o usuário selecionado?', 'Excluir');
 
     // Transformando o Subject em Observable para usar o Subscribe
     resposta$.asObservable()

@@ -1,20 +1,18 @@
-package br.com.karate.projetokarate.repository;
+package br.com.karate.projetokarate.atleta;
 
 import java.util.List;
 
 import org.springframework.data.repository.Repository;
 
-import br.com.karate.projetokarate.model.AtletaModelo;
-
-public interface AtletaRepository extends Repository<AtletaModelo, Integer> {
+public interface AtletaRepository extends Repository<Atleta, Integer> {
 
     // Metodos CRUD
-    void save(AtletaModelo atleta);
+    void save(Atleta atleta);
 
-    List<AtletaModelo> findAll();
+    List<Atleta> findAll();
 
-    AtletaModelo findById(int idAtleta);
+    Atleta findById(int idAtleta);
 
-    void delete(AtletaModelo atleta);
+    void delete(Atleta atleta);
 
 }

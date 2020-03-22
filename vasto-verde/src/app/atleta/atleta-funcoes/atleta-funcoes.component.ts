@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { EnviaEmailService } from './../../shared/envia-email/envia-email.service';
+import { AtletaService } from './../atleta.service';
+import { ModalService } from './../../shared/modais/modal.service';
 
 @Component({
   selector: 'app-atleta-funcoes',
@@ -10,14 +11,28 @@ import { EnviaEmailService } from './../../shared/envia-email/envia-email.servic
 export class AtletaFuncoesComponent implements OnInit {
 
   constructor(
-    private enviaEmail: EnviaEmailService
+    private atletaService: AtletaService,
+    private modalService: ModalService
   ) { }
 
   ngOnInit() {
   }
 
   onEnviaEmail() {
-    this.enviaEmail.showModal();
+    this.modalService.showEmailModal();
   }
+
+  cadastrarFck() {
+    this.atletaService.cadastrarFck().subscribe(
+      (success) => {
+        console.log(success);
+      },
+      (erro) => {
+        console.log(erro);
+      }
+    );
+  }
+
+
 
 }

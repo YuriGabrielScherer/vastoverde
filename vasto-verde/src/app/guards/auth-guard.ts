@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
   ): Observable<boolean> | boolean {
 
     // Verificando se a Rota pode ser ativada ou não.
-    if (this.authService.usuarioAutenticado()) {
+    if (this.authService.isUserLoggedIn()) {
       return true;
     }
 

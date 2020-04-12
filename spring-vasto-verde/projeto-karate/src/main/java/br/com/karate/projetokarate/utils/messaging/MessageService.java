@@ -1,11 +1,8 @@
-package br.com.karate.projetokarate.utils;
+package br.com.karate.projetokarate.utils.messaging;
 
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import br.com.karate.projetokarate.pessoa.Pessoa;
 
 public class MessageService {
 
@@ -15,7 +12,6 @@ public class MessageService {
 				
 		return new ResponseEntity<String>(mensagem, header, codigo);
 	}
-	
 
 	
 }

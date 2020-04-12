@@ -12,11 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import br.com.karate.projetokarate.utils.MessageException;
-import br.com.karate.projetokarate.utils.MessageService;
+import br.com.karate.projetokarate.utils.messaging.ErrorCategory;
+import br.com.karate.projetokarate.utils.messaging.MessageException;
+import br.com.karate.projetokarate.utils.messaging.MessageService;
 
 @Service
 public class PessoaService implements UserDetailsService {
@@ -27,71 +27,88 @@ public class PessoaService implements UserDetailsService {
 	private PessoaRepository pessoaRepository;
 
 	@Autowired
-	private PasswordEncoder bcryptEncoder;
-
-	public Optional<Pessoa> findById(int idPessoa) {
-		return this.pessoaRepository.findById(idPessoa);
+	private PessoaValidator validar;
+	
+	public Pessoa findById(int idPessoa) {
+		Optional<Pessoa> pessoa = this.pessoaRepository.findById(idPessoa);
+		if (pessoa.isPresent() && pessoa.get().isAtivo()) {
+			return pessoa.get();
+		}
+		throw new MessageException(ErrorCategory.BAD_REQUEST, "Pessoa não encontrada com o ID especificado.");
 	}
 
 	public List<Pessoa> findAll() {
 		return this.pessoaRepository.findAll();
 	}
 
-	public Pessoa getByEmail(String email) {
-		return this.pessoaRepository.findByEmail(email);
+	public Pessoa findByEmail(String email) {
+		Optional<Pessoa> pessoa = this.pessoaRepository.findByEmail(email);
+		if (pessoa.isPresent() && pessoa.get().isAtivo()) {
+			return pessoa.get();
+		}
+		throw new MessageException(ErrorCategory.BAD_REQUEST, "Pessoa não encontrada com o e-mail especificado.");
 	}
 
-	public ResponseEntity<Pessoa> getByCpf(String cpf) {
-		Pessoa pessoa = this.pessoaRepository.findByCpf(cpf);
-		return new ResponseEntity<Pessoa>(pessoa, HttpStatus.OK);
+	public Pessoa findByCpf(String cpf) {
+		LOGGER.info("Retornando pessoa por CPF...");
+		Optional<Pessoa> pessoa = this.pessoaRepository.findByCpf(cpf);
+		if (pessoa.isPresent() && pessoa.get().isAtivo()) {
+			return pessoa.get();
+		}
+		throw new MessageException(ErrorCategory.BAD_REQUEST, "Pessoa não encontrada com o CPF especificado.");
 	}
 
 	public ResponseEntity<String> excluir(int idPessoa) {
-		LOGGER.info("Buscando pessoa para exclusão.");
 		Optional<Pessoa> pessoa = this.pessoaRepository.findById(idPessoa);
 
-		if (pessoa != null) {
-			this.pessoaRepository.delete(pessoa.get());
-			return MessageService.send(HttpStatus.OK, "Usuário excluído com sucesso!", "Excluído!");
+		if (pessoa.isPresent()) {
+			validar.verificaAtletaDependente(pessoa.get());
+			pessoa.get().setAtivo(false);
+			this.pessoaRepository.save(pessoa.get());
+			LOGGER.info("Pessoa excluída com sucesso!");
+			return MessageService.send(HttpStatus.OK, "Pessoa excluída com sucesso!", "Exclusão de Pessoas.");
 		}
 
 		return MessageService.send(HttpStatus.BAD_REQUEST, "Não foi possível excluir a pessoa.",
-				"Pessoa não encontrada.");
+				"Exclusão de Pessoas.");
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-		Pessoa pessoa = pessoaRepository.findByEmail(email);
+		Optional<Pessoa> pessoa = pessoaRepository.findByEmail(email);
 
-		if (pessoa == null)
+		if (pessoa.get() == null)
 			throw new UsernameNotFoundException("User not found with email: " + email);
 
-		return new org.springframework.security.core.userdetails.User(pessoa.getEmail(), pessoa.getSenha(),
+		return new org.springframework.security.core.userdetails.User(pessoa.get().getEmail(), pessoa.get().getSenha(),
 				new ArrayList<>());
 
 	}
 
-	public ResponseEntity<?> save(Pessoa payload) {
-		Pessoa pessoa = new Pessoa();
-
-		pessoa.setNome(payload.getNome());
-		pessoa.setCpf(payload.getCpf());
-		pessoa.setDataNascimento(payload.getDataNascimento());
-		pessoa.setEmail(payload.getEmail());
-		pessoa.setSenha(bcryptEncoder.encode(payload.getSenha()));
-		System.out.println("Senha -> " + pessoa.getSenha());
-		pessoa.setSexo(payload.getSexo());
-		pessoa.setTelefone(payload.getTelefone());
-		pessoa.setTipoUsuario(payload.getTipoUsuario());
-
+	public ResponseEntity<?> cadastrar(Pessoa payload) {
+		validar.validarPessoa(payload);
+		validar.validarDuplicada(payload);
+		
 		try {
+			Pessoa pessoa = PessoaConverter.toRec(payload);
 			pessoaRepository.save(pessoa);
-			return MessageService.send(HttpStatus.CREATED, "A pessoa foi salva com sucesso no banco de dados.",
-					"Pessoa salva!");
+			LOGGER.info("Pessoa cadastrada com sucesso...");
 		} catch (Exception e) {
-			throw new MessageException(HttpStatus.INTERNAL_SERVER_ERROR, "Não foi possível salvar a pessoa.");
+			LOGGER.error("Erro ao cadastrar a pessoa " + payload.getCpf(), e.getCause());
+			throw new MessageException(ErrorCategory.BAD_REQUEST, e.getMessage(), e.getCause(), e.getMessage());
 		}
+		return MessageService.send(HttpStatus.CREATED, "A pessoa foi salva com sucesso no banco de dados.",
+				"Pessoa salva!");
+	}
+
+	public ResponseEntity<?> alterar(Pessoa payload) {
+		Pessoa pessoa = this.findByCpf(payload.getCpf());
+		pessoa = PessoaConverter.toPut(pessoa, payload);
+
+		pessoaRepository.save(pessoa);
+		return MessageService.send(HttpStatus.OK, "A pessoa foi alterada com sucesso no banco de dados.",
+				"Pessoa alterada!");
 
 	}
 

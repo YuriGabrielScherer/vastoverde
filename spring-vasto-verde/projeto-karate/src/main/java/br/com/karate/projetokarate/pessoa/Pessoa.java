@@ -1,6 +1,6 @@
 package br.com.karate.projetokarate.pessoa;
 
-import java.util.Date;
+import java.util.Calendar;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -24,36 +24,62 @@ public class Pessoa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, name = "idPessoa", unique = true)
+    @NotNull
+    @Column( name = "idPessoa", unique = true)
     private int id;
 
     @NotNull
     @Column(length = 100)
     private String nome;
 
-    @Column(nullable = true, length = 50, unique = true)
+    @Column( length = 50, unique = true)
     private String email;
 
-    @Column(nullable = true, length = 100)
+    @NotNull
+    @Column( length = 100)
     private String senha;
 
-    @Column(nullable = true, length = 14)
+    @Column( length = 14)
     private String telefone;
 
-    @Column(nullable = true)
-    private Date dataNascimento;
+    @NotNull
+    @Column()
+    private Calendar  dataNascimento;
 
     @CPF
-    @Column(nullable = false, length = 11, unique = true)
+    @NotNull
+    @Column( length = 11, unique = true)
     private String cpf;
 
-    @Column(nullable = true, name = "tipoUsuario")
+    @NotNull
+    @Column( name = "tipoUsuario")
     private TipoPessoa tipoUsuario;
 
-    @Column(nullable = true, name = "sexo")
+    @NotNull
+    @Column( name = "sexo")
     private char sexo;
     
-    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+    @NotNull
+    @Column()
+    private boolean ativo;
+    
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+
+	public Atleta getAtleta() {
+		return atleta;
+	}
+
+	public void setAtleta(Atleta atleta) {
+		this.atleta = atleta;
+	}
+
+	@OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
     private Atleta atleta;
 
 
@@ -97,11 +123,11 @@ public class Pessoa {
         this.telefone = telefone;
     }
 
-    public Date getDataNascimento() {
+    public Calendar  getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(Calendar  dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 

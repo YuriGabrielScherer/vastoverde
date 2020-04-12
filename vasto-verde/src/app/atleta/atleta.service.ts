@@ -22,7 +22,7 @@ export class AtletaService extends CrudService<Atleta> {
   }
 
   getAtletasPessoas() {
-    return this.http.get<VwAtletaPessoa[]>(`${environment.API}atleta`)
+    return this.http.get<VwAtletaPessoa[]>(`${environment.API} atleta`)
       .pipe(
         take(1)
       );
@@ -31,7 +31,6 @@ export class AtletaService extends CrudService<Atleta> {
   getAtletaPessoaById(idAtleta: number) {
     return this.http.get<VwAtletaPessoa>(`${environment.API}atleta/${idAtleta}`)
       .pipe(
-        // delay(1000),
         take(1)
       );
   }
@@ -49,9 +48,4 @@ export class AtletaService extends CrudService<Atleta> {
         take(1)
       );
   }
-
-
-
-
-
 }

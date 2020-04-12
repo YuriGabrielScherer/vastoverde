@@ -19,7 +19,7 @@ import br.com.karate.projetokarate.pessoa.PessoaService;
 import br.com.karate.projetokarate.service.login.config.JwtTokenUtil;
 import br.com.karate.projetokarate.service.login.model.JwtRequest;
 import br.com.karate.projetokarate.service.login.model.JwtResponse;
-import br.com.karate.projetokarate.utils.MessageService;
+import br.com.karate.projetokarate.utils.messaging.MessageService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")

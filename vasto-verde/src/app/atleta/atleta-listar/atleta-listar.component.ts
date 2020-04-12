@@ -1,3 +1,5 @@
+import { HttpClient } from '@angular/common/http';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { take } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 
@@ -16,6 +18,7 @@ import { VwAtletaPessoa } from './../../shared/model/vwAtletaPessoa';
 })
 export class AtletaListarComponent implements OnInit {
 
+
   // Listagem de Atletas cadastrados.
   atletas: VwAtletaPessoa[];
 
@@ -27,49 +30,47 @@ export class AtletaListarComponent implements OnInit {
     'Brasileiro'
   ];
 
-  constructor(
+constructor {
+
     private atletaService: AtletaService,
     private modal: AtletaAlterarService,
     private toast: ToastService,
-    protected validacaoForm: ValidacoesFormService
-  ) { }
+    protected validacaoForm: ValidacoesFormService}
 
-  ngOnInit() {
-    this.carregarListaAtletas();
-  }
 
   retornarAtletas() {
     return this.atletas;
   }
 
-  openModal(idAtleta: number) {
-    // Verificando se o usuário foi alterado após a abertura do Modal
-    const resposta$ = this.modal.showModal(idAtleta);
+  // openModal(idAtleta: number) {
+  //   // Verificando se o usuário foi alterado após a abertura do Modal
+  //   const resposta$ = this.modal.showModal(idAtleta);
 
-    // Tratando a resposta
-    resposta$.asObservable().pipe(
-      take(1)
-    ).subscribe(
-      (alterado) => {
-        this.carregarListaAtletas();
-      });
-  }
+  //   // Tratando a resposta
+  //   resposta$.asObservable().pipe(
+  //     take(1)
+  //   ).subscribe(
+  //     (alterado) => {
+  //       this.carregarListaAtletas();
+  //     });
+  // }
 
   // Metodos privados
-  private carregarListaAtletas() {
-    this.atletaService.getAtletasPessoas().subscribe(
-      (success) => {
-        this.atletas = success;
-      },
-      (error) => {
-        switch (error['status']) {
-          default: {
-            this.toast.toastErroBanco();
-            break;
-          }
-        }
-      });
-  }
+  // private carregarListaAtletas() {
+  //   this.atletaService.getAtletasPessoas().subscribe(
+  //     (success) => {
+  //       this.atletas = success;
+  //     },
+  //     (error) => {
+  //       switch (error['status']) {
+  //         default: {
+  //           this.toast.toastErroBanco();
+  //           break;
+  //         }
+  //       }
+  //     });
+  // }
+
 
 
 }

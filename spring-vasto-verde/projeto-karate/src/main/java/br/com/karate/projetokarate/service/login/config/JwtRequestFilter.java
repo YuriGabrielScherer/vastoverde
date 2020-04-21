@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import br.com.karate.projetokarate.pessoa.PessoaService;
+import br.com.karate.projetokarate.data.pessoa.PessoaService;
 import io.jsonwebtoken.ExpiredJwtException;
 
 @Component

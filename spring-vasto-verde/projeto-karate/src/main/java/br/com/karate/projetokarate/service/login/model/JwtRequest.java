@@ -5,14 +5,13 @@ import java.io.Serializable;
 public class JwtRequest implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private String username;
+	private String cpf;
 	private String password;
-	
-	//need default constructor for JSON Parsing
-	public JwtRequest()
-	{
-		
+
+	// need default constructor for JSON Parsing
+	public JwtRequest() {
 	}
 
 	public JwtRequest(String username, String password) {
@@ -20,6 +19,12 @@ public class JwtRequest implements Serializable {
 		this.setPassword(password);
 	}
 
+	public JwtRequest(String username, String password, String cpf) {
+		this.setUsername(username);
+		this.setPassword(password);
+		this.setCpf(cpf);
+	}
+	
 	public String getUsername() {
 		return this.username;
 	}
@@ -34,5 +39,13 @@ public class JwtRequest implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 }

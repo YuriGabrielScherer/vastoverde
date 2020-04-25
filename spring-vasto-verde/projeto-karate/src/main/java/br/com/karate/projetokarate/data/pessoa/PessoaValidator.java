@@ -50,6 +50,7 @@ public class PessoaValidator {
 		}
 
 		validarCpf(payload.getCpf());
+		validarDuplicada(payload);
 	}
 
 	protected void validarDuplicada(PessoaSaveInput payload) {

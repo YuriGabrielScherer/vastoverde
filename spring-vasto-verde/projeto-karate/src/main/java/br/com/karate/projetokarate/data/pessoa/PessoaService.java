@@ -113,7 +113,6 @@ public class PessoaService implements UserDetailsService {
 	public ResponseEntity<?> cadastrar(PessoaSaveInput payload) {
 		LOGGER.info("Salvando pessoa...");
 		validar.validarPessoa(payload);
-		validar.validarDuplicada(payload);
 
 		try {
 			Pessoa pessoa = PessoaConverter.toRec(payload);

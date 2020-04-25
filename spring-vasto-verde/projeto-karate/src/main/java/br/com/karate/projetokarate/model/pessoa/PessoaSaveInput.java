@@ -38,11 +38,10 @@ public class PessoaSaveInput {
 	@NotNull
 	@Column(length = 11)
 	private String cpf;
-
+ 
 	@NotNull
 	private char sexo;
 
-	@NotNull
 	private TipoPessoa tipoUsuario;
 
 	public String getNome() {

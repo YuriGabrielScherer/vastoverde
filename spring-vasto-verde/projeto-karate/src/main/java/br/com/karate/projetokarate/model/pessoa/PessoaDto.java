@@ -1,5 +1,6 @@
 package br.com.karate.projetokarate.model.pessoa;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 import br.com.karate.projetokarate.data.atleta.Atleta;
@@ -13,7 +14,7 @@ public class PessoaDto {
 
 	private String telefone;
 
-	private Calendar dataNascimento;
+	private String dataNascimento;
 
 	private String cpf;
 
@@ -49,11 +50,11 @@ public class PessoaDto {
 		this.telefone = telefone;
 	}
 
-	public Calendar getDataNascimento() {
+	public String getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Calendar dataNascimento) {
+	public void setDataNascimento(String dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 

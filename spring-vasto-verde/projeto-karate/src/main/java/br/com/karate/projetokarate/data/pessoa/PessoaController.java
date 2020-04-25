@@ -1,5 +1,11 @@
 package br.com.karate.projetokarate.data.pessoa;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.karate.projetokarate.model.pessoa.PesquisarPessoasInput;
 import br.com.karate.projetokarate.model.pessoa.PesquisarPessoasOutput;
 import br.com.karate.projetokarate.model.pessoa.PessoaDto;
+import br.com.karate.projetokarate.model.pessoa.PessoaSaveInput;
 import br.com.karate.projetokarate.utils.pageable.RecPaginacaoRetorno;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -24,27 +31,45 @@ import br.com.karate.projetokarate.utils.pageable.RecPaginacaoRetorno;
 @RequestMapping("/pessoa")
 public class PessoaController {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(PessoaController.class);
+
 	@Autowired
 	private PessoaService pessoaService;
-	
 
 	@PostMapping("/cadastrar")
-	public ResponseEntity<?> save(@RequestBody Pessoa payload) {
+	public ResponseEntity<?> save(@RequestBody PessoaSaveInput payload) {
+		LOGGER.info("Cadastrando pessoa...");
 		return pessoaService.cadastrar(payload);
 	}
 
 	@PutMapping("/alterar")
 	public ResponseEntity<?> alterar(@RequestBody Pessoa payload) {
+		LOGGER.info("Alterando pessoa...");
 		return pessoaService.alterar(payload);
 	}
 
 	@PostMapping
 	public @ResponseBody PesquisarPessoasOutput getAll(@RequestBody PesquisarPessoasInput filtro) {
+		LOGGER.info("Retornando todas as pessoas...");
 		Page<Pessoa> pagePessoa = this.pessoaService.findAll(filtro);
-		
+
 		PesquisarPessoasOutput output = new PesquisarPessoasOutput();
 		output.setPessoas(PessoaConverter.toDto(pagePessoa));
-		output.setPaginacao(new RecPaginacaoRetorno(pagePessoa.getNumber(), pagePessoa.getSize(), pagePessoa.getTotalElements(), pagePessoa.getTotalPages()));
+		output.setPaginacao(new RecPaginacaoRetorno(pagePessoa.getNumber(), pagePessoa.getSize(),
+				pagePessoa.getTotalElements(), pagePessoa.getTotalPages()));
+		return output;
+	}
+
+	@GetMapping("/cadastrarAtleta")
+	public List<PessoaDto> retornarPessoasCadastroAtleta() {
+		LOGGER.info("Retornando pessoas para cadastro de atletas...");
+		List<PessoaDto> output = new ArrayList<PessoaDto>();
+
+		List<Pessoa> pessoas = this.pessoaService.findAll().stream().filter(p -> p.getAtleta() == null)
+				.collect(Collectors.toList());
+
+		pessoas.stream().forEach(p -> output.add(PessoaConverter.toDto(p)));
+		
 		return output;
 	}
 
@@ -59,7 +84,7 @@ public class PessoaController {
 		Pessoa pessoa = this.pessoaService.findByEmail(emailPessoa);
 		return PessoaConverter.toDto(pessoa);
 	}
-	
+
 	@GetMapping("/login/{login}")
 	public PessoaDto findByLogin(@PathVariable("login") String login) {
 		PessoaDto pessoa = PessoaConverter.toDto(this.pessoaService.findByLogin(login));

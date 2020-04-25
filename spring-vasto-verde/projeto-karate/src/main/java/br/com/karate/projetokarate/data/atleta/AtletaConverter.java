@@ -21,14 +21,17 @@ public class AtletaConverter {
 		return atletaDto;
 	}
 
-	public static Atleta toRec(AtletaSaveInput atleta2, Pessoa pessoa, Associacao associacao) {
+	public static Atleta toRec(AtletaSaveInput payload, Pessoa pessoa, Associacao associacao) {
 		Atleta atleta = new Atleta();
-		atleta.setCpfResponsavel(atleta2.getCpfResponsavel());
-		atleta.setNomeResponsavel(atleta2.getNomeResponsavel());
-		atleta.setTelefoneResponsavel(atleta2.getTelefoneResponsavel());
-		atleta.setEndereco(atleta2.getEndereco());
+		
+		atleta.setCpfResponsavel(payload.getCpfResponsavel());
+		atleta.setNomeResponsavel(payload.getNomeResponsavel());
+		atleta.setTelefoneResponsavel(payload.getTelefoneResponsavel());
+		atleta.setEndereco(payload.getEndereco());
+		
 		atleta.setPessoa(pessoa);
 		atleta.setAssociacao(associacao);
+		
 		atleta.setAtivo(true);
 		return atleta;
 	}

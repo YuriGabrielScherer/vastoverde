@@ -1,5 +1,7 @@
 package br.com.karate.projetokarate.data.pessoa;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import org.springframework.data.domain.Page;
 
 import br.com.karate.projetokarate.model.pessoa.PessoaCampOutput;
 import br.com.karate.projetokarate.model.pessoa.PessoaDto;
+import br.com.karate.projetokarate.model.pessoa.PessoaSaveInput;
 import br.com.karate.projetokarate.utils.CriptografarSenha;
 
 public class PessoaConverter {
@@ -20,14 +23,14 @@ public class PessoaConverter {
 
 		pessoa.setNome(payload.getNome());
 		pessoa.setCpf(payload.getCpf());
-		pessoa.setDataNascimento(payload.getDataNascimento());
+		pessoa.setDataNascimento(payload.getDataNascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 		pessoa.setEmail(payload.getEmail());
 		pessoa.setSexo(payload.getSexo());
 		pessoa.setTelefone(payload.getTelefone());
 		pessoa.setTipoUsuario(payload.getTipoUsuario());
 		return pessoa;
 	}
-	
+
 	public static List<PessoaDto> toDto(Page<Pessoa> page) {
 		List<PessoaDto> pessoas = new ArrayList<>();
 		page.getContent().stream().forEach(p -> {
@@ -38,11 +41,13 @@ public class PessoaConverter {
 		return pessoas;
 	}
 
-	public static Pessoa toRec(Pessoa payload) {
+	@SuppressWarnings("deprecation")
+	public static Pessoa toRec(PessoaSaveInput payload) {
 		Pessoa pessoa = new Pessoa();
 		pessoa.setNome(payload.getNome());
 		pessoa.setCpf(payload.getCpf());
-		pessoa.setDataNascimento(payload.getDataNascimento());
+		pessoa.setDataNascimento(LocalDateTime.of(payload.getDataNascimento().getYear(),
+				payload.getDataNascimento().getMonth(), payload.getDataNascimento().getDay(), 0, 0));
 		pessoa.setEmail(payload.getEmail());
 		pessoa.setLogin(payload.getLogin());
 		pessoa.setSenha(senhaCrip.criptografar(payload.getSenha()));

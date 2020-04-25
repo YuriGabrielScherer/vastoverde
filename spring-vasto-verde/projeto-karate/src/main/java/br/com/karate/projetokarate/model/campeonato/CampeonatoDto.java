@@ -1,5 +1,6 @@
 package br.com.karate.projetokarate.model.campeonato;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -10,8 +11,8 @@ public class CampeonatoDto {
 
 	private String titulo;
 	private String descricao;
-	private Date dataInicio;
-	private Date dataFim;
+	private LocalDateTime dataInicio;
+	private LocalDateTime dataFim;
 	private String endereco;
 	private List<AtletaCampOutput> atletas;
 	
@@ -27,16 +28,16 @@ public class CampeonatoDto {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	public Date getDataInicio() {
+	public LocalDateTime getDataInicio() {
 		return dataInicio;
 	}
-	public void setDataInicio(Date dataInicio) {
+	public void setDataInicio(LocalDateTime dataInicio) {
 		this.dataInicio = dataInicio;
 	}
-	public Date getDataFim() {
+	public LocalDateTime getDataFim() {
 		return dataFim;
 	}
-	public void setDataFim(Date dataFim) {
+	public void setDataFim(LocalDateTime dataFim) {
 		this.dataFim = dataFim;
 	}
 	public String getEndereco() {

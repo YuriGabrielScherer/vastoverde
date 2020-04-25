@@ -1,5 +1,6 @@
 package br.com.karate.projetokarate.data.campeonato;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -26,22 +27,22 @@ public class Campeonato extends Auditable {
 	private int id;
 
 	@NotNull
-	@Column(unique = true)
+	@Column(unique = true, length = 30)
 	private String titulo;
 
 	@NotNull
-	@Column
+	@Column(length = 200)
 	private String descricao;
 
-	@Column(name = "dataInicio")
 	@NotNull
-	private Date dataInicio;
+	@Column(name = "dataInicio")
+	private LocalDateTime dataInicio;
 
 	@Column(name = "dataFim")
-	private Date dataFim;
+	private LocalDateTime dataFim;
 
 	@NotNull
-	@Column(name = "endereco")
+	@Column(name = "endereco", length = 50)
 	private String endereco;
 
 	@NotNull
@@ -58,19 +59,19 @@ public class Campeonato extends Auditable {
 		this.id = id;
 	}
 
-	public Date getDataInicio() {
+	public LocalDateTime getDataInicio() {
 		return dataInicio;
 	}
 
-	public void setDataInicio(Date dataInicio) {
+	public void setDataInicio(LocalDateTime dataInicio) {
 		this.dataInicio = dataInicio;
 	}
 
-	public Date getDataFim() {
+	public LocalDateTime getDataFim() {
 		return dataFim;
 	}
 
-	public void setDataFim(Date dataFim) {
+	public void setDataFim(LocalDateTime dataFim) {
 		this.dataFim = dataFim;
 	}
 

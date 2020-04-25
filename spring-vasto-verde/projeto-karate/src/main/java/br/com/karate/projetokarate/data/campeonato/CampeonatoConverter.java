@@ -1,5 +1,7 @@
 package br.com.karate.projetokarate.data.campeonato;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,15 +13,19 @@ import br.com.karate.projetokarate.model.campeonato.CampeonatoSaveInput;
 
 public class CampeonatoConverter {
 
+	@SuppressWarnings("deprecation")
 	public static Campeonato toRec(CampeonatoSaveInput payload, List<Atleta> atletas) {
 		Campeonato camp = new Campeonato();
 		camp.setTitulo(payload.getTitulo());
 		camp.setDescricao(payload.getDescricao());
 		camp.setEndereco(payload.getEndereco());
-		camp.setDataInicio(payload.getDataInicio());
+		camp.setDataInicio(LocalDateTime.of(payload.getDataInicio().getYear(), payload.getDataInicio().getMonth(),
+				payload.getDataInicio().getDay(), payload.getDataInicio().getHours(),
+				payload.getDataInicio().getMinutes()));
 
 		if (payload.getDataFim() != null)
-			camp.setDataFim(payload.getDataFim());
+			camp.setDataFim(LocalDateTime.of(payload.getDataFim().getYear(), payload.getDataFim().getMonth(),
+					payload.getDataFim().getDay(), payload.getDataFim().getHours(), payload.getDataFim().getMinutes()));
 		camp.setAtletas(atletas);
 
 		return camp;
@@ -30,10 +36,13 @@ public class CampeonatoConverter {
 
 		camp.setTitulo(campeonato.getTitulo());
 		camp.setDescricao(campeonato.getDescricao());
-		camp.setDataInicio(campeonato.getDataInicio());
+		camp.setDataInicio(LocalDateTime.parse(campeonato.getDataInicio().toString(),
+				DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+
 		camp.setEndereco(campeonato.getEndereco());
 		if (campeonato.getDataFim() != null)
-			camp.setDataFim(campeonato.getDataFim());
+			camp.setDataFim(LocalDateTime.parse(campeonato.getDataFim().toString(),
+					DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
 
 		List<AtletaCampOutput> atletas = new ArrayList<>();
 		campeonato.getAtletas().stream().forEach(a -> atletas.add(AtletaConverter.toCamp(a)));

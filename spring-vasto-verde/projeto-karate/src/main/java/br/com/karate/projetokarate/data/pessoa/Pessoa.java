@@ -1,5 +1,6 @@
 package br.com.karate.projetokarate.data.pessoa;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 import javax.persistence.CascadeType;
@@ -41,7 +42,7 @@ public class Pessoa extends Auditable {
     private String login;
 
 	@NotNull
-    @Column( length = 100)
+    @Column( length = 30)
     private String senha;
 
     @Column( length = 14)
@@ -49,7 +50,7 @@ public class Pessoa extends Auditable {
 
     @NotNull
     @Column
-    private Calendar dataNascimento;
+    private LocalDateTime dataNascimento;
 
     @CPF
     @NotNull
@@ -135,11 +136,11 @@ public class Pessoa extends Auditable {
         this.telefone = telefone;
     }
 
-    public Calendar  getDataNascimento() {
+    public LocalDateTime  getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(Calendar  dataNascimento) {
+    public void setDataNascimento(LocalDateTime  dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 

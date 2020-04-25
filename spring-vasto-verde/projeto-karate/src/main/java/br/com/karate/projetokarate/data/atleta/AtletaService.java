@@ -71,9 +71,11 @@ public class AtletaService {
 
 	public ResponseEntity<?> save(AtletaSaveInput atleta) {
 		LOGGER.info("Cadastrando atleta...");
-		// TODO validar Atleta com a classe Validator
+		this.validar.validarAtleta(atleta);
+		
 		Pessoa pessoaAtleta = buscarPessoa(atleta.getCpfPessoa());
 		Associacao associacao = buscarAssociacao(atleta.getIdAssociacao());
+		
 		try {
 			this.atletaRepository.save(AtletaConverter.toRec(atleta, pessoaAtleta, associacao));
 			LOGGER.info("Atleta criado com sucesso!");

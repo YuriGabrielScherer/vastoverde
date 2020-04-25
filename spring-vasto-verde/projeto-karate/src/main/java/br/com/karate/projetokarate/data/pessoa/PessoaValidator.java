@@ -17,6 +17,7 @@ import br.com.karate.projetokarate.data.atleta.Atleta;
 import br.com.karate.projetokarate.data.atleta.AtletaService;
 import br.com.karate.projetokarate.messaging.ErrorCategory;
 import br.com.karate.projetokarate.messaging.ServiceException;
+import br.com.karate.projetokarate.model.pessoa.PessoaSaveInput;
 
 @Component
 public class PessoaValidator {
@@ -31,13 +32,13 @@ public class PessoaValidator {
 
 	private Validator validator = factory.getValidator();
 
-	private Set<ConstraintViolation<Pessoa>> validar(Pessoa payload) {
-		Set<ConstraintViolation<Pessoa>> constraintViolations = validator.validate(payload);
+	private Set<ConstraintViolation<PessoaSaveInput>> validar(PessoaSaveInput payload) {
+		Set<ConstraintViolation<PessoaSaveInput>> constraintViolations = validator.validate(payload);
 		return constraintViolations;
 	}
 
-	protected void validarPessoa(Pessoa payload) {
-		Set<ConstraintViolation<Pessoa>> validations = validar(payload);
+	protected void validarPessoa(PessoaSaveInput payload) {
+		Set<ConstraintViolation<PessoaSaveInput>> validations = validar(payload);
 
 		if (!validations.isEmpty()) {
 			List<String> erros = new ArrayList<String>();
@@ -51,7 +52,7 @@ public class PessoaValidator {
 		validarCpf(payload.getCpf());
 	}
 
-	protected void validarDuplicada(Pessoa payload) {
+	protected void validarDuplicada(PessoaSaveInput payload) {
 		boolean existePessoa = this.pessoaRepository.existsByCpf(payload.getCpf());
 		if (existePessoa)
 			throw new ServiceException(ErrorCategory.BAD_REQUEST, "CPF duplicado no banco de dados.",

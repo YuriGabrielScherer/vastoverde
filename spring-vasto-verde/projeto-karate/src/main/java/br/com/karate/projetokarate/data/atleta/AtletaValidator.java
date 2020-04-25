@@ -23,7 +23,7 @@ public class AtletaValidator {
 
 	@Autowired
 	private AtletaRepository atletaRepository;
-	
+
 	@Autowired
 	private PessoaService pessoaService;
 
@@ -31,13 +31,13 @@ public class AtletaValidator {
 
 	private Validator validator = factory.getValidator();
 
-	private Set<ConstraintViolation<Atleta>> validar(Atleta payload) {
-		Set<ConstraintViolation<Atleta>> violations = validator.validate(payload);
+	private Set<ConstraintViolation<AtletaSaveInput>> validar(AtletaSaveInput payload) {
+		Set<ConstraintViolation<AtletaSaveInput>> violations = validator.validate(payload);
 		return violations;
 	}
 
-	protected void validarAtleta(Atleta payload) {
-		Set<ConstraintViolation<Atleta>> validations = validar(payload);
+	protected void validarAtleta(AtletaSaveInput payload) {
+		Set<ConstraintViolation<AtletaSaveInput>> validations = validar(payload);
 
 		if (!validations.isEmpty()) {
 			List<String> erros = new ArrayList<>();
@@ -46,14 +46,17 @@ public class AtletaValidator {
 			});
 			throw new ServiceException(ErrorCategory.BAD_REQUEST, erros.toString(), "Cadastro de Atleta");
 		}
+
+		this.validarDuplicado(payload);
 	}
 
 	protected void validarDuplicado(AtletaSaveInput payload) {
 		Pessoa pessoa = this.pessoaService.findByCpf(payload.getCpfPessoa());
-		
+
 		boolean exists = this.atletaRepository.existsById(pessoa.getid());
 		if (exists)
-			throw new ServiceException(ErrorCategory.BAD_REQUEST, "Atleta duplicado no banco de dados.", "Cadastro de Atleta");
+			throw new ServiceException(ErrorCategory.BAD_REQUEST, "Atleta duplicado no banco de dados.",
+					"Cadastro de Atleta");
 
 	}
 

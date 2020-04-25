@@ -22,6 +22,7 @@ import br.com.karate.projetokarate.messaging.MessageService;
 import br.com.karate.projetokarate.messaging.ServiceException;
 import br.com.karate.projetokarate.model.pessoa.PesquisarPessoasInput;
 import br.com.karate.projetokarate.model.pessoa.PessoaDto;
+import br.com.karate.projetokarate.model.pessoa.PessoaSaveInput;
 
 @Service
 public class PessoaService implements UserDetailsService {
@@ -42,6 +43,11 @@ public class PessoaService implements UserDetailsService {
 			return pessoa.get();
 		}
 		throw new ServiceException(ErrorCategory.BAD_REQUEST, "Pessoa não encontrada com o ID especificado.");
+	}
+	
+	public List<Pessoa> findAll() {
+		List<Pessoa> output = this.pessoaRepository.findAllByAtivoTrue();
+		return output;
 	}
 
 
@@ -104,7 +110,7 @@ public class PessoaService implements UserDetailsService {
 				new ArrayList<>());
 	}
 
-	public ResponseEntity<?> cadastrar(Pessoa payload) {
+	public ResponseEntity<?> cadastrar(PessoaSaveInput payload) {
 		LOGGER.info("Salvando pessoa...");
 		validar.validarPessoa(payload);
 		validar.validarDuplicada(payload);

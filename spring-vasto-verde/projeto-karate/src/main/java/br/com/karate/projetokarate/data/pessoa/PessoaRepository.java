@@ -1,5 +1,6 @@
 package br.com.karate.projetokarate.data.pessoa;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -20,5 +21,7 @@ public interface PessoaRepository extends CrudRepository<Pessoa, Integer> {
 	boolean existsByEmail(String email);
 	
 	Page<Pessoa> findAllByAtivoTrue(Pageable pageable);
+	
+	List<Pessoa> findAllByAtivoTrue();
 	
 }

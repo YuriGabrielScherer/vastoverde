@@ -45,6 +45,7 @@ public class AssociacaoService {
 
 	public ResponseEntity<?> save(Associacao a) {
 		LOGGER.info("Salvando associação...");
+		// TODO implementar metodo validar da associacao
 		validar.validarDuplicada(a);
 
 		try {

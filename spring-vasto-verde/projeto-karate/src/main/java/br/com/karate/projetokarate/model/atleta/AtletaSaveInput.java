@@ -1,18 +1,31 @@
 package br.com.karate.projetokarate.model.atleta;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 
 public class AtletaSaveInput {
 
+	@NotNull
+	@Length(max = 100)
 	private String nomeResponsavel;
 
+	@NotNull
+	@Length(max = 14)
 	private String telefoneResponsavel;
 
+	@NotNull
+	@Length(max = 11)
 	private String cpfResponsavel;
 
+	@NotNull
+	@Length(max = 30)
 	private String endereco;
 
 	private int idAssociacao;
 
+	@NotNull
+	@Length(max = 11)
 	private String cpfPessoa;
 
 	public String getEndereco() {

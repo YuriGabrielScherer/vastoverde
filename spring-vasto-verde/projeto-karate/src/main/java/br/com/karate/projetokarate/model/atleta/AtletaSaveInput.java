@@ -22,11 +22,17 @@ public class AtletaSaveInput {
 	@Length(max = 30)
 	private String endereco;
 
+	@NotNull
+	private Grau grau;
+	
+	@NotNull
 	private int idAssociacao;
+
 
 	@NotNull
 	@Length(max = 11)
 	private String cpfPessoa;
+	
 
 	public String getEndereco() {
 		return endereco;
@@ -74,6 +80,14 @@ public class AtletaSaveInput {
 
 	public void setCpfPessoa(String cpfPessoa) {
 		this.cpfPessoa = cpfPessoa;
+	}
+	
+	public Grau getGrau() {
+		return grau;
+	}
+
+	public void setGrau(Grau grau) {
+		this.grau = grau;
 	}
 
 }

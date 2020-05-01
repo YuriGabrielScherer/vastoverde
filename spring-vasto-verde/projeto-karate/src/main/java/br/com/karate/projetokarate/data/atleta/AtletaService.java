@@ -70,7 +70,6 @@ public class AtletaService {
 	}
 
 	public ResponseEntity<?> save(AtletaSaveInput atleta) {
-		LOGGER.info("Cadastrando atleta...");
 		this.validar.validarAtleta(atleta);
 		
 		Pessoa pessoaAtleta = buscarPessoa(atleta.getCpfPessoa());

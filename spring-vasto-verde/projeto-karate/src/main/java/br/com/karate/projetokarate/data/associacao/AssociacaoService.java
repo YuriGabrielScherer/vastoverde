@@ -39,7 +39,6 @@ public class AssociacaoService {
 	}
 	
 	public List<Associacao> findAll(){
-		LOGGER.info("Buscando todas as associações...");
 		return this.associacaoRepository.findAll().stream().filter(a -> a.isAtivo()).collect(Collectors.toList());
 	}
 
@@ -53,7 +52,6 @@ public class AssociacaoService {
 			LOGGER.info("Associação salva...");
 		} catch (Exception e) {
 			LOGGER.error("Erro ao salvar associação...", e.getCause());
-			System.out.println(e.getMessage());
 			throw new ServiceException(ErrorCategory.BAD_REQUEST, "Erro ao salvar a associação.", "Salvar Associação.");
 		}
 

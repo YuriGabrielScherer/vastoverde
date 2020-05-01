@@ -28,6 +28,7 @@ public class AtletaConverter {
 		atleta.setNomeResponsavel(payload.getNomeResponsavel());
 		atleta.setTelefoneResponsavel(payload.getTelefoneResponsavel());
 		atleta.setEndereco(payload.getEndereco());
+		atleta.setFaixaId(payload.getGrau());
 		
 		atleta.setPessoa(pessoa);
 		atleta.setAssociacao(associacao);

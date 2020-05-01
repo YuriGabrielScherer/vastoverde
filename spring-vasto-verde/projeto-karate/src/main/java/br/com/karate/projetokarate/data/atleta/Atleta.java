@@ -22,6 +22,7 @@ import br.com.karate.projetokarate.data.associacao.Associacao;
 import br.com.karate.projetokarate.data.campeonato.Campeonato;
 import br.com.karate.projetokarate.data.pessoa.Pessoa;
 import br.com.karate.projetokarate.generic.Auditable;
+import br.com.karate.projetokarate.model.atleta.Grau;
 
 @Entity
 @Table(name = "atletas")
@@ -42,8 +43,12 @@ public class Atleta extends Auditable {
 	private String telefoneResponsavel;
 
 	@NotNull
-	@Column( length = 30)
+	@Column(length = 30)
 	private String endereco;
+
+	@NotNull
+	@Column(length = 2)
+	private Grau faixaId;
 
 	@CPF
 	@NotNull
@@ -67,7 +72,6 @@ public class Atleta extends Auditable {
 	@JoinColumn(name = "associacao_id")
 	@ManyToOne()
 	private Associacao associacao;
-
 
 	// Getters and Setters
 	public Pessoa getPessoa() {
@@ -140,6 +144,14 @@ public class Atleta extends Auditable {
 
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
+	}
+
+	public Grau getFaixaId() {
+		return faixaId;
+	}
+
+	public void setFaixaId(Grau faixaId) {
+		this.faixaId = faixaId;
 	}
 
 	@Override

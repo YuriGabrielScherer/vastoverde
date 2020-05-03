@@ -33,10 +33,8 @@ public class PessoaConverter {
 
 	public static List<PessoaDto> toDto(Page<Pessoa> page) {
 		List<PessoaDto> pessoas = new ArrayList<>();
-		page.getContent().stream().forEach(p -> {
-			if (p.isAtivo()) {
-				pessoas.add(toDto(p));
-			}
+		page.getContent().stream().filter(p -> p.isAtivo()).forEach(p -> {
+			pessoas.add(toDto(p));
 		});
 		return pessoas;
 	}

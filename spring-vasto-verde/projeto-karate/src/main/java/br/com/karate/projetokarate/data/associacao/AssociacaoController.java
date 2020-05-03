@@ -1,11 +1,10 @@
 package br.com.karate.projetokarate.data.associacao;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,17 +17,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.karate.projetokarate.model.associacao.AssociacaoDto;
+import br.com.karate.projetokarate.model.associacao.PesquisarAssociacaoInput;
+import br.com.karate.projetokarate.model.associacao.PesquisarAssociacaoOutput;
+import br.com.karate.projetokarate.utils.pageable.RecPaginacaoRetorno;
 
-import java.util.stream.Collectors;
-
-@CrossOrigin(origins = "http:localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/associacao")
 public class AssociacaoController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AssociacaoController.class);
-	
+
 	@Autowired
 	private AssociacaoService associacaoService;
 
@@ -43,16 +42,15 @@ public class AssociacaoController {
 	}
 
 	@PostMapping()
-	public List<AssociacaoDto> findAll() {
+	public PesquisarAssociacaoOutput findAll(@RequestBody PesquisarAssociacaoInput filtro) {
 		LOGGER.info("Buscando todas as associações...");
-		List<Associacao> as = this.associacaoService.findAll().stream().filter(a -> a.isAtivo())
-				.collect(Collectors.toList());
-		List<AssociacaoDto> output = new ArrayList<>();
-		
-		as.forEach(a -> {
-			output.add(AssociacaoConverter.toDto(a));
-		});
-		
+		Page<Associacao> associacoes = this.associacaoService.findAll(filtro);
+
+		PesquisarAssociacaoOutput output = new PesquisarAssociacaoOutput();
+		output.setAssociacoes(AssociacaoConverter.toDto(associacoes));
+		output.setPaginacao(new RecPaginacaoRetorno(associacoes.getNumber(), associacoes.getSize(),
+				associacoes.getTotalElements(), associacoes.getTotalPages()));
+
 		return output;
 	}
 

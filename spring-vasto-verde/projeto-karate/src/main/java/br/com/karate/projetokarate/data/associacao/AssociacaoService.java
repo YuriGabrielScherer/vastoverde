@@ -7,12 +7,16 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.karate.projetokarate.messaging.ErrorCategory;
 import br.com.karate.projetokarate.messaging.ServiceException;
+import br.com.karate.projetokarate.model.associacao.PesquisarAssociacaoInput;
 
 @Service
 public class AssociacaoService {
@@ -21,7 +25,7 @@ public class AssociacaoService {
 
 	@Autowired
 	private AssociacaoRepositoryImpl associacaoRepository;
-	
+
 	@Autowired
 	private AssociacaoValidator validar;
 
@@ -33,13 +37,21 @@ public class AssociacaoService {
 		throw new ServiceException(ErrorCategory.BAD_REQUEST, "Associação não encontrada com o ID especificado.",
 				"Busca por associação.");
 	}
-	
+
 	public boolean existsByNome(String nome) {
 		return this.associacaoRepository.existsByNome(nome);
 	}
-	
-	public List<Associacao> findAll(){
+
+	public List<Associacao> findAll() {
 		return this.associacaoRepository.findAll().stream().filter(a -> a.isAtivo()).collect(Collectors.toList());
+	}
+
+	public Page<Associacao> findAll(PesquisarAssociacaoInput filtro) {
+		Pageable paginacao = PageRequest.of(filtro.getPaginacao().getPagina(),
+				filtro.getPaginacao().getNumeroRegistrosPagina());
+		Page<Associacao> pageAssociacao = this.associacaoRepository.findAllByAtivoTrue(paginacao);
+		
+		return pageAssociacao;
 	}
 
 	public ResponseEntity<?> save(Associacao a) {
@@ -62,7 +74,7 @@ public class AssociacaoService {
 		LOGGER.info("Excluindo associação...");
 		Associacao a = this.findById(id);
 		validar.verificarAtletaVinculado(a);
-		
+
 		a.setAtivo(false);
 
 		try {

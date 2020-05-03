@@ -2,6 +2,7 @@ package br.com.karate.projetokarate.data.pessoa;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -40,6 +41,13 @@ public class PessoaController {
 	public ResponseEntity<?> save(@RequestBody PessoaSaveInput payload) {
 		LOGGER.info("Cadastrando pessoa...");
 		return pessoaService.cadastrar(payload);
+	}
+	
+	@PostMapping("existeEmail/{email}")
+	public boolean existeEmail(@PathVariable("email") String email) {
+		LOGGER.info("Verificandp se existe email da pessoa ...");
+		Optional<Pessoa> pessoa = this.pessoaService.findByEmailWithoutThrow(email);
+		return pessoa.isPresent() == true ? true : false;
 	}
 
 	@PutMapping("/alterar")
@@ -81,6 +89,7 @@ public class PessoaController {
 
 	@GetMapping("/email/{emailPessoa}")
 	public PessoaDto buscarPorEmail(@PathVariable("emailPessoa") String emailPessoa) {
+		LOGGER.info("Encontrando pessoa por e-mail...");
 		Pessoa pessoa = this.pessoaService.findByEmail(emailPessoa);
 		return PessoaConverter.toDto(pessoa);
 	}

@@ -59,7 +59,6 @@ public class PessoaService implements UserDetailsService {
 	}
 
 	public Pessoa findByEmail(String email) {
-		LOGGER.info("Encontrando pessoa por e-mail...");
 		Optional<Pessoa> pessoa = this.pessoaRepository.findByEmail(email);
 		if (pessoa.isPresent() && pessoa.get().isAtivo()) {
 			return pessoa.get();
@@ -67,6 +66,10 @@ public class PessoaService implements UserDetailsService {
 		throw new ServiceException(ErrorCategory.BAD_REQUEST, "Pessoa não encontrada com o e-mail especificado.");
 	}
 
+	public Optional<Pessoa> findByEmailWithoutThrow(String email) {
+		return this.pessoaRepository.findByEmail(email);
+	}
+	
 	public Pessoa findByLogin(String login) {
 		LOGGER.info("Encontrando pessoa por login...");
 		Optional<Pessoa> pessoa = this.pessoaRepository.findByLogin(login);

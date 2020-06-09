@@ -43,7 +43,7 @@ public class CampeonatoValidator {
 	}
 	
 	protected void validarDuplicado(Campeonato campeonato) {
-		// TODO validar cadastro de campeonatos duplicados.
+		// TODO validar cadastro de campeonatos duplicados por Nome ou, Data e Cidade.
 	}
 
 }

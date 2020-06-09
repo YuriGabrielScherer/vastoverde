@@ -14,6 +14,8 @@ public class AtletaDto {
 
 	private String telefoneResponsavel;
 
+	private Grau faixa;
+	
 	private String cpfResponsavel;
 	
 	private String endereco;
@@ -24,17 +26,7 @@ public class AtletaDto {
 
 	private Associacao associacao;
 	
-	private boolean ativo;
 	
-
-	public boolean isAtivo() {
-		return ativo;
-	}
-
-	public void setAtivo(boolean ativo) {
-		this.ativo = ativo;
-	}
-
 	public int getId() {
 		return id;
 	}
@@ -98,5 +90,15 @@ public class AtletaDto {
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
+
+	public Grau getFaixa() {
+		return faixa;
+	}
+
+	public void setFaixa(Grau faixa) {
+		this.faixa = faixa;
+	}
+	
+	
 
 }

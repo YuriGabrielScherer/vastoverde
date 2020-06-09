@@ -1,5 +1,6 @@
 package br.com.karate.projetokarate.model.atleta;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
@@ -11,14 +12,12 @@ public class AtletaSaveInput {
 	private String nomeResponsavel;
 
 	@NotNull
+	@Length(max = 11)
+	private String cpfResponsavel;
+	
 	@Length(max = 14)
 	private String telefoneResponsavel;
 
-	@NotNull
-	@Length(max = 11)
-	private String cpfResponsavel;
-
-	@NotNull
 	@Length(max = 30)
 	private String endereco;
 
@@ -26,13 +25,14 @@ public class AtletaSaveInput {
 	private Grau grau;
 	
 	@NotNull
-	private int idAssociacao;
-
-
-	@NotNull
 	@Length(max = 11)
 	private String cpfPessoa;
 	
+	@Max(value = 99999)
+	private int confederacao;
+	
+	@Max(value = 99999)
+	private int federacao;
 
 	public String getEndereco() {
 		return endereco;
@@ -66,14 +66,6 @@ public class AtletaSaveInput {
 		this.cpfResponsavel = cpfResponsavel;
 	}
 
-	public int getIdAssociacao() {
-		return idAssociacao;
-	}
-
-	public void setIdAssociacao(int idAssociacao) {
-		this.idAssociacao = idAssociacao;
-	}
-
 	public String getCpfPessoa() {
 		return cpfPessoa;
 	}
@@ -90,4 +82,21 @@ public class AtletaSaveInput {
 		this.grau = grau;
 	}
 
+	public int getConfederacao() {
+		return confederacao;
+	}
+
+	public void setConfederacao(int confederacao) {
+		this.confederacao = confederacao;
+	}
+
+	public int getFederacao() {
+		return federacao;
+	}
+
+	public void setFederacao(int federacao) {
+		this.federacao = federacao;
+	}
+
+	
 }

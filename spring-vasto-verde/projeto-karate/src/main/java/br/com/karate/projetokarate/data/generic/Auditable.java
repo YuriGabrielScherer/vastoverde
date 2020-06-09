@@ -1,4 +1,4 @@
-package br.com.karate.projetokarate.generic;
+package br.com.karate.projetokarate.data.generic;
 
 import java.util.Date;
 

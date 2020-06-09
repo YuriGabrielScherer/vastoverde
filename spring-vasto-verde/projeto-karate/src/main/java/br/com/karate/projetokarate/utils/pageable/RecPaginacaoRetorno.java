@@ -16,7 +16,7 @@ public class RecPaginacaoRetorno {
 		this.registrosEncontrados = registrosEncontrados;
 		this.totalPaginas = Long.valueOf(totalPaginas);
 	}
-	
+
 	public RecPaginacaoRetorno(Long pagina, Long numeroRegistroPagina, Long registrosEncontrados, Long totalPaginas) {
 		this.pagina = pagina;
 		this.numeroRegistroPagina = numeroRegistroPagina;
@@ -24,8 +24,6 @@ public class RecPaginacaoRetorno {
 		this.totalPaginas = totalPaginas;
 	}
 
-	
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

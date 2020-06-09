@@ -1,5 +1,6 @@
 package br.com.karate.projetokarate.model.pessoa;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 
@@ -13,7 +14,7 @@ public class PessoaCampOutput {
 
 	private String telefone;
 
-	private LocalDateTime dataNascimento;
+	private LocalDate dataNascimento;
 
 	private char sexo;
 
@@ -49,11 +50,11 @@ public class PessoaCampOutput {
 		this.telefone = telefone;
 	}
 
-	public LocalDateTime getDataNascimento() {
+	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(LocalDateTime dataNascimento) {
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 

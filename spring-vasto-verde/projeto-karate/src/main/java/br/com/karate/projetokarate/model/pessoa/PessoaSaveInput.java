@@ -1,6 +1,6 @@
 package br.com.karate.projetokarate.model.pessoa;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
@@ -9,7 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import br.com.karate.projetokarate.data.pessoa.TipoPessoa;
+import br.com.karate.projetokarate.data.pessoa.EnumTipoPessoa;
 
 public class PessoaSaveInput {
 
@@ -19,12 +19,15 @@ public class PessoaSaveInput {
 	@NotNull
 	@Column(length = 50)
 	private String email;
+	
+	@NotNull
+	private int codigo;	
 
 	@NotNull
 	private String login;
 
 	@NotNull
-	@Column(length = 30)
+	@Column(length = 70)
 	private String senha;
 
 	@Column(length = 14)
@@ -33,7 +36,7 @@ public class PessoaSaveInput {
 	@NotNull
 	@Column(length = 10)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date dataNascimento;
+	private LocalDate dataNascimento;
 
 	@NotNull
 	@Column(length = 11)
@@ -42,7 +45,10 @@ public class PessoaSaveInput {
 	@NotNull
 	private char sexo;
 
-	private TipoPessoa tipoUsuario;
+	private EnumTipoPessoa tipoUsuario;
+	
+	@NotNull
+	private int codAssociacao;
 
 	public String getNome() {
 		return nome;
@@ -76,6 +82,14 @@ public class PessoaSaveInput {
 		this.senha = senha;
 	}
 
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
 	public String getTelefone() {
 		return telefone;
 	}
@@ -85,11 +99,11 @@ public class PessoaSaveInput {
 	}
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-	public Date getDataNascimento() {
+	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Date dataNascimento) {
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 
@@ -109,12 +123,19 @@ public class PessoaSaveInput {
 		this.sexo = sexo;
 	}
 
-	public TipoPessoa getTipoUsuario() {
+	public EnumTipoPessoa getTipoUsuario() {
 		return tipoUsuario;
 	}
 
-	public void setTipoUsuario(TipoPessoa tipoUsuario) {
+	public void setTipoUsuario(EnumTipoPessoa tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
 	}
 
+	public int getCodAssociacao() {
+		return codAssociacao;
+	}
+
+	public void setCodAssociacao(int codAssociacao) {
+		this.codAssociacao = codAssociacao;
+	}
 }

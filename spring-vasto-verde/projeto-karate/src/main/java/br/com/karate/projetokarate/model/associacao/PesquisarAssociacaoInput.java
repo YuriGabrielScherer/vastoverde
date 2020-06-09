@@ -4,24 +4,25 @@ import br.com.karate.projetokarate.utils.pageable.RecPaginacao;
 
 public class PesquisarAssociacaoInput {
 
-	private String filtro;
+	private String nome;
+	private String cidade;
 	private RecPaginacao paginacao;
 
 	public PesquisarAssociacaoInput() {
 	}
 
-	public PesquisarAssociacaoInput(String filtro, RecPaginacao paginacao) {
+	public PesquisarAssociacaoInput(String nome, RecPaginacao paginacao) {
 		super();
-		this.filtro = filtro;
+		this.nome = nome;
 		this.paginacao = paginacao;
 	}
 
-	public String getFiltro() {
-		return filtro;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setFiltro(String filtro) {
-		this.filtro = filtro;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public RecPaginacao getPaginacao() {
@@ -31,5 +32,15 @@ public class PesquisarAssociacaoInput {
 	public void setPaginacao(RecPaginacao paginacao) {
 		this.paginacao = paginacao;
 	}
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+	
+	
 
 }

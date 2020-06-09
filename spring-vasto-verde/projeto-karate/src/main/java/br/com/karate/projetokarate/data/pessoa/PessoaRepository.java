@@ -5,9 +5,11 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 
-import br.com.karate.projetokarate.generic.CrudRepository;
+import br.com.karate.projetokarate.data.generic.CrudRepository;
 
+@Repository
 public interface PessoaRepository extends CrudRepository<Pessoa, Integer> {
 
 	Optional<Pessoa> findByEmail(String email);
@@ -20,8 +22,10 @@ public interface PessoaRepository extends CrudRepository<Pessoa, Integer> {
 
 	boolean existsByEmail(String email);
 	
+	boolean existsByCodigo(int codigo);
+	
 	Page<Pessoa> findAllByAtivoTrue(Pageable pageable);
 	
-	List<Pessoa> findAllByAtivoTrue();
+	List<Pessoa> findAllByAtivoTrueAndFaixaIdIsNull();
 	
 }

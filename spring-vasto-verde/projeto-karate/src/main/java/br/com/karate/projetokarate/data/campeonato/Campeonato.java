@@ -1,7 +1,6 @@
 package br.com.karate.projetokarate.data.campeonato;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -9,12 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import br.com.karate.projetokarate.data.atleta.Atleta;
-import br.com.karate.projetokarate.generic.Auditable;
+import br.com.karate.projetokarate.data.generic.Auditable;
+import br.com.karate.projetokarate.data.pessoa.Pessoa;
 
 @Entity
 @Table(name = "campeonatos")
@@ -23,7 +24,7 @@ public class Campeonato extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@NotNull
-	@Column(name = "idCampeonato", unique = true)
+	@Column(name = "id", unique = true)
 	private int id;
 
 	@NotNull
@@ -35,21 +36,29 @@ public class Campeonato extends Auditable {
 	private String descricao;
 
 	@NotNull
-	@Column(name = "dataInicio")
+	@Column(name = "data_inicio")
 	private LocalDateTime dataInicio;
 
-	@Column(name = "dataFim")
+	@Column(name = "data_fim")
 	private LocalDateTime dataFim;
 
 	@NotNull
 	@Column(name = "endereco", length = 50)
 	private String endereco;
 
-	@NotNull
-	@ManyToMany(targetEntity = Atleta.class)
-	private List<Atleta> atletas;
+	@ManyToMany
+	@JoinTable(name = "campeonatos_pessoas", // Nome da Table gerada para compor o ManyToMany
+			joinColumns = @JoinColumn(name = "id_campeonato"), // Nome do campo da Tabela que estou que vai compor a
+																// chave estrangeira para a tabela gerada
+			inverseJoinColumns = @JoinColumn(name = "id_pessoa")) // A PK do "Inverso" do relacionamento
+	private List<Pessoa> pessoas;
 
-	// TODO colocar arbitros
+	@NotNull
+	@ManyToMany(targetEntity = Pessoa.class)
+	@JoinTable(name = "arbitros_pessoas",
+				joinColumns = @JoinColumn(name = "id_campeonato"),
+				inverseJoinColumns = @JoinColumn(name = "id_pessoa"))
+	private List<Pessoa> arbitros;
 
 	public int getId() {
 		return id;
@@ -83,12 +92,12 @@ public class Campeonato extends Auditable {
 		this.endereco = endereco;
 	}
 
-	public List<Atleta> getAtletas() {
-		return atletas;
+	public List<Pessoa> getPessoas() {
+		return pessoas;
 	}
 
-	public void setAtletas(List<Atleta> atletas) {
-		this.atletas = atletas;
+	public void setPessoas(List<Pessoa> pessoas) {
+		this.pessoas = pessoas;
 	}
 
 	public String getTitulo() {
@@ -128,5 +137,4 @@ public class Campeonato extends Auditable {
 			return false;
 		return true;
 	}
-
 }

@@ -1,6 +1,5 @@
 package br.com.karate.projetokarate.data.associacao;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +11,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.karate.projetokarate.model.associacao.AssociacaoDto;
+import br.com.karate.projetokarate.model.associacao.AssociacaoSaveInput;
 import br.com.karate.projetokarate.model.associacao.PesquisarAssociacaoInput;
 import br.com.karate.projetokarate.model.associacao.PesquisarAssociacaoOutput;
 import br.com.karate.projetokarate.utils.pageable.RecPaginacaoRetorno;
@@ -31,37 +31,38 @@ public class AssociacaoController {
 	@Autowired
 	private AssociacaoService associacaoService;
 
-	@PostMapping("/cadastrar")
-	public ResponseEntity<?> save(@RequestBody Associacao associacao) {
+	@Autowired
+	private AssociacaoConverter associacaoConverter;
+
+	@PostMapping("/salvar")
+	public ResponseEntity<?> save(@RequestBody AssociacaoSaveInput associacao) {
+		LOGGER.info("Salvando associação...");
 		return this.associacaoService.save(associacao);
 	}
 
-	@GetMapping("/{idAssociacao}")
-	public Associacao getById(@PathVariable("idAssociacao") int idAssociacao) {
-		return this.associacaoService.findById(idAssociacao);
+	@GetMapping("/{codAssociacao}")
+	public ResponseEntity<AssociacaoDto> getById(@PathVariable("codAssociacao") int codAssociacao) {
+		Associacao a = this.associacaoService.findByCodigo(codAssociacao);
+		AssociacaoDto dto = associacaoConverter.toDto(a);
+		return new ResponseEntity<AssociacaoDto>(dto, HttpStatus.OK);
 	}
 
-	@PostMapping()
+	@PostMapping("/findAll")
 	public PesquisarAssociacaoOutput findAll(@RequestBody PesquisarAssociacaoInput filtro) {
 		LOGGER.info("Buscando todas as associações...");
 		Page<Associacao> associacoes = this.associacaoService.findAll(filtro);
 
 		PesquisarAssociacaoOutput output = new PesquisarAssociacaoOutput();
-		output.setAssociacoes(AssociacaoConverter.toDto(associacoes));
+		output.setAssociacoes(associacaoConverter.toDto(associacoes));
 		output.setPaginacao(new RecPaginacaoRetorno(associacoes.getNumber(), associacoes.getSize(),
 				associacoes.getTotalElements(), associacoes.getTotalPages()));
 
 		return output;
 	}
 
-	@PutMapping("/alterar")
-	public ResponseEntity<?> alterar(@RequestBody Associacao associacao) {
-		return new ResponseEntity<String>(HttpStatus.OK);
-	}
-
-	@DeleteMapping("/{idAssociacao}")
-	public ResponseEntity<?> delete(@PathVariable("idAssociacao") int idAssociacao) {
-		return this.associacaoService.delete(idAssociacao);
+	@DeleteMapping("/{codAssociacao}")
+	public ResponseEntity<?> delete(@PathVariable("codAssociacao") int codAssociacao) {
+		return this.associacaoService.delete(codAssociacao);
 	}
 
 }

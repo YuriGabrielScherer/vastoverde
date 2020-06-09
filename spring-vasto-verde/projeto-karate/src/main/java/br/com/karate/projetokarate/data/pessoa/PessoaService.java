@@ -12,16 +12,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.karate.projetokarate.messaging.ErrorCategory;
 import br.com.karate.projetokarate.messaging.MessageService;
 import br.com.karate.projetokarate.messaging.ServiceException;
+import br.com.karate.projetokarate.model.atleta.AtletaSaveInput;
 import br.com.karate.projetokarate.model.pessoa.PesquisarPessoasInput;
-import br.com.karate.projetokarate.model.pessoa.PessoaDto;
 import br.com.karate.projetokarate.model.pessoa.PessoaSaveInput;
 
 @Service
@@ -33,31 +35,57 @@ public class PessoaService implements UserDetailsService {
 	private PessoaRepository pessoaRepository;
 
 	@Autowired
-	private PessoaValidator validar;
-	
+	private PessoaConverter pessoaConverter;
 
+	@Autowired
+	private PessoaValidator validar;
+
+	@Override
+	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+		Pessoa pessoa = this.findByLogin(login);
+
+		return new User(pessoa.getLogin(), pessoa.getSenha(), new ArrayList<>());
+	}
+
+	@Transactional(readOnly = true)
+	public boolean existsByCpf(String cpf) {
+		return this.pessoaRepository.existsByCpf(cpf);
+	}
+
+	@Transactional(readOnly = true)
+	public boolean existsByEmail(String email) {
+		return this.pessoaRepository.existsByEmail(email);
+	}
+
+	@Transactional(readOnly = true)
+	public boolean existsByCodigo(int codigo) {
+		return this.pessoaRepository.existsByCodigo(codigo);
+	}
+
+	@Transactional(readOnly = true)
 	public Pessoa findById(int idPessoa) {
-		LOGGER.info("Encontrando pessoa por ID...");
 		Optional<Pessoa> pessoa = this.pessoaRepository.findById(idPessoa);
 		if (pessoa.isPresent() && pessoa.get().isAtivo()) {
 			return pessoa.get();
 		}
 		throw new ServiceException(ErrorCategory.BAD_REQUEST, "Pessoa não encontrada com o ID especificado.");
 	}
-	
+
+	@Transactional(readOnly = true)
 	public List<Pessoa> findAll() {
-		List<Pessoa> output = this.pessoaRepository.findAllByAtivoTrue();
+		List<Pessoa> output = this.pessoaRepository.findAllByAtivoTrueAndFaixaIdIsNull();
 		return output;
 	}
 
-
+	@Transactional(readOnly = true)
 	public Page<Pessoa> findAll(PesquisarPessoasInput filtro) {
-		LOGGER.info("Encontrar todas as pessoas...");
-		Pageable paginacao = PageRequest.of(filtro.getPaginacao().getPagina(), filtro.getPaginacao().getNumeroRegistrosPagina());
+		Pageable paginacao = PageRequest.of(filtro.getPaginacao().getPagina(),
+				filtro.getPaginacao().getNumeroRegistrosPagina());
 		Page<Pessoa> pagePessoa = this.pessoaRepository.findAllByAtivoTrue(paginacao);
 		return pagePessoa;
 	}
 
+	@Transactional(readOnly = true)
 	public Pessoa findByEmail(String email) {
 		Optional<Pessoa> pessoa = this.pessoaRepository.findByEmail(email);
 		if (pessoa.isPresent() && pessoa.get().isAtivo()) {
@@ -66,12 +94,18 @@ public class PessoaService implements UserDetailsService {
 		throw new ServiceException(ErrorCategory.BAD_REQUEST, "Pessoa não encontrada com o e-mail especificado.");
 	}
 
+	@Transactional(readOnly = true)
 	public Optional<Pessoa> findByEmailWithoutThrow(String email) {
 		return this.pessoaRepository.findByEmail(email);
 	}
-	
+
+	@Transactional(readOnly = true)
+	public boolean existsEmailWithoutThrow(String email) {
+		return this.findByEmailWithoutThrow(email).isPresent();
+	}
+
+	@Transactional(readOnly = true)
 	public Pessoa findByLogin(String login) {
-		LOGGER.info("Encontrando pessoa por login...");
 		Optional<Pessoa> pessoa = this.pessoaRepository.findByLogin(login);
 		if (pessoa.isPresent() && pessoa.get().isAtivo()) {
 			return pessoa.get();
@@ -79,66 +113,89 @@ public class PessoaService implements UserDetailsService {
 		throw new ServiceException(ErrorCategory.BAD_REQUEST, "Pessoa não encontrada com o login especificado.");
 	}
 
+	@Transactional(readOnly = true)
 	public Pessoa findByCpf(String cpf) {
-		LOGGER.info("Retornando pessoa por CPF...");
 		Optional<Pessoa> pessoa = this.pessoaRepository.findByCpf(cpf);
 		if (pessoa.isPresent() && pessoa.get().isAtivo()) {
 			return pessoa.get();
 		}
+
 		throw new ServiceException(ErrorCategory.BAD_REQUEST, "Pessoa não encontrada com o CPF especificado.");
 	}
 
-	public ResponseEntity<String> excluir(String cpf) {
-		LOGGER.info("Excluindo pessoa...");
+	@Transactional(readOnly = true)
+	public Pessoa findByCpfWithoutThrow(String cpf) {
 		Optional<Pessoa> pessoa = this.pessoaRepository.findByCpf(cpf);
-
-		if (pessoa.isPresent()) {
-			validar.verificaAtletaDependente(pessoa.get());
-			pessoa.get().setAtivo(false);
-			this.pessoaRepository.save(pessoa.get());
-			LOGGER.info("Pessoa excluída com sucesso!");
-			return MessageService.send(HttpStatus.OK);
+		if (pessoa.isPresent() && pessoa.get().isAtivo()) {
+			return pessoa.get();
 		}
 
-		return MessageService.send(HttpStatus.BAD_REQUEST, "Não foi possível excluir a pessoa.",
-				"Exclusão de Pessoas.");
+		return null;
 	}
 
-	@Override
-	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-		LOGGER.info("Buscando usuário por username...");
-		Pessoa pessoa = this.findByLogin(login);
+	public ResponseEntity<String> excluir(String cpf) {
+		Pessoa pessoa = this.findByCpf(cpf);
+		pessoa.setAtivo(false);
+		// TODO Validar se pode excluir
+		try {
+			this.pessoaRepository.save(pessoa);
+			return MessageService.send(HttpStatus.OK);
+		} catch (Exception e) {
+			LOGGER.error("Erro ao excluir pessoa...");
+			LOGGER.trace(e.getStackTrace().toString());
+			return MessageService.send(HttpStatus.BAD_REQUEST, "Não foi possível excluir a pessoa.",
+					"Exclusão de Pessoas.");
+		}
 
-		return new org.springframework.security.core.userdetails.User(pessoa.getLogin(), pessoa.getSenha(),
-				new ArrayList<>());
 	}
 
 	public ResponseEntity<?> cadastrar(PessoaSaveInput payload) {
-		LOGGER.info("Salvando pessoa...");
-		validar.validarPessoa(payload);
+		validar.validarCadastroPessoa(payload);
+		Pessoa pessoa = findByCpfWithoutThrow(payload.getCpf());
 
+		if (pessoa == null) {
+			pessoa = new Pessoa();
+			validar.validarDuplicada(payload);
+		}
+
+		pessoa = pessoaConverter.toRec(payload, pessoa);
 		try {
-			Pessoa pessoa = PessoaConverter.toRec(payload);
 			pessoaRepository.save(pessoa);
+			System.out.println(pessoa.getAssociacao().getNome());
 			LOGGER.info("Pessoa cadastrada com sucesso...");
+			return MessageService.send(HttpStatus.CREATED);
 		} catch (Exception e) {
 			LOGGER.error("Erro ao cadastrar a pessoa " + payload.getCpf(), e.getCause());
 			throw new ServiceException(ErrorCategory.BAD_REQUEST, e.getMessage(), e.getCause(), e.getMessage());
 		}
-		return MessageService.send(HttpStatus.CREATED);
 	}
 
-	public ResponseEntity<?> alterar(Pessoa payload) {
-		LOGGER.info("Alterando pessoa...");
-		Pessoa pessoa = this.findByCpf(payload.getCpf());
-		pessoa = PessoaConverter.toPut(pessoa, payload);
+	public ResponseEntity<?> saveAtleta(AtletaSaveInput payload) {
+
+		Pessoa pessoa = this.findByCpf(payload.getCpfPessoa());
+
+		pessoa.setFaixaId(payload.getGrau());
+		pessoa.setNomeResponsavel(payload.getNomeResponsavel());
+		pessoa.setCpfResponsavel(payload.getCpfResponsavel());
+
+		if (payload.getFederacao() != 0) {
+			pessoa.setFederacao(payload.getFederacao());
+		}
+
+		if (payload.getConfederacao() != 0) {
+			pessoa.setConfederacao(payload.getConfederacao());
+		}
+
+		if (payload.getTelefoneResponsavel() != null) {
+			pessoa.setTelefoneResponsavel(payload.getTelefoneResponsavel());
+		}
 
 		try {
-			pessoaRepository.save(pessoa);
-
-			return MessageService.send(HttpStatus.OK);
+			this.pessoaRepository.save(pessoa);
+			LOGGER.info("Atleta cadastrado com sucesso...");
+			return new ResponseEntity<>(HttpStatus.CREATED);
 		} catch (Exception e) {
-			LOGGER.error("Erro ao alterar pessoa no banco de dados...");
+			LOGGER.error("Erro ao salvar atleta...", e.getMessage());
 			throw new ServiceException(ErrorCategory.BAD_REQUEST, e.getMessage(), e.getCause(), e.getMessage());
 		}
 	}

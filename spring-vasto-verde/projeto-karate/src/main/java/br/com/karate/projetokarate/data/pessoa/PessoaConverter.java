@@ -1,37 +1,60 @@
 package br.com.karate.projetokarate.data.pessoa;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
+import br.com.karate.projetokarate.data.associacao.Associacao;
+import br.com.karate.projetokarate.data.associacao.AssociacaoService;
+import br.com.karate.projetokarate.model.atleta.AtletaDto;
 import br.com.karate.projetokarate.model.pessoa.PessoaCampOutput;
 import br.com.karate.projetokarate.model.pessoa.PessoaDto;
 import br.com.karate.projetokarate.model.pessoa.PessoaSaveInput;
-import br.com.karate.projetokarate.utils.CriptografarSenha;
 
+@Component
 public class PessoaConverter {
 
+	private PasswordEncoder senhaCrip = new BCryptPasswordEncoder();
+	
 	@Autowired
-	private static CriptografarSenha senhaCrip = new CriptografarSenha();
+	private AssociacaoService associacaoService;	
 
-	public static PessoaDto toDto(Pessoa payload) {
+	public PessoaDto toDto(Pessoa payload) {
 		PessoaDto pessoa = new PessoaDto();
 
 		pessoa.setNome(payload.getNome());
 		pessoa.setCpf(payload.getCpf());
-		pessoa.setDataNascimento(payload.getDataNascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+		pessoa.setDataNascimento(payload.getDataNascimento());
 		pessoa.setEmail(payload.getEmail());
 		pessoa.setSexo(payload.getSexo());
 		pessoa.setTelefone(payload.getTelefone());
 		pessoa.setTipoUsuario(payload.getTipoUsuario());
+		
+		AtletaDto atleta = new AtletaDto();
+		atleta.setAssociacao(payload.getAssociacao());
+		atleta.setCampeonatos(payload.getCampeonatos());
+		atleta.setCpfResponsavel(payload.getCpfResponsavel());
+		atleta.setNomeResponsavel(payload.getNomeResponsavel());
+		
+		if (Boolean.FALSE.equals(StringUtils.isEmpty(payload.getTelefoneResponsavel()))) {
+			atleta.setTelefoneResponsavel(payload.getTelefoneResponsavel());
+		}
+		
+		if (Boolean.FALSE.equals(StringUtils.isEmpty(payload.getEndereco()))) {
+			atleta.setEndereco(payload.getEndereco());
+		}
+		
+		pessoa.setAtleta(atleta);
 		return pessoa;
 	}
 
-	public static List<PessoaDto> toDto(Page<Pessoa> page) {
+	public List<PessoaDto> toDto(Page<Pessoa> page) {
 		List<PessoaDto> pessoas = new ArrayList<>();
 		page.getContent().stream().filter(p -> p.isAtivo()).forEach(p -> {
 			pessoas.add(toDto(p));
@@ -39,22 +62,26 @@ public class PessoaConverter {
 		return pessoas;
 	}
 
-	@SuppressWarnings("deprecation")
-	public static Pessoa toRec(PessoaSaveInput payload) {
-		Pessoa pessoa = new Pessoa();
+	public Pessoa toRec(PessoaSaveInput payload, Pessoa pessoa) {
 		pessoa.setNome(payload.getNome());
 		pessoa.setCpf(payload.getCpf());
-		pessoa.setDataNascimento(LocalDateTime.of(payload.getDataNascimento().getYear(),
-				payload.getDataNascimento().getMonth(), payload.getDataNascimento().getDay(), 0, 0));
 		pessoa.setEmail(payload.getEmail());
 		pessoa.setLogin(payload.getLogin());
-		pessoa.setSenha(senhaCrip.criptografar(payload.getSenha()));
+		pessoa.setSenha(senhaCrip.encode(payload.getSenha()));
 		pessoa.setSexo(payload.getSexo());
-		pessoa.setTelefone(payload.getTelefone());
 		pessoa.setAtivo(true);
+		
+		pessoa.setDataNascimento(payload.getDataNascimento());
+
+		Associacao associacao = associacaoService.findByCodigo(payload.getCodAssociacao());
+		pessoa.setAssociacao(associacao);
+		
+		if (payload.getTelefone() != null) {
+			pessoa.setTelefone(payload.getTelefone());
+		}
 
 		if (payload.getTipoUsuario() == null) {
-			pessoa.setTipoUsuario(TipoPessoa.Normal);
+			pessoa.setTipoUsuario(EnumTipoPessoa.NORMAL);
 		} else {
 			pessoa.setTipoUsuario(payload.getTipoUsuario());
 		}
@@ -62,27 +89,8 @@ public class PessoaConverter {
 		return pessoa;
 	}
 
-	public static Pessoa toPut(Pessoa pessoa, Pessoa payload) {
-		// TODO finalizar PUT pessoa
-		if (payload.getNome() != null)
-			pessoa.setNome(payload.getNome());
-		if (payload.getCpf() != null)
-			pessoa.setCpf(payload.getCpf());
-		if (payload.getDataNascimento() != null)
-			pessoa.setDataNascimento(payload.getDataNascimento());
-		if (payload.getEmail() != null)
-			pessoa.setEmail(payload.getEmail());
-		if (payload.getSenha() != null)
-			pessoa.setSenha(senhaCrip.criptografar(payload.getSenha()));
-		if (payload.getTelefone() != null)
-			pessoa.setTelefone(payload.getTelefone());
 
-		pessoa.setTipoUsuario(payload.getTipoUsuario());
-		pessoa.setSexo(payload.getSexo());
-		return pessoa;
-	}
-
-	public static PessoaCampOutput toCamp(Pessoa payload) {
+	public PessoaCampOutput toCamp(Pessoa payload) {
 		PessoaCampOutput pessoa = new PessoaCampOutput();
 
 		pessoa.setNome(payload.getNome());

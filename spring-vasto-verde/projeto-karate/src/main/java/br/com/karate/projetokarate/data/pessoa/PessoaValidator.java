@@ -2,7 +2,6 @@ package br.com.karate.projetokarate.data.pessoa;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -13,8 +12,6 @@ import javax.validation.ValidatorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.com.karate.projetokarate.data.atleta.Atleta;
-import br.com.karate.projetokarate.data.atleta.AtletaService;
 import br.com.karate.projetokarate.messaging.ErrorCategory;
 import br.com.karate.projetokarate.messaging.ServiceException;
 import br.com.karate.projetokarate.model.pessoa.PessoaSaveInput;
@@ -23,10 +20,7 @@ import br.com.karate.projetokarate.model.pessoa.PessoaSaveInput;
 public class PessoaValidator {
 
 	@Autowired
-	private PessoaRepository pessoaRepository;
-
-	@Autowired
-	private AtletaService atletaService;
+	private PessoaService pessoaService;
 
 	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 
@@ -37,7 +31,7 @@ public class PessoaValidator {
 		return constraintViolations;
 	}
 
-	protected void validarPessoa(PessoaSaveInput payload) {
+	protected void validarCadastroPessoa(PessoaSaveInput payload) {
 		Set<ConstraintViolation<PessoaSaveInput>> validations = validar(payload);
 
 		if (!validations.isEmpty()) {
@@ -50,34 +44,24 @@ public class PessoaValidator {
 		}
 
 		validarCpf(payload.getCpf());
-		validarDuplicada(payload);
 	}
 
 	protected void validarDuplicada(PessoaSaveInput payload) {
-		boolean existePessoa = this.pessoaRepository.existsByCpf(payload.getCpf());
+		boolean existePessoa = this.pessoaService.existsByCpf(payload.getCpf());
+
 		if (existePessoa)
 			throw new ServiceException(ErrorCategory.BAD_REQUEST, "CPF duplicado no banco de dados.",
 					"Cadastro de Pessoa");
 
-		existePessoa = this.pessoaRepository.existsByEmail(payload.getEmail());
+		existePessoa = this.pessoaService.existsByEmail(payload.getEmail());
 		if (existePessoa)
 			throw new ServiceException(ErrorCategory.BAD_REQUEST, "E-mail duplicado no banco de dados.",
 					"Cadastro de Pessoa");
 
-	}
-
-	/*
-	 * Este método verifica se existe algum atleta vinculado à pessoa.
-	 * 
-	 */
-
-	protected void verificaAtletaDependente(Pessoa pessoa) {
-		Atleta atleta = this.atletaService.findByIdWithoutException(pessoa.getid());
-
-		if (atleta != null)
-			throw new ServiceException(ErrorCategory.BAD_REQUEST,
-					"Essa pessoa possui um atleta vinculado a ela. Exclua o atleta e tente novamente.",
-					"Exclusão de Pessoas");
+		existePessoa = this.pessoaService.existsByCodigo(payload.getCodigo());
+		if (existePessoa)
+			throw new ServiceException(ErrorCategory.BAD_REQUEST, "Código duplicado no banco de dados.",
+					"Cadastro de Pessoa");
 	}
 
 	private void validarCpf(String cpf) {

@@ -1,17 +1,18 @@
 package br.com.karate.projetokarate.model.atleta;
 
 public enum Grau {
-	BRANCA (1),
-	AMARELA(2),
-	VERMELHA (3),
-	LARANJA (4),
-	VERDE (5),
-	ROXA (6),
-	MARROM (7),
-	PRETA (8),;
+	
+	BRANCA (0),
+	AMARELA(1),
+	VERMELHA (2),
+	LARANJA (3),
+	VERDE (4),
+	ROXA (5),
+	MARROM (6),
+	PRETA (7),;
 
 	Grau(int i) {
-		// TODO Auto-generated constructor stub
 	}
+
 	
 }

@@ -9,11 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import br.com.karate.projetokarate.data.atleta.Atleta;
-import br.com.karate.projetokarate.generic.Auditable;
+import br.com.karate.projetokarate.data.generic.Auditable;
+import br.com.karate.projetokarate.data.pessoa.Pessoa;
 
 @Entity
 @Table(name = "associacoes")
@@ -22,33 +23,34 @@ public class Associacao extends Auditable {
 	@Id
 	@NotNull
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, name = "idAssociacao")
+	@Column(unique = true, name = "id")
 	private int id;
 
 	@NotNull
-	@Column(unique = true)
+	@Column(length = 70)
 	private String nome;
 
-	@Column()
+	@NotNull
+	@Column(unique = true)
+	private int codigo;
+
+	@NotNull
+	@Column(length = 35)
 	private String cidade;
 
-	@Column(nullable = true)
+	@Column(length = 50)
 	private String endereco;
 
-	@OneToMany(targetEntity = Atleta.class, mappedBy = "associacao", cascade = CascadeType.ALL, orphanRemoval = true)
-	@Column()
-	private List<Atleta> atletas;
+	@OneToMany(targetEntity = Pessoa.class, cascade = CascadeType.ALL)
+	private List<Pessoa> pessoas;
 
-	@NotNull
-	@Column()
+	@Column(length = 14)
 	private String telefone;
 
-	@NotNull
-	@Column()
-	private String responsavel;
+	@OneToOne()
+	private Pessoa responsavel;
 
 	@NotNull
-	@Column()
 	private boolean ativo = true;
 
 	public boolean isAtivo() {
@@ -91,12 +93,12 @@ public class Associacao extends Auditable {
 		this.endereco = endereco;
 	}
 
-	public List<Atleta> getAtletas() {
-		return atletas;
+	public List<Pessoa> getPessoas() {
+		return pessoas;
 	}
 
-	public void setAtletas(List<Atleta> atletas) {
-		this.atletas = atletas;
+	public void setAtletas(List<Pessoa> pessoas) {
+		this.pessoas = pessoas;
 	}
 
 	public String getTelefone() {
@@ -107,12 +109,24 @@ public class Associacao extends Auditable {
 		this.telefone = telefone;
 	}
 
-	public String getResponsavel() {
+	public Pessoa getResponsavel() {
 		return responsavel;
 	}
 
-	public void setResponsavel(String responsavel) {
+	public void setResponsavel(Pessoa responsavel) {
 		this.responsavel = responsavel;
+	}
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
+	public void setPessoas(List<Pessoa> pessoas) {
+		this.pessoas = pessoas;
 	}
 
 	@Override

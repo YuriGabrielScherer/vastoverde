@@ -1,31 +1,32 @@
 package br.com.karate.projetokarate.model.pessoa;
 
-import java.time.LocalDateTime;
-import java.util.Calendar;
+import java.time.LocalDate;
 
-import br.com.karate.projetokarate.data.atleta.Atleta;
-import br.com.karate.projetokarate.data.pessoa.TipoPessoa;
+import br.com.karate.projetokarate.data.pessoa.EnumTipoPessoa;
+import br.com.karate.projetokarate.model.atleta.AtletaDto;
 
 public class PessoaDto {
 
 	private String nome;
 
 	private String email;
+	
+	private int codigo;
 
 	private String telefone;
 
-	private String dataNascimento;
+	private LocalDate dataNascimento;
+	
+	private String cidade;
 
 	private String cpf;
 
-	private TipoPessoa tipoUsuario;
+	private EnumTipoPessoa tipoUsuario;
+
+	private AtletaDto atleta;
 
 	private char sexo;
 
-	private Atleta atleta;
-	
-	
-	
 	public String getNome() {
 		return nome;
 	}
@@ -50,11 +51,11 @@ public class PessoaDto {
 		this.telefone = telefone;
 	}
 
-	public String getDataNascimento() {
+	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(String dataNascimento) {
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 
@@ -66,11 +67,11 @@ public class PessoaDto {
 		this.cpf = cpf;
 	}
 
-	public TipoPessoa getTipoUsuario() {
+	public EnumTipoPessoa getTipoUsuario() {
 		return tipoUsuario;
 	}
 
-	public void setTipoUsuario(TipoPessoa tipoUsuario) {
+	public void setTipoUsuario(EnumTipoPessoa tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
 	}
 
@@ -82,12 +83,29 @@ public class PessoaDto {
 		this.sexo = sexo;
 	}
 
-	public Atleta getAtleta() {
-		return atleta;
-	}
-
-	public void setAtleta(Atleta atleta) {
+	public void setAtleta(AtletaDto atleta) {
 		this.atleta = atleta;
 	}
 
+	public AtletaDto getAtleta() {
+		return this.atleta;
+	}
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+	
+	
 }

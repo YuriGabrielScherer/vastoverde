@@ -1,20 +1,16 @@
 package br.com.karate.projetokarate.model.associacao;
 
+import br.com.karate.projetokarate.data.pessoa.Pessoa;
+
 public class AssociacaoDto {
 
-	private int id;
 	private String nome;
 	private String endereco;
+	private int codigo;
 	private String cidade;
-	private String responsavel;
+	private Pessoa responsavel;
 	private String telefone;
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public String getNome() {
 		return nome;
 	}
@@ -33,10 +29,10 @@ public class AssociacaoDto {
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
 	}
-	public String getResponsavel() {
+	public Pessoa getResponsavel() {
 		return responsavel;
 	}
-	public void setResponsavel(String responsavel) {
+	public void setResponsavel(Pessoa responsavel) {
 		this.responsavel = responsavel;
 	}
 	public String getTelefone() {
@@ -45,5 +41,13 @@ public class AssociacaoDto {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
+	public int getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+	
+	
 	
 }

@@ -11,11 +11,7 @@ import br.com.karate.projetokarate.model.atleta.AtletaSaveInput;
 public class AtletaService {
 
 	@Autowired
-	private PessoaService pessoaService;
-	
-	public ResponseEntity<?> saveAtleta(AtletaSaveInput payload) {
-		return pessoaService.saveAtleta(payload);		
-	}	
+	private PessoaService pessoaService;	
 	
 	public void delete(String cpf) {
 		pessoaService.excluir(cpf);

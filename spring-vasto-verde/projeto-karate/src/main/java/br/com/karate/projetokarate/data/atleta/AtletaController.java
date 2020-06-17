@@ -25,16 +25,10 @@ public class AtletaController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AtletaController.class);
 
-	@PostMapping
-	public ResponseEntity<?> save(@RequestBody AtletaSaveInput payload) {
-		LOGGER.info("Cadastrando o atleta...");
-		return this.atletaService.saveAtleta(payload);
-	}
-
 	// TODO Get List<AtletaDto> Paginado
 
 	@DeleteMapping("/{cpfPessoa}")
-	public ResponseEntity<?> delete(@PathVariable("cpfPessoa") String cpf) {
+	public ResponseEntity<?> delete(@PathVariable("cpf") String cpf) {
 		atletaService.delete(cpf);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

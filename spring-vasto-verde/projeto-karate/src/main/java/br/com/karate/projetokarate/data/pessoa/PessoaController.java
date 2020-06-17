@@ -44,11 +44,6 @@ public class PessoaController {
 		return pessoaService.cadastrar(payload);
 	}
 
-	@GetMapping("/existeEmail/{email}")
-	public boolean existeEmail(@PathVariable("email") String email) {
-		LOGGER.info("Verificando se existe email cadastrado ...");
-		return this.pessoaService.existsEmailWithoutThrow(email);
-	}
 
 	@PostMapping("/findAll")
 	public @ResponseBody PesquisarPessoasOutput getAll(@RequestBody PesquisarPessoasInput filtro) {
@@ -75,19 +70,13 @@ public class PessoaController {
 		return output;
 	}
 
-	@GetMapping("/email/{emailPessoa}")
-	public PessoaDto buscarPorEmail(@PathVariable("emailPessoa") String emailPessoa) {
-		LOGGER.info("Encontrando pessoa por e-mail...");
-		return pessoaConverter.toDto(this.pessoaService.findByEmail(emailPessoa));
-	}
-
 	@GetMapping("/login/{login}")
 	public PessoaDto findByLogin(@PathVariable("login") String login) {
 		return pessoaConverter.toDto(this.pessoaService.findByLogin(login));
 	}
 
 	@GetMapping("/cpf/{cpfPessoa}")
-	public PessoaDto buscarPorCpf(@PathVariable("cpfPessoa") String cpfPessoa) {
+	public PessoaDto buscarPorCpf(@PathVariable("cpf") String cpfPessoa) {
 		return pessoaConverter.toDto(this.pessoaService.findByCpf(cpfPessoa));
 	}
 

@@ -5,8 +5,9 @@ public enum EnumTipoPessoa {
 	ADMINISTRADOR(0),
 	ATLETA(1),
 	ARBITRO(2),
-	TECNICO(3),
-	NORMAL(4);
+	ATLETA_ARBITRO(3),
+	TECNICO(4),
+	NORMAL(5);
 
 	EnumTipoPessoa(int i) {
 		

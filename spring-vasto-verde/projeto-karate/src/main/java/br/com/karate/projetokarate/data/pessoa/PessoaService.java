@@ -86,15 +86,6 @@ public class PessoaService implements UserDetailsService {
 	}
 
 	@Transactional(readOnly = true)
-	public Pessoa findByEmail(String email) {
-		Optional<Pessoa> pessoa = this.pessoaRepository.findByEmail(email);
-		if (pessoa.isPresent() && pessoa.get().isAtivo()) {
-			return pessoa.get();
-		}
-		throw new ServiceException(ErrorCategory.BAD_REQUEST, "Pessoa não encontrada com o e-mail especificado.");
-	}
-
-	@Transactional(readOnly = true)
 	public Optional<Pessoa> findByEmailWithoutThrow(String email) {
 		return this.pessoaRepository.findByEmail(email);
 	}
@@ -161,7 +152,6 @@ public class PessoaService implements UserDetailsService {
 		pessoa = pessoaConverter.toRec(payload, pessoa);
 		try {
 			pessoaRepository.save(pessoa);
-			System.out.println(pessoa.getAssociacao().getNome());
 			LOGGER.info("Pessoa cadastrada com sucesso...");
 			return MessageService.send(HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -169,35 +159,4 @@ public class PessoaService implements UserDetailsService {
 			throw new ServiceException(ErrorCategory.BAD_REQUEST, e.getMessage(), e.getCause(), e.getMessage());
 		}
 	}
-
-	public ResponseEntity<?> saveAtleta(AtletaSaveInput payload) {
-
-		Pessoa pessoa = this.findByCpf(payload.getCpfPessoa());
-
-		pessoa.setFaixaId(payload.getGrau());
-		pessoa.setNomeResponsavel(payload.getNomeResponsavel());
-		pessoa.setCpfResponsavel(payload.getCpfResponsavel());
-
-		if (payload.getFederacao() != 0) {
-			pessoa.setFederacao(payload.getFederacao());
-		}
-
-		if (payload.getConfederacao() != 0) {
-			pessoa.setConfederacao(payload.getConfederacao());
-		}
-
-		if (payload.getTelefoneResponsavel() != null) {
-			pessoa.setTelefoneResponsavel(payload.getTelefoneResponsavel());
-		}
-
-		try {
-			this.pessoaRepository.save(pessoa);
-			LOGGER.info("Atleta cadastrado com sucesso...");
-			return new ResponseEntity<>(HttpStatus.CREATED);
-		} catch (Exception e) {
-			LOGGER.error("Erro ao salvar atleta...", e.getMessage());
-			throw new ServiceException(ErrorCategory.BAD_REQUEST, e.getMessage(), e.getCause(), e.getMessage());
-		}
-	}
-
 }

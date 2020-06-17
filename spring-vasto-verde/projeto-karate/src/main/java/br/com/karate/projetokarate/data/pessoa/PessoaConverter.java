@@ -1,5 +1,6 @@
 package br.com.karate.projetokarate.data.pessoa;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,27 +31,10 @@ public class PessoaConverter {
 
 		pessoa.setNome(payload.getNome());
 		pessoa.setCpf(payload.getCpf());
-		pessoa.setDataNascimento(payload.getDataNascimento());
-		pessoa.setEmail(payload.getEmail());
-		pessoa.setSexo(payload.getSexo());
+		pessoa.setDataNascimento(payload.getData_nascimento());		
 		pessoa.setTelefone(payload.getTelefone());
-		pessoa.setTipoUsuario(payload.getTipoUsuario());
+		pessoa.setDataCadastro(payload.getData_cadastro());
 		
-		AtletaDto atleta = new AtletaDto();
-		atleta.setAssociacao(payload.getAssociacao());
-		atleta.setCampeonatos(payload.getCampeonatos());
-		atleta.setCpfResponsavel(payload.getCpfResponsavel());
-		atleta.setNomeResponsavel(payload.getNomeResponsavel());
-		
-		if (Boolean.FALSE.equals(StringUtils.isEmpty(payload.getTelefoneResponsavel()))) {
-			atleta.setTelefoneResponsavel(payload.getTelefoneResponsavel());
-		}
-		
-		if (Boolean.FALSE.equals(StringUtils.isEmpty(payload.getEndereco()))) {
-			atleta.setEndereco(payload.getEndereco());
-		}
-		
-		pessoa.setAtleta(atleta);
 		return pessoa;
 	}
 
@@ -65,25 +49,20 @@ public class PessoaConverter {
 	public Pessoa toRec(PessoaSaveInput payload, Pessoa pessoa) {
 		pessoa.setNome(payload.getNome());
 		pessoa.setCpf(payload.getCpf());
-		pessoa.setEmail(payload.getEmail());
 		pessoa.setLogin(payload.getLogin());
 		pessoa.setSenha(senhaCrip.encode(payload.getSenha()));
-		pessoa.setSexo(payload.getSexo());
-		pessoa.setAtivo(true);
+		pessoa.setData_cadastro(LocalDate.now());
 		
-		pessoa.setDataNascimento(payload.getDataNascimento());
-
-		Associacao associacao = associacaoService.findByCodigo(payload.getCodAssociacao());
-		pessoa.setAssociacao(associacao);
+		pessoa.setData_nascimento(payload.getDataNascimento());
 		
 		if (payload.getTelefone() != null) {
 			pessoa.setTelefone(payload.getTelefone());
 		}
 
 		if (payload.getTipoUsuario() == null) {
-			pessoa.setTipoUsuario(EnumTipoPessoa.NORMAL);
+			pessoa.setTipoPessoa(EnumTipoPessoa.NORMAL);
 		} else {
-			pessoa.setTipoUsuario(payload.getTipoUsuario());
+			pessoa.setTipoPessoa(payload.getTipoUsuario());
 		}
 
 		return pessoa;
@@ -95,8 +74,7 @@ public class PessoaConverter {
 
 		pessoa.setNome(payload.getNome());
 		pessoa.setCpf(payload.getCpf());
-		pessoa.setDataNascimento(payload.getDataNascimento());
-		pessoa.setEmail(payload.getEmail());
+		pessoa.setDataNascimento(payload.getData_nascimento());
 		pessoa.setSexo(payload.getSexo());
 		pessoa.setTelefone(payload.getTelefone());
 

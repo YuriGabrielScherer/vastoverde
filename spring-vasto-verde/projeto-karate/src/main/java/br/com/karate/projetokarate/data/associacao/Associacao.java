@@ -21,9 +21,7 @@ import br.com.karate.projetokarate.data.pessoa.Pessoa;
 public class Associacao extends Auditable {
 
 	@Id
-	@NotNull
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, name = "id")
 	private int id;
 
 	@NotNull
@@ -129,7 +127,6 @@ public class Associacao extends Auditable {
 		this.pessoas = pessoas;
 	}
 
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -139,7 +136,6 @@ public class Associacao extends Auditable {
 		return result;
 	}
 
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

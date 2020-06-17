@@ -2,9 +2,6 @@ package br.com.karate.projetokarate.model.pessoa;
 
 import java.time.LocalDate;
 
-import br.com.karate.projetokarate.data.pessoa.EnumTipoPessoa;
-import br.com.karate.projetokarate.model.atleta.AtletaDto;
-
 public class PessoaDto {
 
 	private String nome;
@@ -17,14 +14,10 @@ public class PessoaDto {
 
 	private LocalDate dataNascimento;
 	
-	private String cidade;
-
+	private LocalDate dataCadastro;
+	
 	private String cpf;
-
-	private EnumTipoPessoa tipoUsuario;
-
-	private AtletaDto atleta;
-
+	
 	private char sexo;
 
 	public String getNome() {
@@ -67,14 +60,6 @@ public class PessoaDto {
 		this.cpf = cpf;
 	}
 
-	public EnumTipoPessoa getTipoUsuario() {
-		return tipoUsuario;
-	}
-
-	public void setTipoUsuario(EnumTipoPessoa tipoUsuario) {
-		this.tipoUsuario = tipoUsuario;
-	}
-
 	public char getSexo() {
 		return sexo;
 	}
@@ -83,29 +68,19 @@ public class PessoaDto {
 		this.sexo = sexo;
 	}
 
-	public void setAtleta(AtletaDto atleta) {
-		this.atleta = atleta;
-	}
-
-	public AtletaDto getAtleta() {
-		return this.atleta;
-	}
-
 	public int getCodigo() {
 		return codigo;
 	}
 
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
+	}	
+	
+	public LocalDate getDataCadastro() {
+		return dataCadastro;
 	}
 
-	public String getCidade() {
-		return cidade;
+	public void setDataCadastro(LocalDate dataCadastro) {
+		this.dataCadastro = dataCadastro;
 	}
-
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
-	
-	
 }

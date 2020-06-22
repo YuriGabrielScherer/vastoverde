@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.karate.projetokarate.data.pessoa.Pessoa;
-import br.com.karate.projetokarate.model.atleta.AtletaCampOutput;
 import br.com.karate.projetokarate.model.campeonato.CampeonatoDto;
 import br.com.karate.projetokarate.model.campeonato.CampeonatoSaveInput;
 
@@ -43,12 +42,12 @@ public class CampeonatoConverter {
 			camp.setDataFim(LocalDateTime.parse(campeonato.getDataFim().toString(),
 					DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
 
-		List<AtletaCampOutput> atletas = new ArrayList<>();
+		//List<AtletaCampOutput> atletas = new ArrayList<>();
 //		campeonato.getAtletas().stream().forEach(a -> atletas.add(AtletaConverter.toCamp(a)));
 //		campeonato.getPessoas().stream().forEach(pessoas -> );
 		// TODO Corrigir este trecho de código
 
-		camp.setAtletas(atletas);
+		//camp.setAtletas(atletas);
 		return camp;
 	}
 }

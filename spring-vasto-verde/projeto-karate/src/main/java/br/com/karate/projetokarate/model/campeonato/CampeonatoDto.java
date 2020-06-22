@@ -4,9 +4,6 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
-import br.com.karate.projetokarate.model.atleta.AtletaCampOutput;
-import br.com.karate.projetokarate.model.atleta.AtletaDto;
-
 public class CampeonatoDto {
 
 	private String titulo;
@@ -14,7 +11,7 @@ public class CampeonatoDto {
 	private LocalDateTime dataInicio;
 	private LocalDateTime dataFim;
 	private String endereco;
-	private List<AtletaCampOutput> atletas;
+	//private List<AtletaCampOutput> atletas;
 	
 	public String getTitulo() {
 		return titulo;
@@ -46,11 +43,13 @@ public class CampeonatoDto {
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-	public List<AtletaCampOutput> getAtletas() {
+	/*
+	  public List<AtletaCampOutput> getAtletas() {
+	 
 		return atletas;
 	}
 	public void setAtletas(List<AtletaCampOutput> atletas) {
 		this.atletas = atletas;
 	}
-
+	*/
 }

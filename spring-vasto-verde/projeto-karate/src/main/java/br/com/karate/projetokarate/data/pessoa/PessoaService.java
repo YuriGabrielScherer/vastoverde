@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.karate.projetokarate.messaging.ErrorCategory;
 import br.com.karate.projetokarate.messaging.MessageService;
 import br.com.karate.projetokarate.messaging.ServiceException;
-import br.com.karate.projetokarate.model.atleta.AtletaSaveInput;
 import br.com.karate.projetokarate.model.pessoa.PesquisarPessoasInput;
 import br.com.karate.projetokarate.model.pessoa.PessoaSaveInput;
 

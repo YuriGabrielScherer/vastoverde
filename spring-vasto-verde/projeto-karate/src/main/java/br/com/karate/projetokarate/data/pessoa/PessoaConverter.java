@@ -9,11 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
-import br.com.karate.projetokarate.data.associacao.Associacao;
 import br.com.karate.projetokarate.data.associacao.AssociacaoService;
-import br.com.karate.projetokarate.model.atleta.AtletaDto;
 import br.com.karate.projetokarate.model.pessoa.PessoaCampOutput;
 import br.com.karate.projetokarate.model.pessoa.PessoaDto;
 import br.com.karate.projetokarate.model.pessoa.PessoaSaveInput;
